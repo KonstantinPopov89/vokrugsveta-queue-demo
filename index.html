@@ -315,6 +315,66 @@ body.lime-on .ticker{display:block}
 .bk-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px}
 @media (prefers-reduced-motion:no-preference){.btn,.chip,.acard-media img{transition:transform .08s ease}.btn:active,.chip:active{transform:scale(.97)}}
 
+/* r12: полоса пути, карта в телефоне */
+.route{display:flex;flex-direction:column;gap:6px}
+.rt-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 10px}
+.rt-count{font-size:15px;color:var(--g-ink)}
+.rt-count b{font-size:21px;font-weight:800;letter-spacing:-.015em}
+.rt-sub{font-size:13.5px;color:var(--g-mute);white-space:nowrap}
+.rt-track{position:relative;height:12px;border-radius:999px;background:rgba(27,34,54,.10);margin:8px 0 4px}
+.rt-seg{position:absolute;top:0;bottom:0}
+.rt-seg.walk{background:rgba(194,71,26,.18)}
+.rt-seg.win{background:rgba(11,110,103,.24)}
+.rt-seg.grace{background:repeating-linear-gradient(135deg,rgba(138,90,18,.26) 0 4px,rgba(138,90,18,.08) 4px 8px)}
+.rt-seg.stop{background:repeating-linear-gradient(135deg,rgba(168,42,51,.55) 0 4px,rgba(168,42,51,.18) 4px 8px);border-radius:2px}
+.rt-fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:var(--g-ok);opacity:.85}
+.booked.called .rt-fill{background:var(--g-accent)}
+.rt-tick{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:rgba(27,34,54,.45)}
+.rt-tick.call{width:3px;margin-left:-1.5px;background:var(--g-accent)}
+.rt-ghost{position:absolute;top:-5px;bottom:-5px;width:12px;margin-left:-6px;border-radius:5px;border:2px dashed var(--g-ok);background:rgba(255,255,255,.75)}
+.rt-now{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#fff;border:3px solid var(--g-ok);box-shadow:0 1px 3px rgba(27,34,54,.35)}
+.booked.called .rt-now{border-color:var(--g-accent)}
+.rt-marks{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;font-size:12.5px;color:var(--g-mute);line-height:1.25}
+.rt-marks span{position:relative;display:flex;flex-direction:column;padding-left:14px}
+.rt-marks i{position:absolute;left:0;top:3px;width:9px;height:9px;border-radius:3px;background:rgba(27,34,54,.28)}
+.rt-marks .m-call i{background:var(--g-accent)} .rt-marks .m-walk i{background:rgba(194,71,26,.5)} .rt-marks .m-win i{background:rgba(11,110,103,.6)} .rt-marks .m-grace i{background:rgba(138,90,18,.5)}
+.rt-marks b{color:var(--g-ink);font-weight:650;font-size:13px}
+.rt-note{font-size:13.5px;line-height:1.35;padding:7px 10px;border-radius:10px;background:rgba(255,255,255,.75)}
+.rt-note.shift{border-left:3px solid var(--g-bad)}
+.rt-note.fast{border-left:3px solid var(--g-ok)}
+.screen .cardchip{flex-wrap:wrap}
+.qrcard{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 16px 14px;border-radius:22px;background:var(--g-card);box-shadow:var(--g-shadow)}
+.qr-box{width:min(232px,72%);aspect-ratio:1}
+.qrcode{display:block;width:100%;height:100%;image-rendering:pixelated}
+.qr-code{font-size:14px;letter-spacing:.06em;color:var(--g-ink);text-align:center;word-break:break-word;font-variant-numeric:tabular-nums}
+.qr-meta{display:flex;justify-content:space-between;align-items:baseline;gap:10px;width:100%;font-size:13.5px;color:var(--g-mute)}
+.qr-meta b{font-size:18px;color:var(--g-ink);white-space:nowrap}
+.choice-eq{display:grid;grid-template-columns:1fr;gap:10px}
+.ca-note{margin:8px 0 0;max-width:300px}
+.ideas-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.ideas-grid .box,.idea-box{display:flex;flex-direction:column;gap:8px}
+.idea-box h3,.ideas-grid h3{margin:0}
+.idea-box p,.ideas-grid p{margin:0}
+.gets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.gets>div{background:var(--surface-2);border-radius:8px;padding:8px 10px;font-size:14px}
+.gets b{display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);margin-bottom:2px}
+.risk{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:10px 0;border-top:1px solid var(--line)}
+.risk:first-of-type{border-top:0}
+.risk h4{margin:0;font-size:15px}
+.risk p{margin:0;font-size:14px;grid-column:1/-1}
+.risk .eq{background:var(--surface-2);border-radius:8px;padding:6px 8px}
+.paths{width:100%;border-collapse:collapse;font-size:14px}
+.paths th,.paths td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top;text-align:left;white-space:normal}
+.paths td.v{white-space:nowrap}
+.paths tfoot td{font-weight:600;background:var(--surface-2)}
+.entry{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.entry>div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.entry h4{margin:0;font-size:15px}
+.entry p{margin:0;font-size:14px}
+.src-note{font-size:12.5px;color:var(--ink-2)}
+.ideas-grid .gets{grid-template-columns:1fr}
+@media (max-width:980px){.ideas-grid,.entry{grid-template-columns:1fr}.gets{grid-template-columns:1fr}}
+
 /* r10: путь гостя */
 .j-on .stage,.j-on .roles,.j-on .note-end{display:none!important}
 #journeyBtn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -445,14 +505,14 @@ details.quotes cite{display:block;font-style:normal;font-size:12px;color:var(--i
         <div class="box" style="display:flex;flex-direction:column;gap:12px">
           <label class="f">Аттракцион<select id="st-attr"></select></label>
           <div>
-            <div class="small muted" style="margin-bottom:6px">Гость прикладывает карту или браслет <span class="lime-tag">считыватель Лайма</span></div>
+            <div class="small muted" style="margin-bottom:6px">Гость прикладывает карту или браслет — или показывает QR-карту с телефона либо бумажный QR, и сотрудник его сканирует <span class="lime-tag">считыватель Лайма</span></div>
             <div class="cards from-lime" id="st-cards"></div>
           </div>
           <div class="row">
-            <label class="f" style="flex:1">Номер карты<input id="st-card" class="mono" placeholder="7700 1234" inputmode="numeric" autocomplete="off"></label>
+            <label class="f" style="flex:1">Номер карты или код QR-карты<input id="st-card" class="mono" placeholder="7700 1234 или 32 знака QR" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
             <label class="f">Пришло человек<input id="st-people" type="number" min="1" max="8" placeholder="вся группа" style="width:120px"></label>
           </div>
-          <button class="btn primary" id="st-scan">Приложить карту</button>
+          <button class="btn primary" id="st-scan">Приложить карту или сканировать QR</button>
         </div>
         <div class="verdict" id="st-verdict"><span class="muted">Здесь появится ответ считывателя: пропустить или нет и почему.</span></div>
       </div>
@@ -470,7 +530,7 @@ details.quotes cite{display:block;font-style:normal;font-size:12px;color:var(--i
       <h2>Запись на кассе — для гостя без телефона</h2>
       <div class="grid2">
         <div class="box" style="display:flex;flex-direction:column;gap:12px">
-          <label class="f">Карта гостя <span class="lime-tag">из Лайма</span><input id="ca-card" class="mono from-lime" value="7700 0042" autocomplete="off"></label>
+          <label class="f">Карта гостя или код QR-карты <span class="lime-tag">из Лайма</span><input id="ca-card" class="mono from-lime" value="7700 0042" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
           <label class="f">Аттракцион<select id="ca-attr"></select></label>
           <div class="row">
             <label class="f" style="flex:1">Как записать<select id="ca-kind"><option value="virtual">В виртуальную очередь</option><option value="slot">На ближайшее свободное время</option><option value="paid">Платный проход</option></select></label>
@@ -523,10 +583,10 @@ details.quotes cite{display:block;font-style:normal;font-size:12px;color:var(--i
     <!-- ЛАЙМ -->
     <div class="panel" id="p-lime" hidden>
       <h2>Как это устроено внутри Лайма</h2>
-      <p class="muted" style="margin:0;max-width:70ch">Модуль не заводит своих гостей и свою кассу. Гость — это карта или браслет Лайма, деньги — баланс этой карты, проход — событие считывателя Лайма. Модуль добавляет только расписание мест и правила. Ниже — предложение, с Лаймом не согласованное.</p>
+      <p class="muted" style="margin:0;max-width:70ch">Модуль не заводит своих гостей и свою кассу. Гость — это карта, браслет или QR-карта Лайма, деньги — баланс этой карты, проход — событие считывателя Лайма. Модуль добавляет только расписание мест и правила. Ниже — предложение, с Лаймом не согласованное.</p>
       <div class="grid2">
         <div class="box"><h3 style="margin-bottom:8px">Что берётся из Лайма</h3><ul class="list">
-          <li>Номер карты или браслета — это и есть «аккаунт» гостя. Регистрации нет.</li>
+          <li>Номер карты или браслета либо 32-знаковый код QR-карты — это и есть «аккаунт» гостя. Регистрации нет.</li>
           <li>Баланс карты — проверка перед платным проходом и списание за катание.</li>
           <li>Событие прохода у считывателя — погашение записи и учёт посадок.</li>
           <li>Справочник услуг и терминалов — какой считыватель стоит у какого аттракциона.</li>
@@ -539,7 +599,9 @@ details.quotes cite{display:block;font-style:normal;font-size:12px;color:var(--i
           <li>Списание платного прохода и возврат при остановке — как отдельная услуга.</li>
           <li>Режим без связи: список записей на устройстве и отложенная отправка событий.</li>
           <li>Тестовый контур, где модуль можно подключить, не трогая боевую кассу.</li>
-          <li>Запись прямо у стойки аттракциона: гость прикладывает карту или браслет к считывателю и получает время, без телефона и без кассы. Считыватели у Лайма уже стоят — вопрос к Лайму, можно ли так.</li>
+          <li>Запись прямо у стойки аттракциона: гость прикладывает карту или браслет к считывателю (или показывает QR-карту) и получает время, без телефона и без кассы. Считыватели у Лайма уже стоят — вопрос к Лайму, можно ли так.</li>
+          <li>Принимать QR-карту на стойке электронной очереди так же, как карту. По QR уже проходят: за 31.08–06.09 — 819 проходов в 43 из 49 точек считывания. Каким способом считыватель читает QR — вопрос к Лайму.</li>
+          <li>Выпускать QR-карту по номеру телефона не только на сайте, но и со стенда и на кассе. Сейчас её почти всегда выдаёт сайт: 4 881 из 4 910 за 01.06–30.08.</li>
         </ul></div>
       </div>
       <div class="box"><h3 style="margin-bottom:8px">С чего начать: этап 0 — замер очередей</h3><ul class="list">
@@ -560,6 +622,7 @@ details.quotes cite{display:block;font-style:normal;font-size:12px;color:var(--i
   <nav class="j-tabs" id="j-tabs" aria-label="Разделы пути">
     <button data-sec="day" aria-pressed="true">День в парке</button>
     <button data-sec="queue" aria-pressed="false">Запись в очередь</button>
+    <button data-sec="ideas" aria-pressed="false">Полоса и QR-карта</button>
     <button data-sec="reviews" aria-pressed="false">Что пишут гости</button>
     <button data-sec="questions" aria-pressed="false">Вопросы парку и Лайму</button>
   </nav>
@@ -568,7 +631,7 @@ details.quotes cite{display:block;font-style:normal;font-size:12px;color:var(--i
 <div class="note note-end"><b>Учебные параметры.</b> Вместимость, цикл, спрос и цены аттракционов придуманы для демонстрации. Спрос и реальные очереди в Омске не измерены. Названия аттракционов — из каталога услуг парка. Ограничения по росту, весу и возрасту взяты с сайта парка на 29.10.2026. Картинки показывают тип аттракциона, а не настоящую машину. Связь с Лаймом показана как предложение: с Лаймом она не согласована.</div>
 
 <aside class="tour" id="tour" hidden aria-live="polite">
-  <div class="row" style="justify-content:space-between"><span class="k" id="tour-k">Шаг 1 из 8</span><button class="btn ghost small" id="tour-close">Закрыть</button></div>
+  <div class="row" style="justify-content:space-between"><span class="k" id="tour-k">Шаг 1 из 15</span><button class="btn ghost small" id="tour-close">Закрыть</button></div>
   <h3 id="tour-h"></h3>
   <p id="tour-p"></p>
   <div class="row"><button class="btn primary" id="tour-do">Показать</button><button class="btn" id="tour-next">Дальше</button></div>
@@ -935,9 +998,13 @@ const SITE_LIMITS = {
   }
   function quotePaid(p, a, size) { const b = paidFit(p, a, size); return b < 0 ? null : { start: Math.max(p.t, b * BUCKET), end: Math.max(p.t, b * BUCKET) + W(p) }; }
   // освободилось место раньше — предложить гостю прийти раньше (только очередь с телефона)
+  // r12: пока аттракцион стоит, раньше конца остановки плюс дорога не предлагаем; остановка без срока или стоп парка — не предлагаем
   function earlierOption(p, id) {
     const bk = p.bookings[id]; if (!bk || bk.kind !== 'virtual' || bk.status !== 'ACTIVE') return null;
-    const a = attr(p, bk.attrId); const b = firstFit(p, a, bk.size, p.t + WALK);
+    const a = attr(p, bk.attrId); if (p.stopped) return null;
+    let from = p.t + WALK;
+    if (a.status !== 'open') { if (a.stopUntil == null) return null; from = Math.max(from, a.stopUntil + WALK); }
+    const b = firstFit(p, a, bk.size, from);
     return (b >= 0 && b * BUCKET <= bk.start - 10) ? b * BUCKET : null;
   }
   function moveEarlier(p, id) {
@@ -1213,6 +1280,83 @@ const plural = (n,a,b,c) => { const m=n%10, h=n%100; return m===1&&h!==11?a:(m>=
 const mins = w => w == null ? '—' : (w < 1 ? '<1' : String(Math.round(w)));
 let speed = 1, acc = 0, opSeq = 1;
 
+/* ---------- r12: QR-карта и полоса пути ---------- */
+const QR_SITE = '3F9C1A2B7D4E5F60A1B2C3D4E5F60718';   // демо-код QR-карты с сайта: синтетический, не из выгрузок Лайма
+E.addCard(P, QR_SITE, 'QR-карта с сайта', 2000, '+7 9•• •••-56-78');
+const isQR = no => /^[0-9A-F]{32}$/.test(String(no || ''));
+const shortNo = no => isQR(no) ? 'QR ··' + no.slice(-4) : no;
+const groupCode = no => isQR(no) ? no.match(/.{4}/g).join(' ') : no;
+const fromCard = no => isQR(no) ? 'с QR-карты ··' + no.slice(-4) : 'с карты ' + no;
+function normCard(s){ const raw = String(s || '').trim(), c = raw.replace(/\s+/g, '').toUpperCase();
+  if (/^[0-9A-F]{32}$/.test(c)) return c; if (/^\d{8}$/.test(c)) return c.slice(0, 4) + ' ' + c.slice(4); return raw.replace(/\s+/g, ' '); }
+let codeSeq = 0;
+function genCode(){ let h = (0x9E3779B9 ^ Math.imul(++codeSeq, 0x85EBCA6B)) >>> 0, s = '';
+  for (let i = 0; i < 32; i++){ h = (h ^ (h << 13)) >>> 0; h = (h ^ (h >>> 17)) >>> 0; h = (h ^ (h << 5)) >>> 0; s += (h % 16).toString(16).toUpperCase(); }
+  return P.cards[s] ? genCode() : s; }
+function limeNote(dir, type, data){ P.events.unshift({ t: P.t, dir, type, data }); if (P.events.length > 200) P.events.pop(); }
+function howText(b){ return isQR(b.cardNo) ? 'У входа подойдите к стойке электронной очереди и покажите QR с экрана «Карта в телефоне» — сотрудник отсканирует.' : 'У входа подойдите к стойке электронной очереди и приложите карту или браслет.'; }
+// история времени записи: сдвиг при остановке и перенос раньше видны на полосе
+const HIST = {};
+function trackStarts(){
+  Object.values(P.bookings).forEach(b => {
+    const c = P.cards[b.cardNo]; if (!c || c.synthetic || (b.status !== 'ACTIVE' && b.status !== 'CALLED')) return;
+    const h = HIST[b.id] || (HIST[b.id] = { start: b.start, ev: [] });
+    if (h.start !== b.start){ const a = E.attr(P, b.attrId), later = b.start > h.start;
+      h.ev.unshift({ at: P.t, from: h.start, to: b.start, kind: later ? 'shift' : 'earlier', until: later ? a.stopUntil : null }); h.start = b.start; }
+  });
+}
+// полоса: доли ширины фиксированы, чтобы главной была дорога до «Пора идти», а не окно
+function routeSegs(b){
+  const g = P.settings.graceMin, call = b.start - 5;
+  let segs;
+  if (b.kind === 'paid') segs = (b.start - b.created >= 1 ? [[b.created, b.start, 16, 'walk']] : []).concat([[b.start, b.end, 54, 'win'], [b.end, b.end + g, 30, 'grace']]);
+  else if (call <= b.created + 0.01) segs = [[b.created, b.start, 22, 'walk'], [b.start, b.end, 48, 'win'], [b.end, b.end + g, 30, 'grace']];
+  else segs = [[b.created, call, 58, 'wait'], [call, b.start, 10, 'walk'], [b.start, b.end, 20, 'win'], [b.end, b.end + g, 12, 'grace']];
+  return segs.filter(x => x[1] > x[0]);
+}
+function routePos(segs, t){
+  const tot = segs.reduce((s, x) => s + x[2], 0); let left = 0;
+  if (!segs.length || t <= segs[0][0]) return 0;
+  for (const [f, to, w] of segs){ const ww = w / tot * 100; if (t < to) return left + ww * Math.max(0, (t - f) / (to - f)); left += ww; }
+  return 100;
+}
+function routeHtml(b){
+  const a = E.attr(P, b.attrId), g = P.settings.graceMin, call = b.start - 5, segs = routeSegs(b), tot = segs.reduce((s, x) => s + x[2], 0);
+  const paid = b.kind === 'paid', quick = !paid && call <= b.created + 0.01, called = b.status === 'CALLED' || quick || paid;
+  const pos = routePos(segs, Math.min(P.t, b.end + g)), win = Math.round(b.end - b.start);
+  let left = 0;
+  const segHtml = segs.map(([f, to, w, cls]) => { const ww = w / tot * 100, x = `<span class="rt-seg ${cls}" style="left:${left.toFixed(2)}%;width:${ww.toFixed(2)}%"></span>`; left += ww; return x; }).join('');
+  const ev = (HIST[b.id] && HIST[b.id].ev) || [];
+  const stop = ev.find(e => e.kind === 'shift' && e.until != null);
+  let stopHtml = '';
+  if (stop && !quick && !paid){ const x1 = routePos(segs, Math.max(stop.at, b.created)), x2 = routePos(segs, Math.min(stop.until, call)); if (x2 > x1) stopHtml = `<span class="rt-seg stop" style="left:${x1.toFixed(2)}%;width:${(x2 - x1).toFixed(2)}%" title="Остановка аттракциона"></span>`; }
+  const er = b.status === 'ACTIVE' ? E.earlierOption(P, b.id) : null;
+  const ghost = er != null && !quick ? `<span class="rt-ghost" style="left:${routePos(segs, er - 5).toFixed(2)}%" title="Можно раньше"></span>` : '';
+  const ticks = segs.slice(1).map((x, i) => `<span class="rt-tick${x[3] === 'walk' && segs[i][3] === 'wait' ? ' call' : ''}" style="left:${routePos(segs, x[0]).toFixed(2)}%"></span>`).join('');
+  let head;
+  if (!called && b.status === 'ACTIVE'){ const m = Math.ceil(call - P.t); head = m > 0 ? `До «Пора идти» <b>${m} мин</b>` : '<b>Пора идти — сейчас</b>'; }
+  else if (P.t < b.start) head = '<b>Идите ко входу</b>';
+  else if (P.t <= b.end) head = '<b>Окно открыто</b>';
+  else head = '<b>Опаздываете</b>';
+  const sub = P.t <= b.end ? `окно ${T(b.start)}–${T(b.end)}` : `пустят до ${T(b.end + g)}`;
+  const tail = (g > 0 ? [['grace', 'Опоздание ' + g + ' мин', 'до ' + T(b.end + g)]] : []);
+  const marks = paid ? [['walk', 'Без очереди', 'с ' + T(b.start)], ['win', 'Окно ' + win + ' мин', T(b.start) + '–' + T(b.end)]].concat(tail)
+    : quick ? [['walk', 'Пора идти — сразу', T(b.created)], ['win', 'Окно ' + win + ' мин', T(b.start) + '–' + T(b.end)]].concat(tail)
+    : [['wait', b.kind === 'slot' ? 'Выбрали время' : 'Записались', T(b.created)], ['call', 'Пора идти', T(call)], ['win', 'Окно ' + win + ' мин', T(b.start) + '–' + T(b.end)]].concat(tail);
+  const notes = ev.slice(0, 2).map(e => e.kind === 'shift'
+    ? `<div class="rt-note shift">Время сдвинуто: ${T(e.from)} → <b>${T(e.to)}</b>. «${esc(a.name)}» ${a.status !== 'open' && a.stopUntil ? 'стоит до ' + T(a.stopUntil) : e.until ? 'стоял до ' + T(e.until) : 'останавливали'} — отметки на полосе переехали.</div>`
+    : `<div class="rt-note fast">Перенесли раньше: ${T(e.from)} → <b>${T(e.to)}</b>.</div>`).join('');
+  const early = er != null ? `<div class="rt-note fast">Можно раньше: прийти к <b>${T(er)}</b> вместо ${T(b.start)} — на ${Math.round(b.start - er)} мин раньше, освободилось место.</div><button class="btn primary" data-g="earlier" data-id="${b.id}">Прийти раньше — к ${T(er)}</button>` : '';
+  const aria = (b.status === 'ACTIVE' && !quick && !paid ? 'До «Пора идти» ' + Math.max(0, Math.ceil(call - P.t)) + ' мин. ' : '') + 'Окно ' + T(b.start) + '–' + T(b.end) + ', пустят до ' + T(b.end + g) + '.';
+  return `<div class="route">
+    <div class="rt-head"><span class="rt-count">${head}</span><span class="rt-sub">${sub}</span></div>
+    <div class="rt-track" role="img" aria-label="${aria}">${segHtml}<span class="rt-fill" style="width:${pos.toFixed(2)}%"></span>${stopHtml}${ticks}${ghost}<span class="rt-now" style="left:${pos.toFixed(2)}%"></span></div>
+    <div class="rt-marks">${marks.map(([k, l, v]) => `<span class="m-${k}"><i></i>${l}<b>${v}</b></span>`).join('')}</div>
+    ${notes}${early}
+  </div>`;
+}
+function kindHead(b){ return b.kind === 'paid' ? 'Без очереди' : b.kind === 'slot' ? 'Запись на ' + T(b.start) : 'Вы в очереди'; }
+
 const G = { card: '7700 1234', view: 'list', attrId: null, size: 2, mode: 'virtual', slot: null, err: '', seenMsg: 0, pushedMsg: 0, zone: 'Все', kids: [], kidsOpen: false, confirmId: null, confirmCancel: false };
 
 /* ---------- время ---------- */
@@ -1295,16 +1439,31 @@ function renderGuest(force){
   let h = '';
   const card = P.cards[G.card];
   const unread = myMsgs().length - G.seenMsg;
+  if (!card && G.view === 'issue'){
+    h += `<div class="app-bar"><button class="icon-btn" data-g="back" aria-label="Назад">${IC(I.back, 22)}</button><span class="title">QR-карта парка</span></div><div class="app-body login">
+      <h2 class="g-h" style="font-size:26px">Карта в телефоне</h2>
+      <p class="lead">Вы отсканировали QR на стенде у кассы или у входа в парк. Введите номер телефона — QR-карта придёт на этот номер, как с сайта. В демо она откроется здесь же.</p>
+      <form class="kids-form" data-g-form="issue"><label class="f">Номер телефона<input id="g-phone" inputmode="tel" autocomplete="off" placeholder="+7 900 000-00-00"></label>
+        <button class="btn primary big" type="submit">Получить QR-карту</button></form>
+      <div class="msg">Деньги на карту — на сайте парка или на кассе по QR. Цена QR-карты со стенда — решение парка: на сайте она сейчас бесплатна. Пластиковая карта в кассе — 70 ₽, это такой же выбор.</div>
+      <p class="small muted" style="margin:0">Демо: номер нигде не сохраняется, на экране — только две последние цифры. Выпуск QR-карты со стенда — предложение, Лайм его не подтверждал.</p>
+      ${G.err ? `<div class="err">${esc(G.err)}</div>` : ''}</div>`;
+    sc.innerHTML = h; return;
+  }
   if (!card){
     h += `<div class="app-bar"><span class="title">Вокруг Света</span></div><div class="app-body login">
       <h2 class="g-h">Своё время</h2>
       <p class="lead">Встаньте в очередь с телефона и гуляйте, пока не позовём.</p>
-      <button class="btn primary big" data-g="qr">${IC(I.qr, 20)}Отсканировать QR на карте</button>
-      <p class="small muted" style="margin:-4px 0 0">В демо камера не нужна: откроется карта 7700 1234.</p>
-      <details class="manual" ${G.err ? 'open' : ''}><summary>Ввести номер карты</summary>
-        <label class="f">Номер на обороте карты или браслета<input id="g-cardno" class="mono from-lime" placeholder="7700 1234" inputmode="numeric" autocomplete="off"></label>
+      <div class="choice choice-eq" role="group" aria-label="Чем вы пользуетесь в парке">
+        <button class="opt" data-g="qr"><span class="ic">${IC(I.pay)}</span><span class="h">Карта парка или браслет</span><span class="d">Отсканируйте телефоном QR на карте. Бумажный QR с кассы откроет страницу так же, если в нём ссылка, — это вопрос Лайму. В демо камера не нужна: откроется карта 7700 1234.</span></button>
+        <button class="opt" data-g="qrcard"><span class="ic">${IC(I.qr)}</span><span class="h">QR-карта в телефоне</span><span class="d">Получили на сайте парка по номеру телефона. Откроется карта с QR — сканировать ничего не нужно.</span></button>
+      </div>
+      <button class="btn big" data-g="issue">Нет карты — получить QR-карту по номеру</button>
+      <p class="small muted" style="margin:-4px 0 0">Или купите карту парка в кассе за 70 ₽.</p>
+      <details class="manual" ${G.err ? 'open' : ''}><summary>Ввести номер карты или код QR-карты</summary>
+        <label class="f">Номер на обороте карты или браслета либо 32 знака кода QR-карты<input id="g-cardno" class="mono from-lime" placeholder="7700 1234" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
         <button class="btn" data-g="login">Войти</button>
-        <div class="small muted">Демо-карты: ${Object.values(P.cards).filter(c=>!c.synthetic).map(c=>`<button class="link mono" data-g="quick" data-no="${c.no}">${c.no}</button>`).join(' · ')}</div>
+        <div class="small muted">Демо-карты: ${Object.values(P.cards).filter(c=>!c.synthetic).map(c=>`<button class="link mono" data-g="quick" data-no="${c.no}">${shortNo(c.no)}</button>`).join(' · ')}</div>
       </details>
       ${G.err ? `<div class="err">${esc(G.err)}</div>` : ''}</div>`;
     sc.innerHTML = h; return;
@@ -1330,7 +1489,7 @@ function renderGuest(force){
       ${media(a, 'hero')}
       <div class="facts"><span class="pill ${closed?'bad':'ok'}">${closed?'Не работает':'Работает'}</span><span>${a.zone}</span><span>${rub(a.price)} за катание</span></div>
       ${limBlock(a, true)}${kidMarks(a)}
-      ${closed ? closedMsg : live && live.attrId === a.id ? bookedBlock(live) : `<div class="duo"><div><b>${mins(sw)} мин</b><span>очередь у входа сейчас</span></div>
+      ${closed ? closedMsg + (live && live.attrId === a.id && !P.stopped ? bookedBlock(live) : '') : live && live.attrId === a.id ? bookedBlock(live) : `<div class="duo"><div><b>≈${mins(sw)} мин</b><span>очередь у входа сейчас — оценка модели</span></div>
         <div><b>${q && a.eEnabled ? T(q.start) : '—'}</b><span>ваше время, если встать с телефона</span></div></div>
       <div class="row" style="justify-content:space-between"><span>Сколько вас?</span><div class="stepper"><button data-g="minus" aria-label="Меньше">−</button><output>${G.size}</output><button data-g="plus" aria-label="Больше">+</button></div></div>
       <div class="small muted" style="margin-top:-6px">Одна запись на всех по вашей карте. У входа спишется ${G.size} × ${rub(a.price)}.</div>
@@ -1356,19 +1515,32 @@ function renderGuest(force){
       <div class="ticket ${cls}"><div class="k">${lbl}</div>
         <div class="nm">${esc(a.name)}</div><div class="win">${T(b.start)}–${T(b.end)}</div>
         <div class="cut"></div><div class="row"><span>${b.size} чел.</span><span>${st==='ACTIVE' ? (left>0?`через ${Math.ceil(left)} мин`:'уже можно') : st==='CALLED' ? 'идите ко входу' : ''}</span></div></div>
-      ${st==='ACTIVE'||st==='CALLED' ? `<div class="msg">У входа «${esc(a.name)}» подойдите к стойке <b>электронной очереди</b> и приложите карту к считывателю<span class="lime-tag">Лайм</span>. Если задерживаетесь, пустят до ${T(b.end + P.settings.graceMin)}.</div>
+      ${st==='ACTIVE'||st==='CALLED' ? `<div class="booked${st==='CALLED' ? ' called' : ''}">${routeHtml(b)}</div>
+        <div class="msg">«${esc(a.name)}». ${howText(b)}<span class="lime-tag">Лайм</span> Если задерживаетесь, пустят до ${T(b.end + P.settings.graceMin)}.</div>
+        ${st==='CALLED' && isQR(b.cardNo) ? `<button class="btn" data-g="card">${IC(I.qr, 18)}Показать QR для стойки</button>` : ''}
         ${limBlock(a)}
         ${G.confirmCancel ? `<div class="err">Отменить запись? Место уйдёт другим гостям.</div><div class="row"><button class="btn danger" data-g="cancel">Да, отменить</button><button class="btn" data-g="keep">Оставить</button></div>` : `<button class="btn" data-g="askcancel">Отменить запись</button>`}` : ''}
-      ${(st==='ACTIVE') && E.earlierOption(P, b.id) != null ? `<div class="msg">Освободилось место раньше: можно прийти к ${T(E.earlierOption(P, b.id))}.</div><button class="btn primary" data-g="earlier">Прийти раньше — к ${T(E.earlierOption(P, b.id))}</button>` : ''}
       ${b.paid ? `<div class="small muted">Без очереди: ${rub(b.paid)} списано с карты.</div>` : ''}
       ${myMsgs().slice(0,3).map(m => `<div class="msg"><div class="t">${T(m.t)}</div>${esc(m.text)}</div>`).join('')}
       <button class="btn ghost" data-g="list">К аттракционам</button></div>`;
+  } else if (G.view === 'card'){
+    const qr = isQR(card.no);
+    h += bar('Карта в телефоне', true) + `<div class="app-body">
+      <div class="qrcard">
+        ${qr ? `<div class="qr-box">${qrSvg(card.no, 'QR-код карты ' + shortNo(card.no))}</div><div class="qr-code">${groupCode(card.no)}</div>` : `<div class="qr-code">${esc(card.no)}</div>`}
+        <div class="qr-meta"><span>${qr ? 'QR-карта Лайма' : 'Карта Лайма'}${card.phone ? ' · ' + esc(card.phone) : ''}</span><b>${rub(card.balance)}</b></div>
+      </div>
+      <p class="small" style="margin:0">Это ваша карта парка. QR показывают на кассе, на входе на аттракцион и у стойки электронной очереди — сотрудник сканирует его с экрана. Свой экран сканировать не нужно: в очередь вставайте кнопкой.</p>
+      ${live ? `<button class="opt live" data-g="ticket" data-id="${live.id}"><span class="ic">${IC(I.check)}</span><span class="h">${esc(E.attr(P, live.attrId).name)} · ${T(live.start)}–${T(live.end)}</span><span class="d">${live.status==='CALLED'?'Пора идти! Покажите этот QR у стойки.':'Ваша запись. Нажмите, чтобы открыть.'}</span></button>` : `<button class="btn primary big" data-g="list">Встать в очередь на аттракцион</button>`}
+      <div class="msg"><b>Положить деньги:</b> на сайте парка по этой же карте или на кассе — покажите QR кассиру.${card.balance < 500 ? ` Сейчас на карте ${rub(card.balance)}: на катание может не хватить.` : ''}</div>
+      <p class="small muted" style="margin:0">Пополнение на сайте и на кассе — сторона Лайма, в модуле его нет. Безлимит продаётся только в кассе парка. Пластиковая карта за 70 ₽ — такой же выбор, как QR.</p>
+    </div>`;
   } else {
     const zones = ['Все','Детская','Семейная','Экстрим','Центр'];
     const list = P.attractions.filter(a => G.zone === 'Все' || a.zone === G.zone);
     const full = liveCount() >= P.settings.maxActive;
     h += bar('Вокруг Света', false) + `<div class="app-body list">
-      <div class="cardchip from-lime"><span>Карта ${esc(card.no)}<span class="lime-tag">Лайм</span></span><span class="bal">${rub(card.balance)}</span><button class="link small" data-g="logout">Выйти</button></div>
+      <div class="cardchip from-lime"><span>${isQR(card.no) ? 'QR-карта ··' + card.no.slice(-4) : 'Карта ' + esc(card.no)}<span class="lime-tag">Лайм</span></span><span class="bal">${rub(card.balance)}</span>${isQR(card.no) ? '<button class="link small" data-g="card">Показать QR</button>' : ''}<button class="link small" data-g="logout">Выйти</button></div>
       ${live ? `<button class="opt live" data-g="ticket" data-id="${live.id}"><span class="ic">${IC(I.check)}</span><span class="h">${esc(E.attr(P, live.attrId).name)} · ${T(live.start)}–${T(live.end)}</span><span class="d">${live.status==='CALLED'?'Пора идти! Нажмите, чтобы открыть.':'Ваша запись. Нажмите, чтобы открыть.'}</span></button>` : ''}
       ${P.stopped ? `<div class="err">Аттракционы остановлены: ${esc(P.stopReason)}. Записи отменены.</div>` : ''}
       <div class="toolbar">
@@ -1380,15 +1552,16 @@ function renderGuest(force){
       ${list.map(a => { const sw = E.standbyWait(P, a); const q = a.eEnabled ? E.quoteVirtual(P, a, G.size) : null; const closed = a.status!=='open'||P.stopped;
         const mine = live && live.attrId === a.id; const blocked = kidBlocked(a);
         let act;
-        if (closed) act = `<div class="act-note"><span class="pill bad">Остановлен</span></div>`;
+        if (closed && mine && !P.stopped) act = `<div class="act-note"><span class="pill bad">Остановлен${a.stopUntil ? ' до ' + T(a.stopUntil) : ''}</span></div>` + bookedBlock(live);   // r12: запись при остановке не прячем — на полосе видно новое время
+        else if (closed) act = `<div class="act-note"><span class="pill bad">Остановлен</span></div>`;
         else if (mine) act = bookedBlock(live);
-        else if (!a.eEnabled) act = (P.settings.paidEnabled && a.paidEnabled) ? `<button class="btn big" data-g="open" data-id="${a.id}">Без очереди — ${rub(P.settings.paidPrice)} с человека</button><div class="hint">или обычная очередь · ${mins(sw)} мин</div>` : `<div class="act-note">Только обычная очередь · ${mins(sw)} мин</div>`;
+        else if (!a.eEnabled) act = (P.settings.paidEnabled && a.paidEnabled) ? `<button class="btn big" data-g="open" data-id="${a.id}">Без очереди — ${rub(P.settings.paidPrice)} с человека</button><div class="hint">или обычная очередь · ≈${mins(sw)} мин, оценка модели</div>` : `<div class="act-note">Только обычная очередь · ≈${mins(sw)} мин, оценка модели</div>`;
         else if (full) act = `<div class="act-note">У вас уже есть запись. Новая — после неё.</div>`;
         else if (!q) act = `<div class="act-note">Мест в очереди с телефона на сегодня нет</div>`;
         else if (G.confirmId === a.id) act = `<div class="confirm"><span>По росту сюда нельзя: ${blockedKids(a).join(' и ')} см. Всё равно встать в очередь?</span><div class="row"><button class="btn primary" data-g="quick-book" data-id="${a.id}" data-ok="1">Да, встать</button><button class="btn" data-g="unconfirm">Нет</button></div></div>`;
         else act = `<button class="btn ${blocked?'':'primary'} big" data-g="quick-book" data-id="${a.id}">Встать в очередь · ${G.size} чел.</button><div class="hint">Приходите ${T(q.start)}–${T(q.end)}</div>`;
         return `<article class="acard${closed?' is-off':''}">
-          <button class="acard-media" data-g="open" data-id="${a.id}" tabindex="-1" aria-hidden="true">${media(a)}<span class="wait">${closed ? 'Не работает' : `${IC(I.clock, 15)}<b>${mins(sw)} мин</b> в очереди`}</span></button>
+          <button class="acard-media" data-g="open" data-id="${a.id}" tabindex="-1" aria-hidden="true">${media(a)}<span class="wait">${closed ? 'Не работает' : `${IC(I.clock, 15)}<b>≈${mins(sw)} мин</b> в очереди · оценка модели`}</span></button>
           <div class="acard-body">
             <button class="acard-title" data-g="open" data-id="${a.id}">${esc(a.name)}</button>
             ${limTags(a)}${kidMarks(a)}
@@ -1406,6 +1579,12 @@ function renderGuest(force){
 }
 function parseKids(s){ return (s.match(/\d+/g) || []).map(Number).filter(n => n >= 50 && n <= 200).slice(0, 6); }
 $('#screen').addEventListener('submit', e => {
+  const fi = e.target.closest('[data-g-form="issue"]');
+  if (fi){ e.preventDefault(); const d = ($('#g-phone').value || '').replace(/\D/g, '');
+    if (d.length < 10 || d.length > 11){ G.err = 'Нужен номер телефона: 10 или 11 цифр.'; renderAll(true); return; }
+    const no = genCode(); E.addCard(P, no, 'QR-карта со стенда', 0, '+7 ••• •••-••-' + d.slice(-2));
+    limeNote('в Лайм', 'Выпуск QR-карты по номеру телефона (стенд, предложение)', { card: shortNo(no) });
+    G.err = ''; G.card = no; G.view = 'card'; G.seenMsg = G.pushedMsg = myMsgs().length; renderAll(true); $('#screen').scrollTop = 0; return; }
   const f = e.target.closest('[data-g-form="kids"]'); if (!f) return; e.preventDefault();
   G.kids = parseKids($('#g-kids').value); G.kidsOpen = false; renderAll(true);
 });
@@ -1413,8 +1592,11 @@ $('#screen').addEventListener('click', e => {
   const el = e.target.closest('[data-g]'); if (!el) return;
   const g = el.dataset.g; G.err = '';
   if (g === 'qr'){ G.card = '7700 1234'; G.view = 'list'; G.seenMsg = G.pushedMsg = myMsgs().length; }
-  if (g === 'login' || g === 'quick'){ const no = g === 'quick' ? el.dataset.no : ($('#g-cardno').value || '').replace(/\s+/g,' ').trim(); if (P.cards[no] && !P.cards[no].synthetic){ G.card = no; G.view = 'list'; G.seenMsg = myMsgs().length; } else G.err = 'Карта с таким номером не найдена. Проверьте номер на обороте карты.'; }
-  if (g === 'logout'){ G.card = null; G.kids = []; G.kidsOpen = false; G.size = 2; }
+  if (g === 'qrcard'){ G.card = QR_SITE; G.view = 'card'; G.seenMsg = G.pushedMsg = myMsgs().length; }
+  if (g === 'issue'){ G.view = 'issue'; }
+  if (g === 'card'){ G.view = 'card'; }
+  if (g === 'login' || g === 'quick'){ const no = g === 'quick' ? el.dataset.no : normCard($('#g-cardno').value); if (P.cards[no] && !P.cards[no].synthetic){ G.card = no; G.view = isQR(no) ? 'card' : 'list'; G.seenMsg = myMsgs().length; } else G.err = 'Карта не найдена. Проверьте номер на обороте карты или браслета либо 32 знака кода QR-карты.'; }
+  if (g === 'logout'){ G.card = null; G.view = 'list'; G.kids = []; G.kidsOpen = false; G.size = 2; }
   if (g === 'back' || g === 'list'){ G.view = 'list'; }
   if (g === 'msgs') G.view = 'msgs';
   if (g === 'zone') G.zone = el.dataset.z;
@@ -1443,7 +1625,7 @@ $('#screen').addEventListener('click', e => {
   }
   if (g !== 'quick-book' && g !== 'unconfirm') G.confirmId = null;
   renderAll(true);
-  if (['open','ticket','back','list','qr','login','quick','msgs'].includes(g)) $('#screen').scrollTop = 0;
+  if (['open','ticket','back','list','qr','login','quick','msgs','qrcard','issue','card'].includes(g)) $('#screen').scrollTop = 0;
 });
 
 /* ---------- пульт: вкладки и роли ---------- */
@@ -1464,10 +1646,10 @@ $('#st-attr').value = 'a2'; $('#ca-attr').value = 'a1';
 function staffAttr(){ return E.attr(P, $('#st-attr').value); }
 function verdict(r){
   const v = $('#st-verdict');
-  if (r.ok){ v.className = 'verdict ok flash'; v.innerHTML = `<span class="big">Проходите: ${r.people} чел.</span><span>Списано ${rub(r.charged)} с карты ${esc(r.booking.cardNo)} <span class="lime-tag">в Лайм</span></span>${r.closedRest ? `<span>Пришли не все: ${r.closedRest} ${plural(r.closedRest,'место','места','мест')} вернулось в продажу, остаток записи закрыт.</span>` : ''}${P.offline ? '<span>Нет связи: списание отправится в Лайм, когда связь вернётся. В демо используется общий баланс в памяти страницы; отдельный баланс каждого считывателя и конфликты офлайн-списаний не моделируются.</span>' : ''}`; }
+  if (r.ok){ v.className = 'verdict ok flash'; v.innerHTML = `<span class="big">Проходите: ${r.people} чел.</span><span>Списано ${rub(r.charged)} ${esc(fromCard(r.booking.cardNo))} <span class="lime-tag">в Лайм</span></span>${r.closedRest ? `<span>Пришли не все: ${r.closedRest} ${plural(r.closedRest,'место','места','мест')} вернулось в продажу, остаток записи закрыт.</span>` : ''}${P.offline ? '<span>Нет связи: списание отправится в Лайм, когда связь вернётся. В демо используется общий баланс в памяти страницы; отдельный баланс каждого считывателя и конфликты офлайн-списаний не моделируются.</span>' : ''}`; }
   else { v.className = 'verdict bad flash'; v.innerHTML = `<span class="big">Не пропускать</span><span>${esc(r.error)}</span>`; }
 }
-$('#st-scan').addEventListener('click', () => { const no = $('#st-card').value.trim(); const ppl = $('#st-people').value ? +$('#st-people').value : null; verdict(E.scan(P, no, $('#st-attr').value, ppl)); renderAll(); });
+$('#st-scan').addEventListener('click', () => { const no = normCard($('#st-card').value); const ppl = $('#st-people').value ? +$('#st-people').value : null; verdict(E.scan(P, no, $('#st-attr').value, ppl)); renderAll(); });
 $('#st-cards').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ $('#st-card').value = b.dataset.no; } });
 $('#st-attr').addEventListener('change', renderAll);
 $('#st-stop15').addEventListener('click', () => { E.setStatus(P, $('#st-attr').value, 'stopped', 15); renderAll(); });
@@ -1476,7 +1658,7 @@ $('#offline').addEventListener('change', e => { E.setOffline(P, e.target.checked
 const stName = {ACTIVE:['ждём','acc'],CALLED:['позвали','ok'],USED:['прошли','ok'],NO_SHOW:['не пришли','warn'],CANCELLED:['отменено','warn'],CANCELLED_BY_PARK:['отменено парком','bad']};
 function renderStaff(){
   const a = staffAttr();
-  $('#st-cards').innerHTML = Object.values(P.cards).filter(c => !c.synthetic).map(c => `<button data-no="${c.no}">${c.no}</button>`).join('') +
+  $('#st-cards').innerHTML = Object.values(P.cards).filter(c => !c.synthetic).map(c => `<button data-no="${c.no}">${esc(shortNo(c.no))}</button>`).join('') +
     Object.values(P.bookings).filter(b => b.attrId === a.id && (b.status==='ACTIVE'||b.status==='CALLED') && b.start <= P.t + 1).slice(0,3).map(b => `<button data-no="${b.cardNo}" title="Гость модели с записью на сейчас">${b.cardNo}</button>`).join('');
   $('#st-title').textContent = 'Сейчас на «' + a.name + '»';
   const sw = E.standbyWait(P, a);
@@ -1487,12 +1669,13 @@ function renderStaff(){
     <div class="kpi"><div class="v">${Math.round(E.mu(a)*60)}</div><div class="l">мест в час (учебно)</div></div>
     <div class="kpi"><div class="v">${a.eRidden}</div><div class="l">прошли по записи сегодня</div></div>
     <div class="kpi"><div class="v">${a.standbyRidden}</div><div class="l">прошли из обычной сегодня</div></div>`;
-  $('#st-list').innerHTML = rows.map(b => `<tr><td class="num">${T(b.start)}–${T(b.end)}</td><td class="mono">${esc(b.cardNo)}${P.cards[b.cardNo]&&P.cards[b.cardNo].synthetic?' <span class="muted small">модель</span>':''}</td><td class="num">${b.redeemed?b.redeemed+'/':''}${b.size}</td><td>${b.kind==='paid'?'платный':b.kind==='slot'?'время':'очередь'}${b.channel==='cashier'?' · касса':''}</td><td><span class="pill ${stName[b.status][1]}">${stName[b.status][0]}</span></td></tr>`).join('') || '<tr><td colspan="5" class="muted">Записей на ближайшее время нет.</td></tr>';
+  $('#st-list').innerHTML = rows.map(b => `<tr><td class="num">${T(b.start)}–${T(b.end)}</td><td class="mono">${esc(shortNo(b.cardNo))}${P.cards[b.cardNo]&&P.cards[b.cardNo].synthetic?' <span class="muted small">модель</span>':''}</td><td class="num">${b.redeemed?b.redeemed+'/':''}${b.size}</td><td>${b.kind==='paid'?'платный':b.kind==='slot'?'время':'очередь'}${b.channel==='cashier'?' · касса':''}</td><td><span class="pill ${stName[b.status][1]}">${stName[b.status][0]}</span></td></tr>`).join('') || '<tr><td colspan="5" class="muted">Записей на ближайшее время нет.</td></tr>';
 }
 
 /* ---------- касса ---------- */
 $('#ca-book').addEventListener('click', () => {
-  const no = $('#ca-card').value.trim(), id = $('#ca-attr').value, kind = $('#ca-kind').value, size = +$('#ca-size').value || 1;
+  const no = normCard($('#ca-card').value), id = $('#ca-attr').value, kind = $('#ca-kind').value, size = +$('#ca-size').value || 1;
+  if (!P.cards[no]){ $('#ca-err').innerHTML = '<div class="err">Карта не найдена: проверьте номер карты или браслета либо код QR-карты.</div>'; return; }
   let slot = null; if (kind === 'slot'){ const o = E.slotOptions(P, E.attr(P, id), size).find(s => s.fits); slot = o ? o.start : null; }
   const r = (kind === 'slot' && slot == null) ? { ok:false, error:'Свободных окон до закрытия нет. Предложите виртуальную очередь или другой аттракцион.' } : E.book(P, no, id, size, kind, slot, 'c' + (opSeq++), 'cashier');
   if (r.ok){ $('#ca-err').innerHTML = ''; P._caTicket = r.booking.id; } else { $('#ca-err').innerHTML = `<div class="err">${esc(r.error)}</div>`; }
@@ -1503,9 +1686,10 @@ function renderCashier(){
   const a = E.attr(P, b.attrId);
   $('#ca-ticket').innerHTML = `<div class="box mono" style="max-width:300px;border-style:dashed;display:flex;flex-direction:column;gap:6px">
     <div style="text-align:center;font-weight:600">ПАРК «ВОКРУГ СВЕТА»<br>ТАЛОН ЭЛЕКТРОННОЙ ОЧЕРЕДИ</div><div>-------------------------------</div>
-    <div>Аттракцион: ${esc(a.name)}</div><div>Окно: <b style="font-size:20px">${T(b.start)}–${T(b.end)}</b></div><div>Людей: ${b.size}</div><div>Карта: ${esc(b.cardNo)}</div>
+    <div>Аттракцион: ${esc(a.name)}</div><div>Окно: <b style="font-size:20px">${T(b.start)}–${T(b.end)}</b></div><div>Людей: ${b.size}</div><div>Карта: ${esc(groupCode(b.cardNo))}</div>
     <div>Статус: ${stName[b.status][0]}</div><div>-------------------------------</div>
-    <div class="small">Приложите эту карту у входа электронной очереди. Вызов — на экранах у касс. Опоздать можно на ${P.settings.graceMin} мин.</div></div>`;
+    <div class="small">У входа электронной очереди приложите эту карту или покажите её QR. Вызов — на экранах у касс. Опоздать можно на ${P.settings.graceMin} мин.</div></div>
+    <p class="small muted ca-note">На талоне нет полосы и отсчёта: гость без телефона узнаёт, что пора идти, по экранам у касс.</p>`;
 }
 
 /* ---------- директор ---------- */
@@ -1606,13 +1790,12 @@ $('#push').addEventListener('click', () => {
 
 /* запись показываем там же, где гость нажал «Встать в очередь»: без перехода на отдельную страницу */
 function bookedBlock(b){
-  const a = E.attr(P, b.attrId), left = Math.ceil(b.start - P.t), called = b.status === 'CALLED';
-  const er = b.status === 'ACTIVE' ? E.earlierOption(P, b.id) : null;
+  const called = b.status === 'CALLED';
   return `<div class="booked${called ? ' called' : ''}">
-    <div class="bk-top"><span class="bk-ok">${IC(called ? I.bell : I.check, 16)}${called ? 'Пора идти!' : `Вы в очереди`}</span><span class="bk-left">${called ? 'идите ко входу' : left > 0 ? `через ${left} мин` : 'уже можно'}</span></div>
-    <div class="bk-win">${T(b.start)}–${T(b.end)}</div>
-    <div class="bk-how">На ${b.size} чел. У входа подойдите к стойке электронной очереди и приложите карту. Опаздываете — пустят до ${T(b.end + P.settings.graceMin)}.</div>
-    ${er != null ? `<button class="btn primary" data-g="earlier" data-id="${b.id}">Освободилось раньше — прийти к ${T(er)}</button>` : ''}
+    <div class="bk-top"><span class="bk-ok">${IC(called ? I.bell : I.check, 16)}${called ? 'Пора идти!' : kindHead(b)}</span><span class="bk-left">${b.size} чел.</span></div>
+    ${routeHtml(b)}
+    <div class="bk-how">${howText(b)} Опаздываете — пустят до ${T(b.end + P.settings.graceMin)}.</div>
+    ${called && isQR(b.cardNo) ? `<button class="btn" data-g="card">${IC(I.qr, 18)}Показать QR для стойки</button>` : ''}
     ${b.paid ? `<div class="bk-how">Без очереди: ${rub(b.paid)} списано с карты.</div>` : ''}
     ${G.confirmCancel === b.id
       ? `<div class="bk-row"><span>Отменить запись?</span><button class="btn danger small" data-g="cancel" data-id="${b.id}">Да, отменить</button><button class="btn small" data-g="keep">Нет</button></div>`
@@ -1622,7 +1805,7 @@ function bookedBlock(b){
 
 function renderAll(force){
   $('#clock').textContent = T(P.t) + (P.t >= P.dayLen ? ' · парк закрыт' : '');
-  checkPush(); renderGuest(force); renderStaff(); renderCashier(); renderDirector(); renderLime(); if (document.body.classList.contains('lime-on')) renderTicker();
+  trackStarts(); checkPush(); renderGuest(force); renderStaff(); renderCashier(); renderDirector(); renderLime(); if (document.body.classList.contains('lime-on')) renderTicker();
   renderTour();
 }
 
@@ -1636,10 +1819,29 @@ const STEPS = [
   { h:'Включаем платный проход', p:'Директор включает «без очереди» за 600 ₽. У платного прохода своя небольшая доля мест и окно в ближайшие минуты, поэтому при покупке окно — в ближайшие минуты. Гость видит новую опцию сразу.', act(){ P.settings.paidEnabled=true; $('#s-paid').checked=true; G.view='attr'; G.attrId='a3'; G.mode='paid'; } },
   { h:'Директор выбирает, где и сколько мест отдать', p:'Кнопка «Сравнить» прогоняет день модели при 0, 15, 30 и 50% мест под запись и показывает, что станет с теми, кто стоит в обычной очереди. Решение — по объекту и по типу дня. Нагрузка учебная, поэтому начинать стоит с замера очередей (вкладка «Как устроено в Лайме»).', act(){ showTab('director'); $('#cmp-attr').value='a2'; $('#cmp-day').value='1.15'; runCmp(); document.getElementById('cmp').scrollIntoView({block:'center'}); } },
   { h:'Гроза: стоп парка', p:'Одна кнопка отменяет все записи, возвращает деньги за платный проход и пишет всем гостям. Потом работа возобновляется.', act(){ showTab('director'); E.stopPark(P,'гроза'); } },
+  // r12: полоса пути и QR-карта — новые шаги после восьми шагов r11
+  { h:'Гроза прошла: гость с QR-картой в телефоне', p:'Парк снова работает, прошло 25 минут — очередь набралась. Другой гость получил QR-карту на сайте ещё дома, по номеру телефона, и там же положил 2 000 ₽: в кассу он не заходил. На телефоне — QR и код карты из 32 знаков. Пластиковая карта за 70 ₽ остаётся таким же выбором.', act(){ if (P.stopped) E.resumePark(P); for (let i = 0; i < 25 && P.t < P.dayLen; i++) E.tick(P); G.card = QR_SITE; G.view = 'card'; G.kids = []; G.size = 2; G.seenMsg = G.pushedMsg = myMsgs().length; $('#stage').dataset.role = 'guest'; showTab('staff'); } },
+  { h:'Встаёт в очередь кнопкой и видит полосу пути', p:() => `С экрана карты гость переходит к аттракционам и встаёт в очередь на «${tqAttr().name}» вдвоём — свой экран он не сканирует. Вместо «перед вами N человек» — отсчёт до «Пора идти» и полоса: записались → пора идти → окно 15 минут → 10 минут на опоздание. Полоса ведёт к «Пора идти», а не к началу окна: если прийти раньше, у стойки скажут «Рано».`, act(){ const a = tqAttr(); TQ.attr = a.id; const r = E.book(P, QR_SITE, a.id, 2, 'virtual', null, 'tour-qr'); const lv = Object.values(P.bookings).find(b => b.cardNo === QR_SITE && (b.status === 'ACTIVE' || b.status === 'CALLED')); TQ.id = r.ok ? r.booking.id : (lv ? lv.id : null); if (lv) TQ.attr = lv.attrId; G.card = QR_SITE; G.view = 'list'; G.zone = E.attr(P, TQ.attr).zone; $('#stage').dataset.role = 'guest'; tqScroll(); } },
+  { h:'Гуляем: полоса заполняется', p:'Время идёт — полоса растёт, отсчёт до «Пора идти» уменьшается. Пока ничего не случилось, время прихода не меняется.', act(){ const b = P.bookings[TQ.id]; if (b){ let n = 0; while (b.status === 'ACTIVE' && P.t < P.dayLen && (n < 4 || b.start - P.t > 12)){ E.tick(P); n++; } } G.view = 'list'; tqScroll(); } },
+  { h:() => `«${tqAttr().name}» встал на 20 минут — полоса перестроилась`, p:'Сотрудник остановил аттракцион. Запись гостя попала в остановку и сдвинулась вперёд: отметки на полосе переехали, видно «было → стало» и причину, остановка заштрихована. Как пробка в навигаторе: время пересчитано, а не «перед вами стало больше людей». Раньше конца остановки плюс 5 минут на дорогу ничего не предлагается.', act(){ if (TQ.attr) E.setStatus(P, TQ.attr, 'stopped', 20); G.view = 'list'; tqScroll(); } },
+  { h:'Другие гости отменили запись — «можно раньше»', p:() => TQ.done13 ? (TQ.early != null ? `${TQ.cancels === 1 ? 'Свою запись отменил один гость' : 'Свои записи отменили двое гостей'}. На той же полосе появилась пунктирная отметка: можно прийти к ${T(TQ.early)} вместо ${T(TQ.before)}. Это «есть маршрут быстрее»: время не раньше конца остановки плюс 5 минут на дорогу.` : 'Раньше мест не освободилось даже после двух отмен — гость ждёт своё время. Полоса ничего не обещает.') : 'Гости с записью на тот же аттракцион отменяют её. Как только место освобождается, на той же полосе появляется пунктирная отметка «можно раньше» и кнопка — как «есть маршрут быстрее» в навигаторе.', act(){ const b = P.bookings[TQ.id]; if (!b) return; const a = E.attr(P, b.attrId); TQ.cancels = 0; let e = E.earlierOption(P, b.id);
+      while (e == null && TQ.cancels < 2){ const from = (a.status !== 'open' && a.stopUntil != null ? a.stopUntil : P.t) + E.WALK;
+        const o = Object.values(P.bookings).filter(x => x.attrId === a.id && x.id !== b.id && (x.status === 'ACTIVE' || x.status === 'CALLED') && x.kind !== 'paid' && x.start >= from && x.start <= b.start - 10).sort((x, y) => x.start - y.start)[0];
+        if (!o) break; E.cancel(P, o.id); TQ.cancels++; e = E.earlierOption(P, b.id); }
+      TQ.early = e; TQ.before = b.start; TQ.done13 = true; G.view = 'list'; tqScroll(); } },
+  { h:'Гость переносит запись и получает «Пора идти»', p:'Одно нажатие — и полоса снова короче. Модель идёт до вызова: за 5 минут до окна приходит «Пора идти!». Аттракцион к этому времени уже работает.', act(){ const b = P.bookings[TQ.id]; if (!b) return; if (b.status === 'ACTIVE' && E.earlierOption(P, b.id) != null) E.moveEarlier(P, b.id); while (b.status === 'ACTIVE' && P.t < P.dayLen) E.tick(P); G.view = 'list'; tqScroll(); } },
+  { h:'У стойки сотрудник сканирует QR с телефона', p:'Гость показывает QR с экрана — пластиковая карта не нужна. Сотрудник видит тот же ответ, что и при карте: «Проходите: 2 чел.», списано за двоих. Как считыватели Лайма принимают QR — камерой, сканером или вручную — вопрос к Лайму; в прототипе код вводит сотрудник.', act(){ const b = P.bookings[TQ.id]; if (b) while (P.t < b.start && P.t < P.dayLen) E.tick(P); showTab('staff'); $('#stage').dataset.role = innerWidth>980?'guest':'staff'; if (b) $('#st-attr').value = b.attrId; $('#st-card').value = groupCode(QR_SITE); $('#st-people').value = ''; verdict(E.scan(P, QR_SITE, b ? b.attrId : $('#st-attr').value)); } },
 ];
+const TQ = { attr: null, id: null, cancels: 0, early: null, before: null, done13: false };
+function tqAttr(){
+  if (TQ.attr) return E.attr(P, TQ.attr);
+  const c = P.attractions.filter(a => a.id !== 'a1' && a.eEnabled && a.status === 'open' && !P.stopped).map(a => ({ a, q: E.quoteVirtual(P, a, 2) })).filter(x => x.q).sort((x, y) => (y.q.start - x.q.start) || (x.a.id < y.a.id ? -1 : 1));
+  return c.length ? c[0].a : E.attr(P, 'a3');
+}
+function tqScroll(){ setTimeout(() => { const el = document.querySelector('#screen .booked'); if (el) el.scrollIntoView({ block: 'center' }); }, 30); }
 let tourI = -1;
-function renderTour(){ if (tourI < 0) return; const s = STEPS[tourI]; $('#tour-k').textContent = 'Шаг ' + (tourI+1) + ' из ' + STEPS.length; $('#tour-h').textContent = s.h; $('#tour-p').textContent = s.p; $('#tour-next').textContent = tourI === STEPS.length-1 ? 'Завершить' : 'Дальше'; }
-$('#tourBtn').addEventListener('click', () => { tourI = 0; $('#tour').hidden = false; setSpeed(0); renderTour(); });
+function renderTour(){ if (tourI < 0) return; const s = STEPS[tourI], val = x => typeof x === 'function' ? x() : x; $('#tour-k').textContent = 'Шаг ' + (tourI+1) + ' из ' + STEPS.length; $('#tour-h').textContent = val(s.h); $('#tour-p').textContent = val(s.p); $('#tour-next').textContent = tourI === STEPS.length-1 ? 'Завершить' : 'Дальше'; }
+$('#tourBtn').addEventListener('click', () => { tourI = 0; Object.assign(TQ, { attr: null, id: null, cancels: 0, early: null, before: null, done13: false }); $('#tour').hidden = false; setSpeed(0); renderTour(); });
 $('#tour-close').addEventListener('click', () => { tourI = -1; $('#tour').hidden = true; });
 $('#tour-do').addEventListener('click', () => { STEPS[tourI].act(); renderAll(); });
 $('#tour-next').addEventListener('click', () => { if (tourI === STEPS.length-1){ if (P.stopped) E.resumePark(P); tourI = -1; $('#tour').hidden = true; renderAll(); return; } tourI++; renderTour(); });
@@ -1651,20 +1853,20 @@ const REVIEW_ROWS = [{"id": "ya-126", "source": "yandex", "date": "2026-06-15", 
 const JQ = {
   steps: [
     { t: 'Открывает страницу очереди',
-      guest: 'Сканирует QR телефоном. Ничего не устанавливает: это веб-страница.',
+      guest: 'Сканирует телефоном QR на карте, стенде или бумажном чеке — или открывает QR-карту в телефоне, тогда сканировать ничего не нужно. Ничего не устанавливает: это веб-страница.',
       shows: '—', money: 'Ничего не списывается.',
       staff: 'Никто не участвует.',
-      lime: 'Страница по номеру карты узнаёт баланс в Лайме.',
-      open: 'Где висит QR — на карте, у кассы, на входе в зону — парк ещё не решил. Есть ли QR на картах сейчас, не установлено.',
+      lime: 'Страница по номеру карты или коду QR-карты узнаёт баланс в Лайме.',
+      open: 'Где висит QR страницы очереди — на стенде у кассы и у входа в парк, на чеке, на самой карте — парк ещё не решил. Есть ли такой QR на картах сейчас, не установлено.',
       jump: ['guest:qr', 'Экран входа гостя'] },
     { t: 'Выбирает аттракцион и записывается',
       guest: 'Указывает рост детей, видит, куда кого пускают, и встаёт в очередь одним нажатием на карточке. Сколько человек в группе — выбирает там же.',
       shows: '—', money: 'Обычная запись бесплатна: деньги не списываются и не блокируются. Платный проход «без очереди» списывается сразу при покупке, за всю группу; само катание — отдельно, на входе.',
       staff: 'Никто не участвует.',
-      lime: 'Запись создаётся на номер карты. Одна активная запись на карту (настройка директора).',
+      lime: 'Запись создаётся на номер карты или код QR-карты. Одна активная запись на карту (настройка директора).',
       jump: ['guest:list', 'Список аттракционов'] },
     { t: 'Гуляет, пока не позовут',
-      guest: 'Свободен: кафе, другие аттракционы, площадки. Время записи видно на карточке и в «Сообщениях».',
+      guest: 'Свободен: кафе, другие аттракционы, площадки. На записи — полоса пути и отсчёт до «Пора идти». Встал аттракцион — полоса перестраивается и показывает новое время и причину; освободилось раньше — на ней появляется «можно раньше».',
       shows: '—', money: 'Ничего не списывается.',
       staff: 'Никто не участвует.',
       lime: 'Если освободилось раньше, гостю предлагают прийти раньше.',
@@ -1676,9 +1878,9 @@ const JQ = {
       lime: 'Гостю без телефона вызов показывается на экранах у касс.',
       open: 'Как уведомление дойдёт до заблокированного телефона (браузерные уведомления, SMS, мессенджер) — решается при разработке.',
       jump: ['guest:msgs', 'Сообщения гостя'] },
-    { t: 'Прикладывает карту на входе',
-      guest: 'Подходит к стойке электронной очереди у входа, мимо обычной очереди. Показывает не телефон, а ту же карту или браслет Лайма.',
-      shows: 'Карту или браслет Лайма к считывателю.', money: 'Здесь списывается катание за каждого пришедшего. В прототипе — с баланса карты: цена аттракциона × число пришедших (цены — параметр модели). Не пришедшие места не оплачиваются и сразу возвращаются в продажу.',
+    { t: 'Прикладывает карту или показывает QR на входе',
+      guest: 'Подходит к стойке электронной очереди у входа, мимо обычной очереди. Прикладывает карту или браслет Лайма — или показывает QR-карту с экрана телефона либо бумажный QR, и сотрудник его сканирует.',
+      shows: 'Карту или браслет — к считывателю; QR-карту — экраном к сканеру. Каким способом считыватели Лайма принимают QR, вопрос к Лайму.', money: 'Здесь списывается катание за каждого пришедшего. В прототипе — с баланса карты: цена аттракциона × число пришедших (цены — параметр модели). Не пришедшие места не оплачиваются и сразу возвращаются в продажу.',
       open: 'Большая часть выручки кассы — пакеты билетов и безлимит: в мае–августе 2026 около 69%, пополнения баланса — около 22%. Как считыватель спишет билет из пакета или пропустит по безлимиту в записи, прототип не показывает — вопрос к Лайму.',
       staff: 'Сотрудник видит ответ считывателя: «Проходите: 3 чел., списано …» или причину отказа. Если пришли не все — вводит, сколько человек проходит.',
       lime: 'В модели списывается баланс. Реальный способ списания и проверку права на катание еще надо согласовать с Лаймом.',
@@ -1692,25 +1894,32 @@ const JQ = {
   ],
   // status: ok — решено в прототипе; part — решено частично; open — открытый вопрос парку или Лайму
   edges: [
-    { t: 'Опоздал', status: 'ok', guest: 'Пускают ещё 10 минут после окна.', staff: 'Пропускает по карте как обычно.', jump: ['staff', 'Экран сотрудника'] },
+    { t: 'Опоздал', status: 'ok', guest: 'Пускают ещё 10 минут после окна. На полосе это последний отрезок — «Опоздание до …».', staff: 'Пропускает по карте или QR как обычно.', jump: ['staff', 'Экран сотрудника'] },
     { t: 'Не пришёл совсем', status: 'ok', guest: 'Запись снимается, приходит сообщение. Новая запись по этой карте — через 30 минут. За обычную запись денег не было, платный проход не возвращается.', staff: 'Ничего не делает: место ушло в продажу само.', note: 'Возврат за платный проход при неявке директор может включить в настройках.', jump: ['director', 'Настройки директора'] },
     { t: 'Пришёл раньше окна', status: 'ok', guest: 'Считыватель отвечает «Рано» и показывает его окно. Если освободилось раньше, гостю это предлагали на телефоне.', staff: 'Не пропускает, называет время.', jump: ['staff', 'Экран сотрудника'] },
-    { t: 'Хочет прийти раньше', status: 'ok', guest: 'Если место освободилось, на карточке появляется «Освободилось раньше» — перенос одним нажатием.', staff: 'Не участвует.', jump: ['guest:list', 'Карточка с записью'] },
+    { t: 'Хочет прийти раньше', status: 'ok', guest: 'Если место освободилось, на полосе записи появляется пунктирная отметка «можно раньше» и кнопка «Прийти раньше» — перенос одним нажатием, полоса сразу становится короче. Пока аттракцион стоит, раньше конца остановки плюс 5 минут на дорогу не предлагается: у стойки такого гостя не пустили бы.', staff: 'Не участвует.', jump: ['guest:list', 'Карточка с записью'] },
     { t: 'Пришла не вся группа', status: 'ok', guest: 'Списывается только за пришедших, остальные места возвращаются в продажу. За платный проход часть денег возвращается.', staff: 'Вводит, сколько человек проходит.', jump: ['staff', 'Экран сотрудника'] },
     { t: 'Передумал и отменил', status: 'ok', guest: 'Отменяет запись на карточке в два нажатия. Место сразу возвращается в продажу, можно записаться заново. Деньги за платный проход возвращаются на карту.', staff: 'Не участвует.', jump: ['guest:list', 'Карточка с записью'] },
     { t: 'Нужна вторая запись', status: 'ok', guest: 'Пока есть активная запись, вторую не дают: «Сначала пройдите или отмените». Платный проход «без очереди» можно купить отдельно.', staff: 'Не участвует.', note: 'Лимит записей на карту — настройка парка.', jump: ['guest:list', 'Список аттракционов'] },
-    { t: 'Аттракцион остановили', status: 'ok', guest: 'Если остановку поставили на время, обычные записи сдвигаются на это время, гостю уходит сообщение; кому не хватило места до закрытия — запись отменяется. Платный проход при остановке не сдвигается: запись отменяется, деньги возвращаются. Если остановили «до запуска», без срока, отменяются все записи на аттракцион.', staff: 'Не пропускает: «Аттракцион остановлен — посадки нет».', jump: ['director', 'Экран директора'] },
+    { t: 'Аттракцион остановили', status: 'ok', guest: 'Если остановку поставили на время, обычные записи сдвигаются на это время, гостю уходит сообщение; кому не хватило места до закрытия — запись отменяется. Платный проход при остановке не сдвигается: запись отменяется, деньги возвращаются. Если остановили «до запуска», без срока, отменяются все записи на аттракцион. На полосе гостя видно «было → стало» и причину: отметки переезжают, остановка заштрихована, как пробка в навигаторе.', staff: 'Не пропускает: «Аттракцион остановлен — посадки нет».', jump: ['director', 'Экран директора'] },
     { t: 'Стоп парка (гроза)', status: 'ok', guest: 'Все записи отменяются, всем уходит сообщение, деньги за платный проход возвращаются на карту.', staff: 'Не пропускает никого.', jump: ['director', 'Экран директора'] },
     { t: 'Нет связи с Лаймом', status: 'part', guest: 'В модели уже записанных пускают по сохраненному списку. Работа нескольких считывателей с балансом и разбор конфликтующих списаний не реализованы. Новая запись и покупка платного прохода временно недоступны, обычная очередь работает.', staff: 'Видит пометку «нет связи», пропускает по сохранённому списку.', q: 'Как считыватель без связи списывает катание — с сохранённого баланса? Как не допустить двойной траты, если гость в это время тратит деньги с той же карты на кассе?', to: 'Лайм', jump: ['staff', 'Экран сотрудника'] },
-    { t: 'Без смартфона', status: 'ok', guest: 'Кассир записывает по номеру карты и печатает талон с окном. Вызов — на экранах у касс.', staff: 'Кассир.', jump: ['cashier', 'Экран кассы'] },
+    { t: 'Без смартфона', status: 'ok', guest: 'Кассир записывает по номеру карты и печатает талон с окном. На талоне нет полосы и отсчёта: вызов — на экранах у касс.', staff: 'Кассир.', jump: ['cashier', 'Экран кассы'] },
     { t: 'На карте не хватает денег', status: 'part', guest: 'На входе отказ: «Пополните карту на кассе». Пока гость идёт к кассе, окно и 10 минут опоздания могут закончиться.', staff: 'Не пропускает.', q: 'Держать ли место, пока гость пополняет карту, и сколько? Предупреждать ли о балансе при записи?', to: 'Парк', jump: ['staff', 'Экран сотрудника'] },
     { t: 'Ребёнок не прошёл по росту или весу', status: 'part', guest: 'Телефон только подсказывает по данным сайта. Решает сотрудник у входа: остальные проходят, за ребёнка не списывается.', staff: 'Вводит число проходящих без ребёнка.', q: 'Если ребёнок не проходит, а один он остаться не может — пропадает ли запись у всей группы? Можно ли перенести её на другой аттракцион?', to: 'Парк', jump: ['staff', 'Экран сотрудника'] },
     { t: 'Аттракцион «только со взрослым»', status: 'open', guest: 'Ребёнок до определённого роста катается только со взрослым. В прототипе взрослый — просто член группы и платит как все.', staff: 'Проверяет, что взрослый есть.', note: 'В отзыве из Яндекс Карт от 02.08.2026 маму не пустили сопроводить ребёнка без билета — гость этого не ждал.', q: 'Платит ли сопровождающий взрослый полную цену? Как это заведено в Лайме — отдельной услугой или тем же катанием?', to: 'Парк и Лайм', jump: ['guest:list', 'Карточки с ограничениями'] },
     { t: 'Гость с пакетом билетов или безлимитом', status: 'open', guest: 'Это существенный денежный поток, но доля гостей по нему не определена: в мае–августе 2026 пакеты дали около 48% выручки кассы, безлимиты — около 21%. В прототипе катание всегда списывается с баланса карты, пакеты и безлимит не смоделированы. Гости замечают, что в безлимит входит не всё: «В безлимитный билет много чего не входит» (2ГИС, 18.07.2026).', staff: '—', q: 'Как считыватель Лайма проводит запись по пакету билетов и по безлимиту? Нужен ли гостю с безлимитом отдельный лимит записей, чтобы он не занимал места весь день? Как это работает с зимними абонементами?', to: 'Лайм', jump: null },
     { t: 'Семья на нескольких картах', status: 'open', guest: 'Запись привязана к одной карте, группа до 8 человек. Две карты одной семьи — две отдельные записи, которые не связаны.', staff: 'Пропускает по каждой карте отдельно.', q: 'Нужно ли записывать семью с разными картами одной группой? Как Лайм связывает карты одной семьи?', to: 'Лайм', jump: null },
-    { t: 'Сел телефон', status: 'part', guest: 'На входе нужна карта, а не телефон, — пройти можно. Но гость не видит, когда идти: вызов есть только на экранах у касс.', staff: 'Пропускает по карте.', q: 'Нужен ли способ узнать своё время без телефона — экран у входа в зону, талон на кассе по запросу?', to: 'Парк', jump: ['cashier', 'Экран кассы'] },
-    { t: 'Потерял карту', status: 'open', guest: 'Запись на номер карты. Что будет после перевыпуска, в прототипе не решено.', staff: '—', q: 'Переносится ли запись и баланс на новую карту при перевыпуске?', to: 'Лайм', jump: null },
-    { t: 'Уведомление на заблокированном телефоне', status: 'open', guest: 'В прототипе уведомление видно, только если страница открыта.', staff: '—', q: 'Как доставлять вызов: браузерные уведомления, SMS, мессенджер? Кто платит за SMS?', to: 'Лайм', jump: ['guest:msgs', 'Сообщения гостя'] },
+    { t: 'Сел телефон', status: 'part', guest: 'Гость с пластиковой картой или браслетом проходит по ним, но не видит, когда идти: вызов есть только на экранах у касс. Если карта гостя — QR в телефоне, см. случай «QR-карта, а телефон сел».', staff: 'Пропускает по карте или браслету.', q: 'Нужен ли способ узнать своё время без телефона — экран у аттракциона, талон на кассе по запросу?', to: 'Парк', jump: ['cashier', 'Экран кассы'] },
+    { t: 'Потерял карту', status: 'open', guest: 'Запись на номер пластиковой карты или браслета. Что будет после перевыпуска, в прототипе не решено. Потерянный телефон с QR-картой — отдельный случай ниже.', staff: '—', q: 'Переносится ли запись и баланс на новую карту при перевыпуске?', to: 'Лайм', jump: null },
+    { t: 'Уведомление на заблокированном телефоне', status: 'open', guest: 'В прототипе полоса и уведомление видны, только если страница открыта. Полосу на экране блокировки, как у такси, веб-страница не покажет: по документации платформ это умеют только приложения (Live Activities в iOS, Live Updates в Android). Сам вызов дойти может: на Android обычная страница в Chrome присылает уведомление, если гость его разрешил; на iPhone — только сайт, добавленный на главный экран (iOS 16.4 и новее), или карта в Apple Wallet. QR-карта привязана к номеру телефона, поэтому «Пора идти» можно было бы слать SMS.', staff: '—', q: 'Как доставлять вызов: браузерные уведомления, SMS на номер QR-карты, мессенджер, карта в Apple Wallet? Кто платит за SMS?', to: 'Лайм', jump: ['guest:msgs', 'Сообщения гостя'] },
+    // r12: случаи QR-карты в телефоне
+    { t: 'QR переслали скриншотом', status: 'part', guest: 'QR-карта — это код на экране. Скриншот можно переслать, и по нему пройдёт другой человек, а деньги спишутся с той же карты. Для баланса и пакетов это риск владельца карты, для безлимита — потеря парка: безлимит продаётся на человека. Сейчас безлимит почти всегда на браслете: за 31.08–06.09 из 12 229 проходов по безлимиту 11 848 — по браслетам, 381 — по 22 пластиковым картам, по QR — 0.', staff: 'Видит обычный ответ: по коду не понять, кто его показал.', note: 'Когда QR станет равным выбором на кассе, безлимит может попасть на QR и без решения парка.', q: 'Лайму: можно ли запретить безлимит на QR-карте или сделать QR меняющимся? Парку: нужно ли кассирам правило не класть безлимит на QR-карту?', to: 'Парк и Лайм', jump: ['guest:card', 'Карта в телефоне'] },
+    { t: 'QR-карта, а телефон сел', status: 'open', guest: 'QR не показать, записаться и увидеть полосу тоже нельзя. Запись и деньги остаются на карте, но без кода сотрудник гостя не пропустит, а 32 знака наизусть никто не помнит.', staff: 'Пропустить не может: нужен код карты.', q: 'Может ли касса найти QR-карту по номеру телефона и напечатать бумажный QR?', to: 'Лайм', jump: ['cashier', 'Экран кассы'] },
+    { t: 'Нет интернета', status: 'part', guest: 'Если страница карты уже открыта, QR на экране остаётся: в прототипе он рисуется на самом телефоне. Записаться, увидеть, как сдвинулась полоса, и получить «Пора идти» без связи нельзя.', staff: 'Сканирует QR как обычно.', q: 'Работает ли QR-карта без интернета — сохранённой картинкой или в кошельке телефона?', to: 'Лайм', jump: ['guest:card', 'Карта в телефоне'] },
+    { t: 'Семья с одним телефоном', status: 'ok', guest: 'Одна QR-карта — одна запись на группу от 1 до 8 человек. Вся семья проходит по одному QR, списывается за каждого пришедшего.', staff: 'Вводит, сколько человек проходит.', jump: ['staff', 'Экран сотрудника'] },
+    { t: 'Потерял телефон', status: 'open', guest: 'Код QR-карты остался в потерянном телефоне, и им может воспользоваться нашедший. Карта привязана к номеру телефона — вероятно, её можно заблокировать и выдать заново, но это не проверено.', staff: '—', q: 'Можно ли заблокировать QR-карту и восстановить баланс и запись по номеру телефона?', to: 'Лайм', jump: null },
+    { t: 'Есть карта и QR сразу', status: 'part', guest: 'Это две разные карты Лайма со своими балансами: деньги между ними сами не переходят. Лимит записей считается на каждую карту, поэтому у одного гостя может быть две записи.', staff: 'Пропускает по той карте, на которую запись.', q: 'Можно ли объединить пластиковую карту и QR-карту одного гостя или перенести баланс? Считать ли лимит записей на гостя, а не на карту?', to: 'Лайм', jump: ['guest:qr', 'Экран входа гостя'] },
   ],
 };
 
@@ -1735,17 +1944,17 @@ const JD = {
     { t: 'Добирается и входит', when: 'Дорога, парковка, вход в парк',
       guest: 'Едет, ищет парковку, входит в парк.',
       mood: { v: 0, k: 'hyp', t: 'Нейтрально или раздражение из-за парковки.' },
-      lime: 'Не видит: турникета на входе в данных нет, первое событие в Лайме — покупка на кассе или проход на аттракцион.',
+      lime: 'Не видит: турникета на входе в данных нет, первое событие в Лайме — покупка на кассе, покупка на сайте или проход на аттракцион.',
       module: null,
       other: 'Навигация и парковка — вне модуля.',
       ev: [{ k: 'site', src: 'site-data.json: how_to_get' }, { k: 'lime', src: 'отчёты по данным Лайма: входа в данных нет' }] },
     { t: 'Касса: карта, пакет или безлимит', when: 'После входа; длительность не измерена',
-      guest: 'Покупает карту или браслет и выбирает: пакет билетов (6–70 билетов, 2 100–10 000 ₽), безлимит (2 500 ₽ за одного, 2 200 ₽ на двоих, 2 000 ₽ на троих и больше — за человека) или пополнение баланса. Цены здесь из исследования выгрузки Лайма за март-июль 2026; действующие условия надо уточнить у парка.',
+      guest: 'Покупает карту (70 ₽) или браслет — или уже пришёл с QR-картой с сайта — и выбирает: пакет билетов (6–70 билетов, 2 100–10 000 ₽), безлимит (2 500 ₽ за одного, 2 200 ₽ на двоих, 2 000 ₽ на троих и больше — за человека) или пополнение баланса. Цены здесь из исследования выгрузки Лайма за март-июль 2026; действующие условия надо уточнить у парка.',
       mood: { v: -1, k: 'hyp', t: 'Очередь в кассу и выбор из многих вариантов.' },
       lime: 'В доступной выгрузке есть товар, сумма и способ оплаты. Май–август 2026: 171 130 чеков, средний чек 2 028 ₽; пакеты — около 48% выручки кассы, безлимит — 21%, пополнения — 22%, «Бустер» (продаётся отдельно, в безлимит не входит) — 8%.',
-      module: 'Кассир может записать в очередь гостя без телефона и напечатать талон. На кассе же гость видит QR страницы очереди.',
+      module: 'Кассир может записать в очередь гостя без телефона и напечатать талон. У кассы — стенд с QR: по нему гость открывает страницу очереди или получает QR-карту по номеру телефона (предложение r12; выпуск QR со стенда Лайм не подтверждал).',
       jump: ['cashier', 'Экран кассы'],
-      other: 'Очередь в саму кассу модуль не убирает: нужно отдельно проверить, помогут ли дополнительные кассы или онлайн-пополнение. Пополнение карты онлайн уже есть — гости его хвалят. Цены — самая частая жалоба в отзывах: 30 из 271.',
+      other: 'Гость с QR-картой с сайта и онлайн-пополнением кассу пропускает — кроме безлимита: он продаётся только в кассе. Очередь в саму кассу модуль не убирает: нужно отдельно проверить, помогут ли дополнительные кассы или онлайн-пополнение. Пополнение карты онлайн уже есть — гости его хвалят. Цены — самая частая жалоба в отзывах: 30 из 271.',
       heroes: { teen: 'Чаще пополняют баланс на небольшую сумму или берут пакет на компанию.', regular: 'Приходят со своей картой и пополняют её. По карте их не посчитать: в исследованной выборке пересечение карт между 2025 и 2026 годами составило 12,5%. Карта не равна человеку; причина низкого пересечения не установлена.' },
       winter: 'Зимние абонементы и каток.',
       ev: [{ k: 'lime', n: 'май–авг 2026', src: 'vokrugsveta-season-2026/out/metrics.json' }, { k: 'lime', n: 'прайс 2026', src: 'vokrugsveta-unlimited-research-2026-07/RESULTS.md, outputs/price_ladder.csv' }, { k: 'review', n: 'цены 30 из 271, очередь в кассу 3 из 271', src: 'scratchpad/cjm/summary.md' }],
@@ -1845,8 +2054,11 @@ const JR = {
     'Как собраны: отзывы Яндекса — со страницы в браузере; тексты 2ГИС, по журналу автора, получены через API, а не чтением в браузере. Это отклонение от принятого способа сбора. В текущем аудите использован сохраненный корпус; способ сбора задним числом не подтверждается.',
   ],
 };
-const JQS = JQ.edges.filter(e => e.q).map(e => ({ to: e.to === 'Лайм' ? 'Лайму' : (e.to === 'Парк' ? 'Парку' : 'Парку и Лайму'), q: e.q, stage: 'Запись в очередь: ' + e.t.toLowerCase() })).concat([
-  { to: 'Парку', q: 'Есть ли QR на картах и браслетах? Где удобнее разместить QR страницы очереди: на кассе, у входа в зону, на самой карте?', stage: 'Запись в очередь: открывает страницу' },
+const JQS = JQ.edges.filter(e => e.q).map(e => ({ to: e.to === 'Лайм' ? 'Лайму' : (e.to === 'Парк' ? 'Парку' : 'Парку и Лайму'), q: e.q, stage: 'Запись в очередь: ' + (/^[A-ZА-ЯЁ]{2}/.test(e.t) ? e.t : e.t.charAt(0).toLowerCase() + e.t.slice(1)) })).concat([
+  { to: 'Парку', q: 'Есть ли QR страницы очереди на картах и браслетах? Где ставить стенд с QR: у касс, у входа в парк, у аттракционов?', stage: 'Запись в очередь: открывает страницу' },
+  { to: 'Парку', q: 'Сколько будет стоить QR-карта со стенда и на кассе? На сайте она сейчас 0 ₽, пластиковая карта — 70 ₽. Сколько парку стоит сама пластиковая карта и браслет? Нужно ли на стенде согласие на обработку номера телефона?', stage: 'Полоса и QR-карта' },
+  { to: 'Лайму', q: 'Каким способом считыватели принимают QR — сканер, камера или ручной ввод — и можно ли так же принимать его у стойки электронной очереди? Что зашито в QR-карту — сам код или ссылка с кодом? Если ссылка, примут ли её считыватели? Можно ли штатно выпускать QR-карту на кассе, на автокассе и со стенда и прислать её повторно по номеру телефона?', stage: 'Полоса и QR-карта' },
+  { to: 'Парку и Лайму', q: 'Замерить время прохода по QR и по карте в пик на одной-двух точках — кто и когда?', stage: 'Полоса и QR-карта' },
   { to: 'Парку', q: 'Где стоит считыватель Лайма на аттракционах — перед очередью или у посадки? От этого зависит, что вообще значат данные Лайма о проходах.', stage: 'Главные аттракционы и очереди' },
   { to: 'Парку', q: 'Ведёт ли парк журнал остановок аттракционов? В Лайме остановок нет.', stage: 'Аттракцион встал или погода' },
   { to: 'Парку: ограничения на сайте', q: 'Летучий голландец: в правилах «до 120 кг на одно сиденье», а в карточке «до 150 кг». Какое значение верное?', stage: 'Ребёнку не подходит аттракцион' },
@@ -1856,6 +2068,178 @@ const JQS = JQ.edges.filter(e => e.q).map(e => ({ to: e.to === 'Лайм' ? 'Л�
   { to: 'Парку: ограничения на сайте', q: '«Детский автодром 10 мин» и «Мини автодром» в кассе — это разные аттракционы? Какие ограничения у детского?', stage: 'Ребёнку не подходит аттракцион' },
   { to: 'Парку: ограничения на сайте', q: 'Можно ли получить фотографии аттракционов парка вместо картинок того же типа?', stage: 'Решает поехать' },
 ]).sort((a, b) => a.to.localeCompare(b.to, 'ru'));
+
+/* r12: QR-код для экрана «Карта в телефоне». Свой кодировщик без библиотек:
+   байтовый режим, коррекция M, версии 1–6 (до 106 байт). Проверен распознаванием macOS (CIDetector). */
+function qrMatrix(text, forceMask){
+  const EXP = new Array(512), LOG = new Array(256);
+  for (let i = 0, x = 1; i < 255; i++){ EXP[i] = x; LOG[x] = i; x <<= 1; if (x & 0x100) x ^= 0x11d; }
+  for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255];
+  const mul = (a, b) => (a && b) ? EXP[LOG[a] + LOG[b]] : 0;
+  const rs = (data, n) => {
+    let g = [1];
+    for (let i = 0; i < n; i++){ const ng = new Array(g.length + 1).fill(0); for (let j = 0; j < g.length; j++){ ng[j] ^= g[j]; ng[j + 1] ^= mul(g[j], EXP[i]); } g = ng; }
+    const res = new Array(n).fill(0);
+    for (const d of data){ const f = d ^ res[0]; res.shift(); res.push(0); for (let j = 0; j < n; j++) res[j] ^= mul(g[j + 1], f); }
+    return res;
+  };
+  // версия: [блоков, данных в блоке, коррекции в блоке, выравнивание]
+  const VER = [null, [1,16,10,[]], [1,28,16,[6,18]], [1,44,26,[6,22]], [2,32,18,[6,26]], [2,43,24,[6,30]], [4,27,16,[6,34]]];
+  const bytes = Array.from(new TextEncoder().encode(String(text)));
+  let v = 1; while (v < 7 && VER[v][0] * VER[v][1] * 8 < 12 + bytes.length * 8) v++;
+  if (v > 6) throw new Error('QR: слишком длинный текст');
+  const [nb, nd, ne, al] = VER[v], cap = nb * nd;
+  const bits = [], put = (val, len) => { for (let i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1); };
+  put(4, 4); put(bytes.length, 8); bytes.forEach(b => put(b, 8));
+  put(0, Math.min(4, cap * 8 - bits.length)); while (bits.length % 8) bits.push(0);
+  const data = []; for (let i = 0; i < bits.length; i += 8) data.push(parseInt(bits.slice(i, i + 8).join(''), 2));
+  for (let p = 0; data.length < cap; p++) data.push(p % 2 ? 0x11 : 0xec);
+  const blocks = []; for (let b = 0; b < nb; b++){ const d = data.slice(b * nd, (b + 1) * nd); blocks.push({ d, e: rs(d, ne) }); }
+  const cw = []; for (let i = 0; i < nd; i++) blocks.forEach(b => cw.push(b.d[i])); for (let i = 0; i < ne; i++) blocks.forEach(b => cw.push(b.e[i]));
+  const size = 17 + 4 * v;
+  const M = Array.from({ length: size }, () => new Array(size).fill(false));
+  const F = Array.from({ length: size }, () => new Array(size).fill(false));
+  const set = (x, y, d) => { M[y][x] = d; F[y][x] = true; };
+  for (let i = 0; i < size; i++){ set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
+  const finder = (cx, cy) => { for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++){ const x = cx + dx, y = cy + dy; if (x < 0 || y < 0 || x >= size || y >= size) continue; const d = Math.max(Math.abs(dx), Math.abs(dy)); set(x, y, d !== 2 && d !== 4); } };
+  finder(3, 3); finder(size - 4, 3); finder(3, size - 4);
+  for (const ay of al) for (const ax of al){ if ((ax === 6 && ay === 6) || (ax === 6 && ay === al[al.length - 1]) || (ay === 6 && ax === al[al.length - 1])) continue;
+    for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) set(ax + dx, ay + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1); }
+  const fmt = mask => { const d = (0 << 3) | mask; let r = d; for (let i = 0; i < 10; i++) r = (r << 1) ^ ((r >>> 9) * 0x537); const b = ((d << 10) | r) ^ 0x5412; const g = i => ((b >>> i) & 1) === 1;
+    for (let i = 0; i <= 5; i++) set(8, i, g(i)); set(8, 7, g(6)); set(8, 8, g(7)); set(7, 8, g(8)); for (let i = 9; i < 15; i++) set(14 - i, 8, g(i));
+    for (let i = 0; i < 8; i++) set(size - 1 - i, 8, g(i)); for (let i = 8; i < 15; i++) set(8, size - 15 + i, g(i)); set(8, size - 8, true); };
+  fmt(0);
+  const stream = []; cw.forEach(c => { for (let i = 7; i >= 0; i--) stream.push((c >>> i) & 1); });
+  let k = 0;
+  for (let right = size - 1; right >= 1; right -= 2){
+    if (right === 6) right = 5;
+    for (let vert = 0; vert < size; vert++) for (let j = 0; j < 2; j++){
+      const x = right - j, up = ((right + 1) & 2) === 0, y = up ? size - 1 - vert : vert;
+      if (!F[y][x]){ M[y][x] = k < stream.length ? stream[k] === 1 : false; k++; }
+    }
+  }
+  const MASKS = [(x,y)=>(x+y)%2===0, (x,y)=>y%2===0, (x,y)=>x%3===0, (x,y)=>(x+y)%3===0, (x,y)=>(Math.floor(x/3)+Math.floor(y/2))%2===0, (x,y)=>x*y%2+x*y%3===0, (x,y)=>(x*y%2+x*y%3)%2===0, (x,y)=>((x+y)%2+x*y%3)%2===0];
+  const apply = m => { for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (!F[y][x] && MASKS[m](x, y)) M[y][x] = !M[y][x]; };
+  const penalty = () => { let p = 0, dark = 0;
+    for (let a = 0; a < 2; a++) for (let i = 0; i < size; i++){ let run = 1; for (let j = 1; j < size; j++){ const c = a ? M[j][i] : M[i][j], q = a ? M[j - 1][i] : M[i][j - 1]; if (c === q){ run++; if (run === 5) p += 3; else if (run > 5) p++; } else run = 1; } }
+    for (let y = 0; y < size - 1; y++) for (let x = 0; x < size - 1; x++){ const c = M[y][x]; if (c === M[y][x + 1] && c === M[y + 1][x] && c === M[y + 1][x + 1]) p += 3; }
+    const pat = [1,0,1,1,1,0,1], line = get => { for (let i = 0; i + 7 <= size; i++){ let ok = true; for (let t = 0; t < 7 && ok; t++) ok = (get(i + t) ? 1 : 0) === pat[t]; if (!ok) continue; const lw = (s, e) => { for (let t = s; t < e; t++) if (t >= 0 && t < size && get(t)) return false; return true; }; if (lw(i - 4, i) || lw(i + 7, i + 11)) p += 40; } };
+    for (let i = 0; i < size; i++){ line(j => M[i][j]); line(j => M[j][i]); }
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (M[y][x]) dark++;
+    const tot = size * size; p += 10 * Math.max(0, Math.ceil(Math.abs(dark * 20 - tot * 10) / tot) - 1);
+    return p; };
+  let best = 0, bestP = Infinity;
+  for (let m = 0; m < 8; m++){ apply(m); fmt(m); const p = penalty(); if (p < bestP){ bestP = p; best = m; } apply(m); }
+  if (forceMask != null) best = forceMask;
+  apply(best); fmt(best);
+  return { size, version: v, mask: best, M };
+}
+function qrSvg(text, label){
+  const q = qrMatrix(text), n = q.size + 8;
+  let d = ''; for (let y = 0; y < q.size; y++) for (let x = 0; x < q.size; x++) if (q.M[y][x]) d += `M${x + 4} ${y + 4}h1v1h-1z`;
+  return `<svg class="qrcode" viewBox="0 0 ${n} ${n}" role="img" aria-label="${label || 'QR-код'}" shape-rendering="crispEdges"><rect width="${n}" height="${n}" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;
+}
+if (typeof module !== 'undefined' && module.exports) module.exports = { qrMatrix, qrSvg };
+
+// r12: раздел вкладки «Путь гостя» — полоса пути и QR-карта в телефоне.
+// Источники чисел: сайт парка (vokrugsveta-site-independent-2026-10, facts.md r02, стр. 20–22);
+// Лайм — gk-weekly: 2026-W23…W36 raw/by_tariff_cur.json (01.06–31.08), W23…W35 by_op_tariff_cur.json и by_op_register_cur.json (01.06–30.08),
+// 2026-W36 _lime_raw_cur_cashdesk.json и _lime_raw_cur_service.json (31.08–06.09). Документация платформ — WebKit (16.02.2023), Apple ActivityKit, Android Live Updates.
+const JI = {
+  intro: 'Две идеи r12: полоса пути вместо «сколько людей впереди» и QR-карта в телефоне наравне с пластиковой картой. Что получают гость, парк и Лайм, как гость получает QR-карту и кладёт на неё деньги, чем день семьи с QR отличается от дня с картой и какие вопросы остаются. Числа — из выгрузок Лайма и с сайта парка; минуты на экране гостя — из учебной модели, это не замер.',
+  bar: {
+    how: 'На записи — отсчёт до «Пора идти» и полоса: записались → пора идти → окно 15 минут → 10 минут на опоздание. Полоса ведёт к «Пора идти», а не к началу окна: к этому моменту гостю пора выходить. Встал аттракцион — отметки переезжают, видно «было → стало» и причину. Освободилось место — на той же полосе пунктирная отметка «можно раньше» и кнопка.',
+    why: 'Почему нет «перед вами N человек». В электронной очереди гость не стоит в линии: места выдаются окнами по 15 минут, группы бывают от 1 до 8 человек, электронным гостям отдают долю мест каждого цикла, а остановка сдвигает всех сразу. Число людей впереди не говорит, когда идти, и при остановке не меняется, хотя время меняется. Поэтому полоса показывает время, как навигатор: остановка — как пробка, «можно раньше» — как «есть маршрут быстрее».',
+    gets: [
+      ['Гость', 'Видит, сколько осталось до «Пора идти» и почему время сдвинулось. Переносит запись раньше одной кнопкой.'],
+      ['Парк', 'Возможно, меньше вопросов «когда нам» у стойки и больше занятых мест после отмен. Это гипотезы: не замерено.'],
+      ['Лайм', 'Ничего нового: полосу считает модуль из времени записи и остановок, которые уже есть в модуле.'],
+    ],
+    limit: 'Полоса видна только на открытой странице. На экране блокировки её, как у такси, веб-страница не покажет: по документации платформ это умеют только приложения (Live Activities в iOS, Live Updates в Android). Сам вызов «Пора идти» на заблокированный телефон дойти может: на Android обычная страница в Chrome присылает уведомление, если гость его разрешил; на iPhone — сайт, добавленный на главный экран (iOS 16.4 и новее), или карта в Apple Wallet: по документации Apple она сама выходит на экран блокировки к нужному времени и обновляется уведомлением. Каким путём слать вызов — вопрос Лайму о доставке вызова.',
+  },
+  qr: {
+    now: 'QR-карта уже есть. На сайте парка гость вводит номер телефона, и QR за 0 ₽ приходит на этот номер; у карты свой код из 32 знаков (у пластиковой карты — 8, у браслета — 10). За 01.06–31.08 выдано 4 935 QR — 6,9% всех выданных карт, браслетов и QR (4 935 из 72 039) и 11,3% новых карт и QR без браслетов (4 935 из 43 698). Это доля канала, а не выбор гостей: за 01.06–30.08 из 4 910 QR сайт выдал 4 881, кассы — 29, а пластиковую карту продают кассы и автокассы.',
+    gets: [
+      ['Гость', 'Карта без похода в кассу и без 70 ₽. Одна карта для кассы, аттракциона и электронной очереди. Минусы: телефон садится, код можно переслать.'],
+      ['Парк', 'Меньше пластика и, возможно, короче очередь в кассу — не замерено. Минус: карта — это доход. За 01.06–31.08 карты принесли 2 452 300 ₽ — 0,85% всех продаж парка за те же 92 дня; карта стоила 50 ₽ в июне и 70 ₽ с 01.07. Если бы все 38 763 покупателя карт за лето взяли бесплатный QR, парк недополучил бы до 2,45 млн ₽ минус себестоимость пластика (она неизвестна). Сколько гостей перейдёт на QR, не измерено.'],
+      ['Лайм', 'QR-карты и проходы по ним уже работают: за 31.08–06.09 — 819 проходов в 43 из 49 точек считывания. Для r12 нужно выпускать QR-карту со стенда и на кассе и принимать QR у стойки электронной очереди.'],
+    ],
+    module: 'В модуле QR работает в двух местах: на странице очереди (гость с QR-картой встаёт кнопкой с экрана «Карта в телефоне», свой экран не сканирует) и у стойки электронной очереди (сотрудник сканирует QR с телефона или бумажный QR). Касса, автокасса и обычный проход на аттракцион — сторона Лайма: в модуле они не построены, здесь только описаны.',
+  },
+  entries: [
+    { h: 'Онлайн до визита', st: 'ok', tag: 'работает сейчас',
+      get: 'На сайте парка вводит номер телефона — QR-карта за 0 ₽ приходит на этот номер.',
+      money: 'Пополняет на сайте. За 31.08–06.09 по QR-картам через сайт — 66 пополнений депозита по 55 картам, ещё покупали пакеты билетов.',
+      q: null, jump: ['guest:card', 'Карта в телефоне'] },
+    { h: 'Стенд у кассы и у входа в парк', st: 'part', tag: 'предложение r12',
+      get: 'Сканирует QR на стенде, вводит номер телефона — QR-карта приходит на этот номер, как на сайте: так заодно видно, что номер свой. В прототипе — кнопка «Нет карты — получить QR-карту по номеру», карта открывается сразу.',
+      money: 'На сайте или на кассе, показав QR. QR-карты пополняют и на кассах: за 31.08–06.09 — 28 пополнений по 26 картам на 7 кассах.',
+      q: 'Цена QR-карты со стенда — решение парка (на сайте 0 ₽). Можно ли выпускать QR-карту со стенда — вопрос Лайму.', jump: ['guest:issue', 'Стенд: получить QR-карту'] },
+    { h: 'Касса или автокасса', st: 'part', tag: 'сторона Лайма',
+      get: 'Кассир предлагает выбор: карта за 70 ₽ или QR-карта на телефон по номеру. Гостю без телефона печатает бумажный QR.',
+      money: 'На кассе, в том же подходе.',
+      q: 'За 01.06–30.08 кассы выдали 29 QR из 4 910 (на 7 кассах). Штатная ли это функция и можно ли выдавать QR на автокассе — вопрос Лайму; цена QR на кассе — решение парка.', jump: ['cashier', 'Экран кассы'] },
+  ],
+  // П4: день семьи — по шагам; n — действия гостя, k — подходы к кассе; cmp — QR против карты
+  family: [
+    { s: 'Получил карту', card: 'Касса или автокасса: покупает карту за 70 ₽.', cn: 1, ck: 1, qr: 'Дома на сайте: номер телефона → QR-карта, 0 ₽.', qn: 1, qk: 0, cmp: 'короче', why: 'без кассы и без 70 ₽' },
+    { s: 'Пополнил', card: 'Там же, на кассе.', cn: 1, ck: 0, qr: 'Там же, на сайте.', qn: 1, qk: 0, cmp: 'так же', why: 'одно действие, но без кассы' },
+    { s: 'Обычный проход на аттракцион', card: 'Прикладывает карту к считывателю.', cn: 1, ck: 0, qr: 'Показывает QR с экрана.', qn: 1, qk: 0, cmp: 'так же', why: 'скорость прохода по QR не измерена' },
+    { s: 'Запись в очередь', card: 'Сканирует QR на карте или стенде, нажимает «Встать в очередь».', cn: 2, ck: 0, qr: 'Открывает «Карту в телефоне», нажимает «Встать в очередь». Свой экран не сканирует.', qn: 2, qk: 0, cmp: 'так же', why: '' },
+    { s: '«Пора идти»', card: 'Получает вызов на открытой странице.', cn: 0, ck: 0, qr: 'То же.', qn: 0, qk: 0, cmp: 'так же', why: '' },
+    { s: 'Погашение у стойки электронной очереди', card: 'Прикладывает карту.', cn: 1, ck: 0, qr: 'Показывает QR — кнопка «Показать QR для стойки».', qn: 1, qk: 0, cmp: 'так же', why: 'без заряда телефона не пройти' },
+  ],
+  familyNote: 'Сравнение — для семьи, которая пришла без карты. У семьи со своей картой с прошлого раза и пополнением на сайте подходов к кассе тоже 0: выигрыш QR — у тех, кто пришёл без карты. Со стенда в парке QR-карта получается за 2 действия (скан и номер телефона) вместо 1 на сайте — путь на одно действие длиннее, но тоже без кассы. Если класть деньги на кассе, добавляется 1 подход к кассе. Очередь в кассу и время прохода не замерены: сравниваются только действия и подходы.',
+  unlimited: [
+    { s: 'Купил безлимит', now: 'Касса: безлимит на каждого, браслеты по 0 ₽.', n: 1, k: 1, qr: 'Безлимит продаётся только в кассе — тот же подход. Класть ли его на QR-карту, решают парк и Лайм (риск пересылки).', qn: 1, qk: 1, cmp: 'так же' },
+    { s: 'Обычный проход', now: 'Браслет к считывателю.', n: 1, k: 0, qr: 'То же: браслет.', qn: 1, qk: 0, cmp: 'так же' },
+    { s: 'Запись в очередь', now: 'Сканирует QR страницы очереди, нажимает «Встать в очередь».', n: 2, k: 0, qr: 'То же.', qn: 2, qk: 0, cmp: 'так же' },
+    { s: '«Пора идти» и погашение', now: 'Вызов на странице, браслет у стойки.', n: 1, k: 0, qr: 'То же.', qn: 1, qk: 0, cmp: 'так же' },
+  ],
+  unlimitedNote: 'Семье с безлимитом QR-карта кассу не убирает: безлимит продаётся только в кассе парка. Сейчас он почти всегда на браслете: за 31.08–06.09 из 12 229 проходов по безлимиту 11 848 (96,9%) — по браслетам, 381 — по 22 пластиковым картам, по QR — 0. Как безлимит гасится в электронной записи, прототип не показывает — это открытый вопрос к Лайму в «Записи в очередь».',
+  risks: [
+    { h: 'Нет «людей впереди»', st: 'ok', t: 'Полоса показывает время до «Пора идти» и причину сдвига. Число людей впереди не показываем: в электронной очереди оно не говорит, когда идти.' },
+    { h: '«Можно раньше» внутри остановки', st: 'ok', t: 'В r11 сразу после остановки гостю предлагали окно внутри неё, а у стойки потом отказывали. В r12 раньше конца остановки плюс 5 минут на дорогу не предлагается — это проверяет новый тест движка.' },
+    { h: 'Полоса не видна на заблокированном телефоне', st: 'open', t: 'Веб-страница не выводит полосу на экран блокировки (документация платформ). Вызов дойти может: на Android — уведомлением страницы с разрешения гостя, на iPhone — с главного экрана или через карту в Apple Wallet. QR-карта привязана к номеру телефона, поэтому «Пора идти» можно было бы слать и SMS.', q: 'Как доставлять вызов: браузерные уведомления, SMS на номер QR-карты, мессенджер? Кто платит за SMS?', to: 'Лайму' },
+    { h: 'QR переслали скриншотом', st: 'part', t: 'По пересланному коду пройдёт другой человек. Для безлимита это потеря парка: он продаётся на человека. По QR безлимитом пока не проходили, но на пластиковых картах он уже бывает (381 проход по 22 картам за 31.08–06.09).', q: 'Лайму: можно ли запретить безлимит на QR-карте или сделать QR меняющимся? Парку: нужно ли кассирам правило не класть безлимит на QR-карту?', to: 'Парку и Лайму' },
+    { h: 'Сел телефон', st: 'open', t: 'Гость с QR-картой не покажет код и не увидит полосу. Гость с пластиковой картой пройдёт, но не узнает, когда идти.', q: 'Может ли касса найти QR-карту по номеру телефона и напечатать бумажный QR?', to: 'Лайму' },
+    { h: 'Как считыватели принимают QR', st: 'part', t: 'Принимают: за 31.08–06.09 — 819 проходов по QR в 43 из 49 точек считывания. Каким способом — сканер, камера или ручной ввод — в проверенных данных не найдено. В прототипе код QR вводит сотрудник.', q: 'Каким способом считыватели принимают QR — сканер, камера или ручной ввод — и можно ли так же принимать его у стойки электронной очереди? Что зашито в QR-карту — сам код или ссылка с кодом? Если ссылка, примут ли её считыватели?', to: 'Лайму' },
+    { h: 'Скорость прохода по QR и по карте', st: 'open', t: 'Не измерена. Если QR сканируется дольше карты, в пик у стойки соберётся очередь.', q: 'Замерить время прохода по QR и по карте в пик на одной-двух точках — кто и когда?', to: 'Парку и Лайму' },
+    { h: 'Доход от карт', st: 'open', t: 'Бесплатный QR может забрать часть выручки от карт — до 2,45 млн ₽ за лето по верхней границе. Доля перехода не измерена.', q: 'Сколько стоит QR-карта со стенда и на кассе? Сколько парку стоит пластиковая карта?', to: 'Парку' },
+    { h: 'Выпуск QR на кассе, автокассе и со стенда', st: 'open', t: 'Сейчас QR почти всегда выдаёт сайт (4 881 из 4 910 за 01.06–30.08). Выдавал ли Лайм QR на кассе штатно — неизвестно.', q: 'Можно ли штатно выпускать QR-карту на кассе, на автокассе и со стенда и прислать её повторно по номеру телефона?', to: 'Лайму' },
+  ],
+};
+function renderIdeas(){
+  const sum = (a, k) => a.reduce((s, x) => s + x[k], 0);
+  const F = JI.family, U = JI.unlimited;
+  const gets = g => `<div class="gets">${g.map(([w, t]) => `<div><b>${esc(w)}</b>${esc(t)}</div>`).join('')}</div>`;
+  const cnt = k => JI.risks.filter(r => r.st === k).length;
+  const kas = n => n + ' ' + plural(n, 'подход', 'подхода', 'подходов') + ' к кассе';
+  const act = n => n + ' ' + plural(n, 'действие', 'действия', 'действий');
+  return `
+  <div class="j-intro"><p>${esc(JI.intro)}</p></div>
+  <div class="ideas-grid">
+    <div class="box idea-box"><h3>Полоса пути вместо «людей впереди»</h3><p>${esc(JI.bar.how)}</p><p>${esc(JI.bar.why)}</p>${gets(JI.bar.gets)}<p class="small muted">${esc(JI.bar.limit)}</p>${jumpBtn(['guest:list', 'Запись с полосой'])}</div>
+    <div class="box idea-box"><h3>QR-карта в телефоне наравне с картой</h3><p>${esc(JI.qr.now)}</p>${gets(JI.qr.gets)}<p class="small muted">${esc(JI.qr.module)}</p>${jumpBtn(['guest:card', 'Карта в телефоне'])}</div>
+  </div>
+  <h3 style="margin:18px 0 8px">Как гость получает QR-карту и кладёт деньги</h3>
+  <div class="entry">${JI.entries.map(e => `<div><div class="row" style="justify-content:space-between;gap:8px"><h4>${esc(e.h)}</h4><span class="pill ${e.st}">${esc(e.tag)}</span></div>
+    <p><b>Получает:</b> ${esc(e.get)}</p><p><b>Деньги:</b> ${esc(e.money)}</p>${e.q ? `<p class="small"><b>Вопрос:</b> ${esc(e.q)}</p>` : ''}${jumpBtn(e.jump)}</div>`).join('')}</div>
+  <div class="box" style="margin-top:16px"><h3>День семьи: карта и QR-карта рядом</h3>
+    <p class="small muted">Семья платит с баланса карты. Действие — то, что гость делает сам: покупка, пополнение, скан, нажатие, проход.</p>
+    <div class="tbl-wrap" style="overflow-x:auto"><table class="paths"><thead><tr><th>Шаг</th><th>С пластиковой картой</th><th>С QR-картой с сайта</th><th>QR против карты</th></tr></thead><tbody>
+    ${F.map(r => `<tr><td>${esc(r.s)}</td><td>${esc(r.card)} <span class="small muted">${act(r.cn)}${r.ck ? ', ' + kas(r.ck) : ''}</span></td><td>${esc(r.qr)} <span class="small muted">${act(r.qn)}${r.qk ? ', ' + kas(r.qk) : ''}</span></td><td class="v"><span class="pill ${r.cmp === 'короче' ? 'ok' : r.cmp === 'длиннее' ? 'open' : 'part'}">${esc(r.cmp)}</span>${r.why ? `<div class="small muted" style="white-space:normal">${esc(r.why)}</div>` : ''}</td></tr>`).join('')}
+    </tbody><tfoot><tr><td>Итого</td><td>${act(sum(F, 'cn'))}, ${kas(sum(F, 'ck'))}</td><td>${act(sum(F, 'qn'))}, ${kas(sum(F, 'qk'))}</td><td>QR убирает подход к кассе, но не действия</td></tr></tfoot></table></div>
+    <p class="small muted">${esc(JI.familyNote)}</p>
+    <h4 style="margin:14px 0 6px">Семья с безлимитом</h4>
+    <div class="tbl-wrap" style="overflow-x:auto"><table class="paths"><thead><tr><th>Шаг</th><th>Браслет, как сейчас</th><th>С QR-картой</th><th>QR против браслета</th></tr></thead><tbody>
+    ${U.map(r => `<tr><td>${esc(r.s)}</td><td>${esc(r.now)} <span class="small muted">${act(r.n)}${r.k ? ', ' + kas(r.k) : ''}</span></td><td>${esc(r.qr)} <span class="small muted">${act(r.qn)}${r.qk ? ', ' + kas(r.qk) : ''}</span></td><td class="v"><span class="pill part">${esc(r.cmp)}</span></td></tr>`).join('')}
+    </tbody><tfoot><tr><td>Итого</td><td>${act(sum(U, 'n'))}, ${kas(sum(U, 'k'))}</td><td>${act(sum(U, 'qn'))}, ${kas(sum(U, 'qk'))}</td><td>так же</td></tr></tfoot></table></div>
+    <p class="small muted">${esc(JI.unlimitedNote)}</p></div>
+  <div class="box"><div class="row" style="justify-content:space-between;align-items:baseline"><h3>Риски и вопросы</h3><span class="small muted">${JI.risks.length} рисков: ${cnt('ok')} решено · ${cnt('part')} частично · ${cnt('open')} открыто</span></div>
+    ${JI.risks.map(r => `<div class="risk"><h4>${esc(r.h)}</h4><span class="pill ${r.st}">${ST_LABEL[r.st]}</span><p>${esc(r.t)}</p>${r.q ? `<p class="eq"><b>Вопрос (${esc(r.to)}):</b> ${esc(r.q)}</p>` : ''}</div>`).join('')}
+    <p class="small muted" style="margin-top:8px">Вопросы из этого списка есть и в разделе «Вопросы»: там они сведены с остальными без повторов. Ничего никуда не отправлено.</p></div>`;
+}
 
 function quoteHtml(q){
   const r = REVIEW_ROWS.find(r => r.text.includes(q.t) && (q.src.includes('2ГИС') ? r.source === '2gis' : r.source === 'yandex'));
@@ -1981,12 +2365,12 @@ function renderQuestions(){
   const groups = {};
   JQS.forEach(q => { (groups[q.to] = groups[q.to] || []).push(q); });
   return `
-  <div class="box"><h3>Какое решение нужно на встрече</h3><p>Выбрать один аттракцион и тип дня для проверки гипотезы; сначала выяснить правила пакетов и безлимита, списание и восстановление после потери связи. Принятых решений пока нет.</p><p>Предложение: сравнить обычную очередь, ручную выдачу времени возврата и электронную запись. Проверять время физического ожидания, фактические посадки, пропуски окон, нагрузку на сотрудника и задержку обычной очереди. Если простой способ дает тот же полезный результат, разработка модуля пока не обоснована. Опыт не проведен.</p></div>
-  <div class="j-intro"><p>Открытые вопросы из пути гостя и из черновика вопросов к сайту парка, сведённые в один список. Список для обсуждения: ничего никуда не отправлено.</p></div>
+  <div class="box"><h3>Какое решение нужно на встрече</h3><p>Выбрать один аттракцион и тип дня для проверки гипотезы; сначала выяснить правила пакетов и безлимита, списание и восстановление после потери связи. Принятых решений пока нет.</p><p>r12 добавляет два вопроса: цену QR-карты со стенда и на кассе решает парк; считывание QR у стойки и выпуск QR-карты со стенда и на кассе — Лайм.</p><p>Предложение: сравнить обычную очередь, ручную выдачу времени возврата и электронную запись. Проверять время физического ожидания, фактические посадки, пропуски окон, нагрузку на сотрудника и задержку обычной очереди. Если простой способ дает тот же полезный результат, разработка модуля пока не обоснована. Опыт не проведен.</p></div>
+  <div class="j-intro"><p>Открытые вопросы из пути гостя, полосы и QR-карты и из черновика вопросов к сайту парка, сведённые в один список: ${JQS.length} вопросов — ${Object.keys(groups).map(g => esc(g) + ' ' + groups[g].length).join(', ')}. Список для обсуждения: ничего никуда не отправлено.</p></div>
   ${Object.keys(groups).map(g => `<div class="box"><h3>${esc(g)}</h3><ol class="qs">${groups[g].map(q => `<li><span>${esc(q.q)}</span><span class="small muted">Этап: ${esc(q.stage)}</span></li>`).join('')}</ol></div>`).join('')}`;
 }
 function renderJourney(){
-  const body = { day: renderDay, queue: renderQueue, reviews: renderReviews, questions: renderQuestions }[JV.sec]();
+  const body = { day: renderDay, queue: renderQueue, ideas: renderIdeas, reviews: renderReviews, questions: renderQuestions }[JV.sec]();
   $('#j-body').innerHTML = body;
   document.querySelectorAll('#j-tabs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.sec === JV.sec)));
 }
@@ -2003,6 +2387,8 @@ function jumpTo(t){
     $('#stage').dataset.role = 'guest';
     document.querySelectorAll('.roles button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.role === 'guest')));
     if (a === 'qr'){ G.card = null; G.view = 'list'; }
+    else if (a === 'issue'){ G.card = null; G.view = 'issue'; }
+    else if (a === 'card'){ G.card = QR_SITE; G.view = 'card'; }
     else { if (!G.card) G.card = '7700 1234'; G.view = a === 'msgs' ? 'msgs' : (a === 'attr' ? 'attr' : 'list'); if (a === 'attr') G.attrId = b; }
     renderAll(true); $('#screen').scrollTop = 0;
     $('.phone-col').scrollIntoView({ behavior: 'smooth', block: 'start' });
