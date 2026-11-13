@@ -4,7 +4,9 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link id="gf" rel="stylesheet" media="print" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<script>/* r13: шрифты не задерживают первый показ — страница сразу рисуется системным шрифтом, фирменный подменяет его после загрузки */(function(l){if(l.sheet)l.media='all';else l.addEventListener('load',function(){l.media='all'})})(document.getElementById('gf'))</script>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"></noscript>
 <style>
 /* Раскладка: слева телефон гостя, справа пульт парка (сотрудник, касса, директор, слой Лайма). На телефоне — вкладки ролей. */
 :root{
@@ -43,7 +45,7 @@ button{cursor:pointer}
 .seg button{border:0;background:transparent;padding:6px 12px;font-size:13px}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:500}
-.btn:hover{border-color:var(--ink-2)}
+@media (hover:hover){.btn:hover{border-color:var(--ink-2)}}
 .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
 .btn.danger{background:var(--red);border-color:var(--red);color:var(--on-red)}
 .btn.ghost{background:transparent}
@@ -86,7 +88,7 @@ button{cursor:pointer}
 .cardchip .no{font-family:var(--f-mono);font-weight:600}
 .cardchip .bal{margin-left:auto;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .attr-row{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;width:100%;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:transparent}
-.attr-row:hover{border-color:var(--ink-2)}
+@media (hover:hover){.attr-row:hover{border-color:var(--ink-2)}}
 .attr-row .nm{font-weight:600}
 .attr-row .meta{font-size:12.5px;color:var(--ink-2)}
 .attr-row .w{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;font-size:13px;line-height:1.3}
@@ -240,7 +242,7 @@ body.lime-on .ticker{display:block}
 .screen .app-bar{background:rgba(246,244,240,.92);backdrop-filter:saturate(1.4) blur(10px);border-bottom:0;padding:12px 12px 10px 16px;min-height:56px}
 .screen .app-bar .title{font-size:17px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .icon-btn{position:relative;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:999px;background:transparent;color:var(--g-ink)}
-.icon-btn:hover{background:var(--g-soft)}
+@media (hover:hover){.icon-btn:hover{background:var(--g-soft)}}
 .screen .bell .dot{top:6px;right:6px}
 .ico{flex:none}
 .screen .app-body{gap:14px}
@@ -314,6 +316,24 @@ body.lime-on .ticker{display:block}
 .bk-how{font-size:13.5px;color:var(--g-mute);line-height:1.35}
 .bk-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px}
 @media (prefers-reduced-motion:no-preference){.btn,.chip,.acard-media img{transition:transform .08s ease}.btn:active,.chip:active{transform:scale(.97)}}
+/* r13: отклик на нажатие и мягкое появление — сдержанно, как в iOS, не дольше 0,24 с.
+   Класс .is-pressed ставит скрипт по pointerdown: так отклик одинаков для мыши и пальца (в iOS :active без этого не срабатывает). */
+*{-webkit-tap-highlight-color:transparent}
+/* картинки экрана гостя не перетаскиваются: иначе нажатие на фото со сдвигом мыши запускает перетаскивание и следующие нажатия теряются */
+#screen img{-webkit-user-drag:none;user-select:none}
+.is-pressed{filter:brightness(.92)}
+@media (prefers-reduced-motion:no-preference){
+  button,label.toggle,.attr-row{transition:transform .1s ease,filter .1s ease}
+  .is-pressed{transform:scale(.97)}
+  .is-pressed.acard-media,.is-pressed.opt,.is-pressed.attr-row{transform:scale(.985)}
+  .ak-in{animation:ak-in .24s cubic-bezier(.2,.8,.2,1)}
+  .ak-fade{animation:ak-fade .24s ease-out}
+  .vw-in{animation:vw-in .22s cubic-bezier(.2,.8,.2,1)}
+  .tour-in{animation:ak-fade .2s ease-out}
+}
+@keyframes ak-in{from{opacity:0;transform:translateY(6px)}}
+@keyframes ak-fade{from{opacity:0}}
+@keyframes vw-in{from{opacity:0;transform:translateY(8px)}}
 
 /* r12: полоса пути, карта в телефоне */
 .route{display:flex;flex-direction:column;gap:6px}
@@ -1329,9 +1349,9 @@ function routeHtml(b){
   const ev = (HIST[b.id] && HIST[b.id].ev) || [];
   const stop = ev.find(e => e.kind === 'shift' && e.until != null);
   let stopHtml = '';
-  if (stop && !quick && !paid){ const x1 = routePos(segs, Math.max(stop.at, b.created)), x2 = routePos(segs, Math.min(stop.until, call)); if (x2 > x1) stopHtml = `<span class="rt-seg stop" style="left:${x1.toFixed(2)}%;width:${(x2 - x1).toFixed(2)}%" title="Остановка аттракциона"></span>`; }
+  if (stop && !quick && !paid){ const x1 = routePos(segs, Math.max(stop.at, b.created)), x2 = routePos(segs, Math.min(stop.until, call)); if (x2 > x1) stopHtml = `<span class="rt-seg stop" data-ak="stop-${b.id}" data-af="1" style="left:${x1.toFixed(2)}%;width:${(x2 - x1).toFixed(2)}%" title="Остановка аттракциона"></span>`; }
   const er = b.status === 'ACTIVE' ? E.earlierOption(P, b.id) : null;
-  const ghost = er != null && !quick ? `<span class="rt-ghost" style="left:${routePos(segs, er - 5).toFixed(2)}%" title="Можно раньше"></span>` : '';
+  const ghost = er != null && !quick ? `<span class="rt-ghost" data-ak="ghost-${b.id}" data-af="1" style="left:${routePos(segs, er - 5).toFixed(2)}%" title="Можно раньше"></span>` : '';
   const ticks = segs.slice(1).map((x, i) => `<span class="rt-tick${x[3] === 'walk' && segs[i][3] === 'wait' ? ' call' : ''}" style="left:${routePos(segs, x[0]).toFixed(2)}%"></span>`).join('');
   let head;
   if (!called && b.status === 'ACTIVE'){ const m = Math.ceil(call - P.t); head = m > 0 ? `До «Пора идти» <b>${m} мин</b>` : '<b>Пора идти — сейчас</b>'; }
@@ -1344,11 +1364,11 @@ function routeHtml(b){
     : quick ? [['walk', 'Пора идти — сразу', T(b.created)], ['win', 'Окно ' + win + ' мин', T(b.start) + '–' + T(b.end)]].concat(tail)
     : [['wait', b.kind === 'slot' ? 'Выбрали время' : 'Записались', T(b.created)], ['call', 'Пора идти', T(call)], ['win', 'Окно ' + win + ' мин', T(b.start) + '–' + T(b.end)]].concat(tail);
   const notes = ev.slice(0, 2).map(e => e.kind === 'shift'
-    ? `<div class="rt-note shift">Время сдвинуто: ${T(e.from)} → <b>${T(e.to)}</b>. «${esc(a.name)}» ${a.status !== 'open' && a.stopUntil ? 'стоит до ' + T(a.stopUntil) : e.until ? 'стоял до ' + T(e.until) : 'останавливали'} — отметки на полосе переехали.</div>`
-    : `<div class="rt-note fast">Перенесли раньше: ${T(e.from)} → <b>${T(e.to)}</b>.</div>`).join('');
-  const early = er != null ? `<div class="rt-note fast">Можно раньше: прийти к <b>${T(er)}</b> вместо ${T(b.start)} — на ${Math.round(b.start - er)} мин раньше, освободилось место.</div><button class="btn primary" data-g="earlier" data-id="${b.id}">Прийти раньше — к ${T(er)}</button>` : '';
+    ? `<div class="rt-note shift" data-ak="ev-${b.id}-${e.at}-${e.to}">Время сдвинуто: ${T(e.from)} → <b>${T(e.to)}</b>. «${esc(a.name)}» ${a.status !== 'open' && a.stopUntil ? 'стоит до ' + T(a.stopUntil) : e.until ? 'стоял до ' + T(e.until) : 'останавливали'} — отметки на полосе переехали.</div>`
+    : `<div class="rt-note fast" data-ak="ev-${b.id}-${e.at}-${e.to}">Перенесли раньше: ${T(e.from)} → <b>${T(e.to)}</b>.</div>`).join('');
+  const early = er != null ? `<div class="rt-note fast" data-ak="early-n-${b.id}">Можно раньше: прийти к <b>${T(er)}</b> вместо ${T(b.start)} — на ${Math.round(b.start - er)} мин раньше, освободилось место.</div><button class="btn primary" data-g="earlier" data-id="${b.id}" data-ak="early-b-${b.id}">Прийти раньше — к ${T(er)}</button>` : '';
   const aria = (b.status === 'ACTIVE' && !quick && !paid ? 'До «Пора идти» ' + Math.max(0, Math.ceil(call - P.t)) + ' мин. ' : '') + 'Окно ' + T(b.start) + '–' + T(b.end) + ', пустят до ' + T(b.end + g) + '.';
-  return `<div class="route">
+  return `<div class="route" data-bid="${b.id}">
     <div class="rt-head"><span class="rt-count">${head}</span><span class="rt-sub">${sub}</span></div>
     <div class="rt-track" role="img" aria-label="${aria}">${segHtml}<span class="rt-fill" style="width:${pos.toFixed(2)}%"></span>${stopHtml}${ticks}${ghost}<span class="rt-now" style="left:${pos.toFixed(2)}%"></span></div>
     <div class="rt-marks">${marks.map(([k, l, v]) => `<span class="m-${k}"><i></i>${l}<b>${v}</b></span>`).join('')}</div>
@@ -1363,9 +1383,104 @@ const G = { card: '7700 1234', view: 'list', attrId: null, size: 2, mode: 'virtu
 function setSpeed(s){ speed = s; [0,1,10,30].forEach(v => $('#sp'+v).setAttribute('aria-pressed', String(v===s))); }
 [0,1,10,30].forEach(v => $('#sp'+v).addEventListener('click', () => setSpeed(v)));
 let last = performance.now();
+/* r13: отзывчивость. Пока палец на экране или идёт прокрутка, ежеминутная перестройка ждёт:
+   иначе касание попадает в кнопку, которую успели пересоздать, и нажатие теряется. Догоняем в следующих кадрах. */
+const HOLD = { until: 0, pending: false }; let lastScroll = -1e9;
+document.addEventListener('pointerdown', () => { HOLD.until = performance.now() + 3000; }, true);
+['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => document.addEventListener(t, () => { HOLD.until = Math.min(HOLD.until, performance.now() + 60); }, true));
+document.addEventListener('scroll', () => { lastScroll = performance.now(); }, { capture: true, passive: true });
+// пока идёт появление (до 0,24 с), ежеминутная перестройка тоже ждёт: иначе новые элементы пересоздаются и анимация запускается заново
+function held(){ const n = performance.now(); return n < HOLD.until || n - lastScroll < 150 || appearBusy(); }
+/* r13: полоса пути едет каждый кадр по дробному времени, а скачки (шаги сценария, сдвиг, «раньше») доезжает за 0,3 с */
+const RT = {}, RT_MS = 300;
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const easeOut = p => 1 - Math.pow(1 - p, 3);
+// доля минуты сверх P.t: та же, что накопил цикл до следующего тика модели; на паузе стоит. Скорость считается и при открытом сценарии:
+// цикл двигает модель с выбранной скоростью независимо от панели (старт сценария ставит паузу и обнуляет acc)
+function partMin(){ return Math.min(0.999, (FF.active ? FF.acc : 0) + acc); }
+let lastLR = performance.now(), lastTf = 0;
+function liveRoute(){
+  const now = performance.now(), dt = Math.min(1, Math.max(0, (now - lastLR) / 1000)); lastLR = now;
+  const tf = P.t + partMin(), maxAdv = speed * dt + (FF.active ? FF.rate * dt : 0) + 0.02;
+  const seen = new Set();
+  document.querySelectorAll('#screen .route[data-bid]').forEach(el => {
+    const b = P.bookings[el.dataset.bid]; if (!b) return; seen.add(b.id);
+    const call = b.start - 5, quick = b.kind !== 'paid' && call <= b.created + 0.01;
+    // точка не проходит «Пора идти», пока модель не позвала гостя: тот же момент, что у отсчёта
+    let tb = Math.min(tf, b.end + P.settings.graceMin); if (b.status === 'ACTIVE' && b.kind !== 'paid' && !quick) tb = Math.min(tb, call);
+    const target = routePos(routeSegs(b), tb);
+    let r = RT[b.id];
+    if (!r) r = RT[b.id] = { shown: target, tf, start: b.start, end: b.end, anim: null };
+    const jumped = b.start !== r.start || b.end !== r.end || tf - r.tf > maxAdv + 0.5 || tf < r.tf - 0.001;
+    if (jumped && !reduceMotion.matches && Math.abs(target - r.shown) > 0.05) r.anim = { from: r.shown, t0: now };
+    r.tf = tf; r.start = b.start; r.end = b.end;
+    if (r.anim && !reduceMotion.matches){ const p = Math.min(1, (now - r.anim.t0) / RT_MS); r.shown = r.anim.from + (target - r.anim.from) * easeOut(p); if (p >= 1) r.anim = null; }
+    else { r.anim = null; r.shown = target; }
+    const f = el.querySelector('.rt-fill'), d = el.querySelector('.rt-now'), v = r.shown.toFixed(3) + '%';
+    if (f && f.style.width !== v) f.style.width = v;
+    if (d && d.style.left !== v) d.style.left = v;
+  });
+  // запись ушла с экрана — её доезд не продолжается и не держит «шаг не закончен»; вернётся — встанет на место без доезда
+  for (const id in RT) if (!seen.has(id)) delete RT[id];
+}
+function routeBusy(){ return Object.values(RT).some(r => r.anim); }
+/* r13: перемотка шага 11 — те же тики модели и в том же числе, что в r12, но за 1–2 с, чтобы полоса и отсчёт ехали вместе */
+const FF = { active: false, acc: 0, rate: 0, cond: null, tick: null, done: null };
+function ffStart(o){
+  const tick = o.tick || (() => E.tick(P));
+  if (reduceMotion.matches){ while (o.cond()) tick(); if (o.done) o.done(); return; }
+  const n = Math.max(1, o.estimate), dur = Math.min(2, Math.max(1, n * 0.1));
+  Object.assign(FF, { active: true, acc: 0, rate: n / dur, cond: o.cond, tick, done: o.done || null });
+}
+function ffStep(dt){
+  if (!FF.active) return 0;
+  let n = 0; FF.acc += dt * FF.rate;
+  while (FF.acc >= 1 && FF.cond() && n < 60){ FF.tick(); FF.acc -= 1; n++; }
+  if (!FF.cond()) ffFinish(false);
+  return n;
+}
+function ffFinish(render = true){
+  if (!FF.active) return;
+  while (FF.cond()) FF.tick();
+  FF.active = false; FF.acc = 0; const d = FF.done; FF.done = null; if (d) d();
+  if (render) renderAll();
+}
+/* r13: мягкое появление — только для того, чего не было в прошлой перерисовке этого же экрана.
+   Перерисовка посреди появления продолжает его с того же места (отрицательная задержка), а не запускает заново. */
+const AP = { view: null, prev: new Set(), t0: new Map(), vt0: 0 }, AP_MS = 240;
+function viewKey(){ return [G.view, G.card || '', G.attrId || '', G.ticketId || '', G.zone].join('|'); }
+function apOn(el, cls, t0, now){ if (reduceMotion.matches || now - t0 >= AP_MS) return; el.classList.add(cls); el.style.animationDelay = -Math.round(now - t0) + 'ms'; }
+function appearPass(sc){
+  const now = performance.now(), vk = viewKey(), first = AP.view === null, keys = new Set();
+  const changed = vk !== AP.view && !first && AP.view.split('|').slice(0, 4).join('|') !== vk.split('|').slice(0, 4).join('|');
+  if (changed) AP.vt0 = now;
+  AP.view = vk;
+  const body = sc.querySelector('.app-body'); if (body && !first) apOn(body, 'vw-in', AP.vt0, now);
+  sc.querySelectorAll('[data-ak]').forEach(el => {
+    const k = el.dataset.ak; keys.add(k);
+    if (!AP.prev.has(k) && !first && !changed) AP.t0.set(k, now);
+    const t0 = AP.t0.get(k); if (t0 != null) apOn(el, el.dataset.af ? 'ak-fade' : 'ak-in', t0, now);
+  });
+  for (const [k, t0] of AP.t0) if (now - t0 >= AP_MS) AP.t0.delete(k);
+  AP.prev = keys;
+}
+function appearBusy(){ const n = performance.now(); return n - AP.vt0 < AP_MS || [...AP.t0.values()].some(t => n - t < AP_MS); }
+/* r13: отклик на нажатие — кнопка слегка уменьшается и темнеет под пальцем и под мышью */
+const PRESS_SEL = 'button, [data-g], label.toggle, .attr-row, summary, a[href]';
+let pressed = null;
+function unpress(){ if (pressed){ pressed.classList.remove('is-pressed'); pressed = null; } }
+document.addEventListener('pointerdown', e => { if (e.button > 0) return; unpress(); const el = e.target.closest && e.target.closest(PRESS_SEL); if (el && !el.disabled){ pressed = el; el.classList.add('is-pressed'); } }, true);
+['pointerup', 'pointercancel', 'dragstart'].forEach(t => document.addEventListener(t, unpress, true));
+document.addEventListener('pointerleave', e => { if (e.target === pressed) unpress(); }, true);
+window.__busy = () => FF.active || routeBusy() || HOLD.pending || appearBusy();
 function loop(now){
   const dt = Math.min(1, (now - last) / 1000); last = now;
-  if (speed > 0 && P.t < P.dayLen){ acc += dt * speed; let n = 0; while (acc >= 1 && n < 60){ E.tick(P); acc -= 1; n++; } if (n) renderAll(); }
+  let n = 0;
+  if (speed > 0 && P.t < P.dayLen){ acc += dt * speed; while (acc >= 1 && n < 60){ E.tick(P); acc -= 1; n++; } }
+  n += ffStep(dt);
+  if (n) HOLD.pending = true;
+  if (HOLD.pending && !held()){ HOLD.pending = false; renderAll(); }
+  liveRoute();
   requestAnimationFrame(loop);
 }
 
@@ -1531,7 +1646,7 @@ function renderGuest(force){
         <div class="qr-meta"><span>${qr ? 'QR-карта Лайма' : 'Карта Лайма'}${card.phone ? ' · ' + esc(card.phone) : ''}</span><b>${rub(card.balance)}</b></div>
       </div>
       <p class="small" style="margin:0">Это ваша карта парка. QR показывают на кассе, на входе на аттракцион и у стойки электронной очереди — сотрудник сканирует его с экрана. Свой экран сканировать не нужно: в очередь вставайте кнопкой.</p>
-      ${live ? `<button class="opt live" data-g="ticket" data-id="${live.id}"><span class="ic">${IC(I.check)}</span><span class="h">${esc(E.attr(P, live.attrId).name)} · ${T(live.start)}–${T(live.end)}</span><span class="d">${live.status==='CALLED'?'Пора идти! Покажите этот QR у стойки.':'Ваша запись. Нажмите, чтобы открыть.'}</span></button>` : `<button class="btn primary big" data-g="list">Встать в очередь на аттракцион</button>`}
+      ${live ? `<button class="opt live" data-g="ticket" data-id="${live.id}" data-ak="live-${live.id}"><span class="ic">${IC(I.check)}</span><span class="h">${esc(E.attr(P, live.attrId).name)} · ${T(live.start)}–${T(live.end)}</span><span class="d">${live.status==='CALLED'?'Пора идти! Покажите этот QR у стойки.':'Ваша запись. Нажмите, чтобы открыть.'}</span></button>` : `<button class="btn primary big" data-g="list">Встать в очередь на аттракцион</button>`}
       <div class="msg"><b>Положить деньги:</b> на сайте парка по этой же карте или на кассе — покажите QR кассиру.${card.balance < 500 ? ` Сейчас на карте ${rub(card.balance)}: на катание может не хватить.` : ''}</div>
       <p class="small muted" style="margin:0">Пополнение на сайте и на кассе — сторона Лайма, в модуле его нет. Безлимит продаётся только в кассе парка. Пластиковая карта за 70 ₽ — такой же выбор, как QR.</p>
     </div>`;
@@ -1541,7 +1656,7 @@ function renderGuest(force){
     const full = liveCount() >= P.settings.maxActive;
     h += bar('Вокруг Света', false) + `<div class="app-body list">
       <div class="cardchip from-lime"><span>${isQR(card.no) ? 'QR-карта ··' + card.no.slice(-4) : 'Карта ' + esc(card.no)}<span class="lime-tag">Лайм</span></span><span class="bal">${rub(card.balance)}</span>${isQR(card.no) ? '<button class="link small" data-g="card">Показать QR</button>' : ''}<button class="link small" data-g="logout">Выйти</button></div>
-      ${live ? `<button class="opt live" data-g="ticket" data-id="${live.id}"><span class="ic">${IC(I.check)}</span><span class="h">${esc(E.attr(P, live.attrId).name)} · ${T(live.start)}–${T(live.end)}</span><span class="d">${live.status==='CALLED'?'Пора идти! Нажмите, чтобы открыть.':'Ваша запись. Нажмите, чтобы открыть.'}</span></button>` : ''}
+      ${live ? `<button class="opt live" data-g="ticket" data-id="${live.id}" data-ak="live-${live.id}"><span class="ic">${IC(I.check)}</span><span class="h">${esc(E.attr(P, live.attrId).name)} · ${T(live.start)}–${T(live.end)}</span><span class="d">${live.status==='CALLED'?'Пора идти! Нажмите, чтобы открыть.':'Ваша запись. Нажмите, чтобы открыть.'}</span></button>` : ''}
       ${P.stopped ? `<div class="err">Аттракционы остановлены: ${esc(P.stopReason)}. Записи отменены.</div>` : ''}
       <div class="toolbar">
         <div class="row" style="justify-content:space-between;gap:8px"><span class="tb-l">Сколько вас</span><div class="stepper"><button data-g="minus" aria-label="Меньше">−</button><output aria-live="polite">${G.size}</output><button data-g="plus" aria-label="Больше">+</button></div></div>
@@ -1560,7 +1675,7 @@ function renderGuest(force){
         else if (!q) act = `<div class="act-note">Мест в очереди с телефона на сегодня нет</div>`;
         else if (G.confirmId === a.id) act = `<div class="confirm"><span>По росту сюда нельзя: ${blockedKids(a).join(' и ')} см. Всё равно встать в очередь?</span><div class="row"><button class="btn primary" data-g="quick-book" data-id="${a.id}" data-ok="1">Да, встать</button><button class="btn" data-g="unconfirm">Нет</button></div></div>`;
         else act = `<button class="btn ${blocked?'':'primary'} big" data-g="quick-book" data-id="${a.id}">Встать в очередь · ${G.size} чел.</button><div class="hint">Приходите ${T(q.start)}–${T(q.end)}</div>`;
-        return `<article class="acard${closed?' is-off':''}">
+        return `<article class="acard${closed?' is-off':''}" data-ak="a-${a.id}">
           <button class="acard-media" data-g="open" data-id="${a.id}" tabindex="-1" aria-hidden="true">${media(a)}<span class="wait">${closed ? 'Не работает' : `${IC(I.clock, 15)}<b>≈${mins(sw)} мин</b> в очереди · оценка модели`}</span></button>
           <div class="acard-body">
             <button class="acard-title" data-g="open" data-id="${a.id}">${esc(a.name)}</button>
@@ -1575,6 +1690,7 @@ function renderGuest(force){
   sc.innerHTML = h;
   sc.querySelectorAll('img[data-k]').forEach(n => { const o = keep.get(n.dataset.k); if (o && o.getAttribute('src') === n.getAttribute('src')){ n.replaceWith(o); keep.delete(n.dataset.k); } });
   sc.scrollTop = top;
+  appearPass(sc);
   if (G.kidsOpen && G.view === 'list'){ const i = $('#g-kids'); if (i && document.activeElement !== i){ i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
 }
 function parseKids(s){ return (s.match(/\d+/g) || []).map(Number).filter(n => n >= 50 && n <= 200).slice(0, 6); }
@@ -1791,14 +1907,14 @@ $('#push').addEventListener('click', () => {
 /* запись показываем там же, где гость нажал «Встать в очередь»: без перехода на отдельную страницу */
 function bookedBlock(b){
   const called = b.status === 'CALLED';
-  return `<div class="booked${called ? ' called' : ''}">
+  return `<div class="booked${called ? ' called' : ''}" data-ak="bk-${b.id}">
     <div class="bk-top"><span class="bk-ok">${IC(called ? I.bell : I.check, 16)}${called ? 'Пора идти!' : kindHead(b)}</span><span class="bk-left">${b.size} чел.</span></div>
     ${routeHtml(b)}
     <div class="bk-how">${howText(b)} Опаздываете — пустят до ${T(b.end + P.settings.graceMin)}.</div>
     ${called && isQR(b.cardNo) ? `<button class="btn" data-g="card">${IC(I.qr, 18)}Показать QR для стойки</button>` : ''}
     ${b.paid ? `<div class="bk-how">Без очереди: ${rub(b.paid)} списано с карты.</div>` : ''}
     ${G.confirmCancel === b.id
-      ? `<div class="bk-row"><span>Отменить запись?</span><button class="btn danger small" data-g="cancel" data-id="${b.id}">Да, отменить</button><button class="btn small" data-g="keep">Нет</button></div>`
+      ? `<div class="bk-row" data-ak="cc-${b.id}"><span>Отменить запись?</span><button class="btn danger small" data-g="cancel" data-id="${b.id}">Да, отменить</button><button class="btn small" data-g="keep">Нет</button></div>`
       : `<div class="bk-row"><button class="link" data-g="askcancel" data-id="${b.id}">Отменить</button></div>`}
   </div>`;
 }
@@ -1807,6 +1923,7 @@ function renderAll(force){
   $('#clock').textContent = T(P.t) + (P.t >= P.dayLen ? ' · парк закрыт' : '');
   trackStarts(); checkPush(); renderGuest(force); renderStaff(); renderCashier(); renderDirector(); renderLime(); if (document.body.classList.contains('lime-on')) renderTicker();
   renderTour();
+  liveRoute();
 }
 
 /* ---------- сценарий показа ---------- */
@@ -1822,7 +1939,9 @@ const STEPS = [
   // r12: полоса пути и QR-карта — новые шаги после восьми шагов r11
   { h:'Гроза прошла: гость с QR-картой в телефоне', p:'Парк снова работает, прошло 25 минут — очередь набралась. Другой гость получил QR-карту на сайте ещё дома, по номеру телефона, и там же положил 2 000 ₽: в кассу он не заходил. На телефоне — QR и код карты из 32 знаков. Пластиковая карта за 70 ₽ остаётся таким же выбором.', act(){ if (P.stopped) E.resumePark(P); for (let i = 0; i < 25 && P.t < P.dayLen; i++) E.tick(P); G.card = QR_SITE; G.view = 'card'; G.kids = []; G.size = 2; G.seenMsg = G.pushedMsg = myMsgs().length; $('#stage').dataset.role = 'guest'; showTab('staff'); } },
   { h:'Встаёт в очередь кнопкой и видит полосу пути', p:() => `С экрана карты гость переходит к аттракционам и встаёт в очередь на «${tqAttr().name}» вдвоём — свой экран он не сканирует. Вместо «перед вами N человек» — отсчёт до «Пора идти» и полоса: записались → пора идти → окно 15 минут → 10 минут на опоздание. Полоса ведёт к «Пора идти», а не к началу окна: если прийти раньше, у стойки скажут «Рано».`, act(){ const a = tqAttr(); TQ.attr = a.id; const r = E.book(P, QR_SITE, a.id, 2, 'virtual', null, 'tour-qr'); const lv = Object.values(P.bookings).find(b => b.cardNo === QR_SITE && (b.status === 'ACTIVE' || b.status === 'CALLED')); TQ.id = r.ok ? r.booking.id : (lv ? lv.id : null); if (lv) TQ.attr = lv.attrId; G.card = QR_SITE; G.view = 'list'; G.zone = E.attr(P, TQ.attr).zone; $('#stage').dataset.role = 'guest'; tqScroll(); } },
-  { h:'Гуляем: полоса заполняется', p:'Время идёт — полоса растёт, отсчёт до «Пора идти» уменьшается. Пока ничего не случилось, время прихода не меняется.', act(){ const b = P.bookings[TQ.id]; if (b){ let n = 0; while (b.status === 'ACTIVE' && P.t < P.dayLen && (n < 4 || b.start - P.t > 12)){ E.tick(P); n++; } } G.view = 'list'; tqScroll(); } },
+  { h:'Гуляем: полоса заполняется', p:'Время идёт — полоса растёт, отсчёт до «Пора идти» уменьшается. Пока ничего не случилось, время прихода не меняется.', act(){ const b = P.bookings[TQ.id]; G.view = 'list'; tqScroll(); if (!b) return; let n = 0;
+      // r13: те же тики, что в r12, но перемоткой за 1–2 с
+      ffStart({ cond: () => b.status === 'ACTIVE' && P.t < P.dayLen && (n < 4 || b.start - P.t > 12), tick: () => { E.tick(P); n++; }, estimate: Math.max(4, Math.ceil(b.start - 12 - P.t)) }); } },
   { h:() => `«${tqAttr().name}» встал на 20 минут — полоса перестроилась`, p:'Сотрудник остановил аттракцион. Запись гостя попала в остановку и сдвинулась вперёд: отметки на полосе переехали, видно «было → стало» и причину, остановка заштрихована. Как пробка в навигаторе: время пересчитано, а не «перед вами стало больше людей». Раньше конца остановки плюс 5 минут на дорогу ничего не предлагается.', act(){ if (TQ.attr) E.setStatus(P, TQ.attr, 'stopped', 20); G.view = 'list'; tqScroll(); } },
   { h:'Другие гости отменили запись — «можно раньше»', p:() => TQ.done13 ? (TQ.early != null ? `${TQ.cancels === 1 ? 'Свою запись отменил один гость' : 'Свои записи отменили двое гостей'}. На той же полосе появилась пунктирная отметка: можно прийти к ${T(TQ.early)} вместо ${T(TQ.before)}. Это «есть маршрут быстрее»: время не раньше конца остановки плюс 5 минут на дорогу.` : 'Раньше мест не освободилось даже после двух отмен — гость ждёт своё время. Полоса ничего не обещает.') : 'Гости с записью на тот же аттракцион отменяют её. Как только место освобождается, на той же полосе появляется пунктирная отметка «можно раньше» и кнопка — как «есть маршрут быстрее» в навигаторе.', act(){ const b = P.bookings[TQ.id]; if (!b) return; const a = E.attr(P, b.attrId); TQ.cancels = 0; let e = E.earlierOption(P, b.id);
       while (e == null && TQ.cancels < 2){ const from = (a.status !== 'open' && a.stopUntil != null ? a.stopUntil : P.t) + E.WALK;
@@ -1840,11 +1959,14 @@ function tqAttr(){
 }
 function tqScroll(){ setTimeout(() => { const el = document.querySelector('#screen .booked'); if (el) el.scrollIntoView({ block: 'center' }); }, 30); }
 let tourI = -1;
-function renderTour(){ if (tourI < 0) return; const s = STEPS[tourI], val = x => typeof x === 'function' ? x() : x; $('#tour-k').textContent = 'Шаг ' + (tourI+1) + ' из ' + STEPS.length; $('#tour-h').textContent = val(s.h); $('#tour-p').textContent = val(s.p); $('#tour-next').textContent = tourI === STEPS.length-1 ? 'Завершить' : 'Дальше'; }
-$('#tourBtn').addEventListener('click', () => { tourI = 0; Object.assign(TQ, { attr: null, id: null, cancels: 0, early: null, before: null, done13: false }); $('#tour').hidden = false; setSpeed(0); renderTour(); });
-$('#tour-close').addEventListener('click', () => { tourI = -1; $('#tour').hidden = true; });
-$('#tour-do').addEventListener('click', () => { STEPS[tourI].act(); renderAll(); });
-$('#tour-next').addEventListener('click', () => { if (tourI === STEPS.length-1){ if (P.stopped) E.resumePark(P); tourI = -1; $('#tour').hidden = true; renderAll(); return; } tourI++; renderTour(); });
+function renderTour(){ if (tourI < 0) return; const s = STEPS[tourI], val = x => typeof x === 'function' ? x() : x; $('#tour-k').textContent = 'Шаг ' + (tourI+1) + ' из ' + STEPS.length; $('#tour-h').textContent = val(s.h); $('#tour-p').textContent = val(s.p); $('#tour-next').textContent = tourI === STEPS.length-1 ? 'Завершить' : 'Дальше';
+  // r13: смена шага — заголовок и текст мягко проявляются; при перерисовке того же шага анимация не повторяется
+  if (tourShown !== tourI){ tourShown = tourI; if (!reduceMotion.matches) ['#tour-h', '#tour-p'].forEach(q => { const el = $(q); el.classList.remove('tour-in'); void el.offsetWidth; el.classList.add('tour-in'); }); } }
+let tourShown = -1;
+$('#tourBtn').addEventListener('click', () => { ffFinish(false); acc = 0; tourI = 0; Object.assign(TQ, { attr: null, id: null, cancels: 0, early: null, before: null, done13: false }); $('#tour').hidden = false; setSpeed(0); renderTour(); });
+$('#tour-close').addEventListener('click', () => { ffFinish(); tourI = -1; $('#tour').hidden = true; });
+$('#tour-do').addEventListener('click', () => { ffFinish(false); STEPS[tourI].act(); renderAll(); });
+$('#tour-next').addEventListener('click', () => { ffFinish(); if (tourI === STEPS.length-1){ if (P.stopped) E.resumePark(P); tourI = -1; $('#tour').hidden = true; renderAll(); return; } tourI++; renderTour(); });
 
 const REVIEW_ROWS = [{"id": "ya-126", "source": "yandex", "date": "2026-06-15", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "хамоватый персонал, не соответствие цены и качества услуги"}, {"id": "ya-41", "source": "yandex", "date": "2026-08-17", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "за безопасностью следят хорошо, перепроверяют"}, {"id": "ya-96", "source": "yandex", "date": "2026-07-12", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "очереди на атракционы были минут по 20, больше устали чем отдохнули"}, {"id": "ya-53", "source": "yandex", "date": "2026-08-07", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "возврат так и не сделали и только под вечер, начислили билеты на карту"}, {"id": "272356080", "source": "2gis", "date": "2026-08-25", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "ОТСУТСТВИЕ питьевой воды в доступе для детей!"}, {"id": "266895565", "source": "2gis", "date": "2026-08-10", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "Хорошая парковка."}, {"id": "272493320", "source": "2gis", "date": "2026-08-26", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "Вечером невероятная красота, все очень красиво светится!"}, {"id": "260854052", "source": "2gis", "date": "2026-07-23", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "комната матери и дитя оставляет желать лучшего"}, {"id": "ya-138", "source": "yandex", "date": "2026-06-03", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "Надо в выходные и вечером открывать больше касс"}, {"id": "ya-130", "source": "yandex", "date": "2026-06-13", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "Не первый раз аттракцион Диско не работает."}, {"id": "ya-37", "source": "yandex", "date": "2026-08-19", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "Ценник нужно сбавить"}, {"id": "262728796", "source": "2gis", "date": "2026-07-30", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "одели бумажный браслет человеку значит только он и катается"}, {"id": "ya-83", "source": "yandex", "date": "2026-07-23", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "В жару на покупке одной только воды можно обанкротиться."}, {"id": "259149786", "source": "2gis", "date": "2026-07-17", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "не пустили на ураган и на бумеранг из за роста"}, {"id": "ya-59", "source": "yandex", "date": "2026-08-02", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "Ребенок 88 см, не пустили ни на один аттракцион."}, {"id": "ya-53", "source": "yandex", "date": "2026-08-07", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "да еще концерт Тимы Белорусских был, народа тьма, следовательно везде очереди"}, {"id": "259039895", "source": "2gis", "date": "2026-07-17", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "бесплатные чистые уборные!!!"}, {"id": "272723362", "source": "2gis", "date": "2026-08-26", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "Цены дичь!"}, {"id": "273692058", "source": "2gis", "date": "2026-08-29", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "Мой сын обожает этот парк!"}, {"id": "ya-82", "source": "yandex", "date": "2026-07-26", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "пополнил онлайн - и сразу катаешься, никаких очередей в кассы"}, {"id": "ya-59", "source": "yandex", "date": "2026-08-02", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "меня не пустили сопроводить, мне билет нужен!"}, {"id": "272788691", "source": "2gis", "date": "2026-08-27", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "персонал тоже хороший все сразу объясняют и проверяют"}, {"id": "ya-96", "source": "yandex", "date": "2026-07-12", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "очереди на атракционы были минут по 20"}, {"id": "265537672", "source": "2gis", "date": "2026-08-06", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "очереди большие)) в итоге на верёвочный парк так и не попали"}];
 
@@ -2409,5 +2531,6 @@ $('#j-body').addEventListener('click', e => {
 
 buildDirector(); fillCmp(); showTab('staff'); renderAll(); requestAnimationFrame(loop);
 window.__park = P;
+window.__render = () => renderAll(true); // r13: для проверки свежести текста — полная перерисовка по требованию
 })();
 </script>
