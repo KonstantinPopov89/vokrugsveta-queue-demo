@@ -144,6 +144,9 @@ label.f select,label.f input{font-size:15px;color:var(--ink);background:var(--su
 .verdict{border-radius:var(--r);padding:16px;min-height:120px;display:flex;flex-direction:column;justify-content:center;gap:6px;border:1px dashed var(--line)}
 .verdict.ok{background:var(--teal-soft);border:0}
 .verdict.bad{background:var(--red-soft);border:0}
+.verdict.ask{background:var(--accent-soft);border:0} .verdict.ask .big{color:var(--accent)}
+.verdict .ppl{display:flex;flex-wrap:wrap;gap:8px} .verdict .ppl .btn{min-width:52px;min-height:44px;font-size:18px} .verdict .ppl [data-close]{font-size:15px}
+.verdict .ppl .tour-pick{outline:3px solid var(--accent);outline-offset:2px}
 .verdict .big{font-family:var(--f-display);font-size:24px}
 .verdict.ok .big{color:var(--teal)} .verdict.bad .big{color:var(--red)}
 .cards{display:flex;flex-wrap:wrap;gap:6px}
@@ -315,6 +318,16 @@ body.lime-on .ticker{display:block}
 .bk-win{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
 .bk-how{font-size:13.5px;color:var(--g-mute);line-height:1.35}
 .bk-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px}
+/* r14: проход у стойки прямо в карточке «Пора идти» и сумма у входа */
+.pass{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px;border-radius:14px;background:var(--g-card);text-align:center}
+.pass.by-card{flex-direction:row;align-items:center;gap:12px;text-align:left}
+.pass-qr{display:block;width:min(188px,64%);aspect-ratio:1;padding:6px;border:1px solid var(--g-line);border-radius:12px;background:#fff;cursor:zoom-in}
+.pass-ic{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:#FDE6DC;color:var(--g-accent)}
+.pass-t{display:flex;flex-direction:column;gap:2px;font-size:13.5px;color:var(--g-mute);line-height:1.35}
+.pass-t b{font-size:16px;color:var(--g-ink)}
+.pass-part{color:var(--g-ok);font-weight:600}
+.bk-pay{font-size:13.5px;color:var(--g-mute);line-height:1.35}
+.bk-pay.lack{color:var(--g-warn);background:var(--amber-soft);padding:8px 10px;border-radius:10px}
 @media (prefers-reduced-motion:no-preference){.btn,.chip,.acard-media img{transition:transform .08s ease}.btn:active,.chip:active{transform:scale(.97)}}
 /* r13: отклик на нажатие и мягкое появление — сдержанно, как в iOS, не дольше 0,24 с.
    Класс .is-pressed ставит скрипт по pointerdown: так отклик одинаков для мыши и пальца (в iOS :active без этого не срабатывает). */
@@ -530,9 +543,9 @@ details.quotes cite{display:block;font-style:normal;font-size:12px;color:var(--i
           </div>
           <div class="row">
             <label class="f" style="flex:1">Номер карты или код QR-карты<input id="st-card" class="mono" placeholder="7700 1234 или 32 знака QR" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
-            <label class="f">Пришло человек<input id="st-people" type="number" min="1" max="8" placeholder="вся группа" style="width:120px"></label>
           </div>
           <button class="btn primary" id="st-scan">Приложить карту или сканировать QR</button>
+          <div class="small muted">Если в записи несколько человек, следом спросим, сколько проходит сейчас: списание только за них.</div>
         </div>
         <div class="verdict" id="st-verdict"><span class="muted">Здесь появится ответ считывателя: пропустить или нет и почему.</span></div>
       </div>
@@ -607,7 +620,7 @@ details.quotes cite{display:block;font-style:normal;font-size:12px;color:var(--i
       <div class="grid2">
         <div class="box"><h3 style="margin-bottom:8px">Что берётся из Лайма</h3><ul class="list">
           <li>Номер карты или браслета либо 32-знаковый код QR-карты — это и есть «аккаунт» гостя. Регистрации нет.</li>
-          <li>Баланс карты — проверка перед платным проходом и списание за катание.</li>
+          <li>Баланс карты — при записи только сумма (за катание ничего не списывается), списание — при проходе: касание у стойки проверяет запись, сотрудник выбирает, сколько человек проходит, и за них одно списание. Платный проход «без очереди» оплачивается при покупке.</li>
           <li>Событие прохода у считывателя — погашение записи и учёт посадок.</li>
           <li>Справочник услуг и терминалов — какой считыватель стоит у какого аттракциона.</li>
           <li>Телефон гостя, если он уже есть в карте, — для уведомления «пора идти».</li>
@@ -615,6 +628,9 @@ details.quotes cite{display:block;font-style:normal;font-size:12px;color:var(--i
         <div class="box"><h3 style="margin-bottom:8px">Что Лайму придётся доделать</h3><ul class="list">
           <li>Отдавать событие прохода модулю сразу, а не только в отчёт.</li>
           <li>Давать считывателю ответ «есть запись на сейчас / нет» и показывать причину отказа.</li>
+          <li>Провести по записи пакет и безлимит: катание из пакета и проход каждого безлимитного браслета семьи по одной записи.</li>
+          <li>Проход группы в два действия: касание только проверяет запись, списание N катаний — одним событием после выбора сотрудника. Если считыватель так не умеет, число проходящих вводят до касания: одно касание — одна проверка и одно списание.</li>
+          <li>Подтвердить камеру на стойке электронной очереди и скорость чтения QR с экрана телефона.</li>
           <li>Связать каждый считыватель с физическим аттракционом и входом (электронная линия или обычная).</li>
           <li>Списание платного прохода и возврат при остановке — как отдельная услуга.</li>
           <li>Режим без связи: список записей на устройстве и отложенная отправка событий.</li>
@@ -668,6 +684,7 @@ details.quotes cite{display:block;font-style:normal;font-size:12px;color:var(--i
   const BUCKET = 5;          // минут в корзине журнала мест
   const WINDOW = 15;         // длина окна прихода, мин
   const WALK = 5;            // минимум до начала окна: дойти до аттракциона
+  const CALL = 5;            // «Пора идти» — за 5 минут до окна; с этого момента у стойки пускают (r14)
 
   /*LIMITS-BEGIN*/
 /* Ограничения с сайта парка parkomsk.ru, снимок 29.10.2026 (сгенерировано gen_limits.py) */
@@ -934,8 +951,13 @@ const SITE_LIMITS = {
     if (kind === 'slot' && !a.slotsEnabled) return 'На этом аттракционе нет записи на время, только виртуальная очередь.';
     if (kind === 'paid' && !(p.settings.paidEnabled && a.paidEnabled)) return 'Платный проход здесь не продаётся.';
     if (!(size >= 1 && size <= 8)) return 'В группе может быть от 1 до 8 человек.';
-    if (kind !== 'paid' && activeFor(p, cardNo).filter(b => b.kind !== 'paid').length >= p.settings.maxActive)
+    const liveOwn = kind !== 'paid' ? activeFor(p, cardNo).filter(b => b.kind !== 'paid') : [];
+    if (kind !== 'paid' && liveOwn.length >= p.settings.maxActive) {
+      // r14: часть группы прошла, остаток держится до конца опоздания — гость или сотрудник закрывает его кнопкой «Остальные не придут»
+      const part = liveOwn.find(b => b.redeemed > 0);
+      if (part) return 'По записи на «' + attr(p, part.attrId).name + '» прошли ' + part.redeemed + ' из ' + part.size + '. Если остальные не придут, нажмите в записи «Остальные не придут» — и записывайтесь дальше.';
       return p.settings.maxActive === 1 ? 'У карты уже есть активная запись. Сначала пройдите или отмените её.' : 'У карты уже ' + p.settings.maxActive + ' активные записи — это лимит парка.';
+    }
     if (kind !== 'paid' && c.cooldownUntil > p.t) return 'После пропущенной записи новая доступна с ' + fmt(c.cooldownUntil, p.openHour) + '.';
     return null;
   }
@@ -1039,11 +1061,27 @@ const SITE_LIMITS = {
   function cancel(p, id) {
     const bk = p.bookings[id];
     if (!bk || (bk.status !== 'ACTIVE' && bk.status !== 'CALLED')) return { ok: false, error: 'Запись уже закрыта.' };
+    if (bk.redeemed > 0) return closeRest(p, id, 'гость: остальные не придут');
     release(p, bk); bk.status = 'CANCELLED';
     if (bk.paid) { refund(p, bk, 'отмена гостем'); }
     lime(p, 'в Лайм', 'Запись отменена', { card: bk.cardNo, id });
     if (!p.cards[bk.cardNo].synthetic) log(p, 'Карта ' + bk.cardNo + ': запись ' + id + ' отменена');
     return { ok: true };
+  }
+
+  // r14: часть группы прошла — запись считается пройденной, места остатка освобождаются, за платный проход остаток
+  // возвращается; паузы нет. Вызывают гость и сотрудник («Остальные не придут»), конец опоздания и остановки.
+  function closeRest(p, id, why, silent) {
+    const bk = p.bookings[id];
+    if (bk && bk.status !== 'ACTIVE' && bk.status !== 'CALLED') return { ok: false, closed: true, error: 'Запись уже закрыта' + (bk.redeemed > 0 ? ': прошли ' + bk.redeemed + ' из ' + bk.size + '.' : '.') };
+    if (!bk || !(bk.redeemed > 0)) return { ok: false, error: 'Закрывать нечего: по записи ещё никто не прошёл.' };
+    const rest = bk.size - bk.redeemed;
+    release(p, bk); bk.status = 'USED'; bk.usedAt = bk.firstUsedAt != null ? bk.firstUsedAt : p.t;
+    if (bk.paid) refund(p, bk, why);
+    lime(p, 'в Лайм', 'Остаток записи закрыт', { card: bk.cardNo, passed: bk.redeemed + ' из ' + bk.size, why });
+    if (!p.cards[bk.cardNo].synthetic) log(p, 'Карта ' + bk.cardNo + ': прошли ' + bk.redeemed + ' из ' + bk.size + ', остаток ' + rest + ' закрыт (' + why + ')', 'ok');
+    if (!silent && !p.cards[bk.cardNo].synthetic) msg(p, bk.cardNo, 'По записи на «' + attr(p, bk.attrId).name + '» прошли ' + bk.redeemed + ' из ' + bk.size + '. Остальные места вернулись в очередь' + (bk.kind === 'paid' ? ', за их платный проход деньги вернули на карту' : '') + '. Можно записываться дальше.');
+    return { ok: true, booking: bk, rest };
   }
 
   function refund(p, bk, why) {
@@ -1070,9 +1108,9 @@ const SITE_LIMITS = {
       log(p, 'Связь восстановлена, в Лайм ушло ' + n + ' отложенных событий', 'ok');
     }
   }
-  function scanInner(p, cardNo, attrId, people) {
+  // r14: проверка записи у стойки без списания — экран сотрудника сначала спрашивает, сколько человек проходит
+  function checkPass(p, cardNo, attrId) {
     const a = attr(p, attrId), c = p.cards[cardNo];
-    lime(p, 'из Лайма', 'Проход у считывателя', { card: cardNo, service: a.name });
     if (!c) return { ok: false, error: 'Карта не найдена в Лайме.' };
     const all = Object.values(p.bookings).filter(b => b.cardNo === cardNo && b.attrId === attrId);
     const live = all.filter(b => b.status === 'ACTIVE' || b.status === 'CALLED');
@@ -1085,9 +1123,20 @@ const SITE_LIMITS = {
     const bk = live[0];
     if (p.offline && !p.cache.ids.has(bk.id)) return { ok: false, error: 'Нет связи с Лаймом, а этой записи нет в сохранённом списке. Пропустите через обычную очередь или вызовите старшего.' };
     if (a.status !== 'open' || p.stopped) return { ok: false, error: 'Аттракцион остановлен — посадки нет.' };
-    if (p.t < bk.start - 0.01) return { ok: false, error: 'Рано: окно этой записи ' + fmt(bk.start, p.openHour) + '–' + fmt(bk.end, p.openHour) + '.' };
+    // r14: пускают с «Пора идти» (за CALL минут до окна), а не с начала окна
+    if (p.t < bk.start - CALL - 0.01) return { ok: false, error: 'Рано: позовём в ' + fmt(bk.start - CALL, p.openHour) + ', окно ' + fmt(bk.start, p.openHour) + '–' + fmt(bk.end, p.openHour) + '.' };
     if (p.t > bk.end + p.settings.graceMin) return { ok: false, error: 'Окно прошло: запись была до ' + fmt(bk.end, p.openHour) + '.' };
-    const n = people == null ? bk.size - bk.redeemed : Math.min(people, bk.size - bk.redeemed);
+    const rest = bk.size - bk.redeemed;
+    if (rest <= 0) return { ok: false, error: 'В группе не осталось непогашенных мест.' };
+    return { ok: true, booking: bk, rest, price: a.price };
+  }
+  function scanInner(p, cardNo, attrId, people) {
+    const a = attr(p, attrId), c = p.cards[cardNo];
+    lime(p, 'из Лайма', 'Проход у считывателя', { card: cardNo, service: a.name });
+    const chk = checkPass(p, cardNo, attrId);
+    if (!chk.ok) return chk;
+    const bk = chk.booking;
+    const n = people == null ? chk.rest : Math.min(people, chk.rest);
     if (n <= 0) return { ok: false, error: 'В группе не осталось непогашенных мест.' };
     const rideCost = a.price * n;
     if (c.balance < rideCost) return { ok: false, error: 'На карте ' + c.balance + ' ₽, а катание для ' + n + ' чел. стоит ' + rideCost + ' ₽. Пополните карту на кассе.' };
@@ -1095,15 +1144,12 @@ const SITE_LIMITS = {
     lime(p, 'в Лайм', 'Списание за катание', { card: cardNo, sum: rideCost, people: n, service: a.name });
     bk.redeemed += n;
     const rest = bk.size - bk.redeemed;
-    if (rest > 0 && people != null) {
-      // пришла часть группы — остаток закрываем, место освобождаем
-      const L = bk.kind === 'paid' ? a.pledger : a.ledger; L[bk.bucket] = Math.max(0, (L[bk.bucket] || 0) - rest);
-      if (bk.paid) refund(p, bk, 'часть группы не пришла');
-    }
-    bk.status = 'USED'; bk.usedAt = p.t;
+    // r14: пришла часть группы — остаток записи открыт до конца опоздания; места и деньги за платный проход
+    // возвращаются при закрытии записи (tick), а не сразу: опоздавшие из группы проходят по той же карте
+    if (rest === 0){ bk.status = 'USED'; bk.usedAt = p.t; } else if (bk.firstUsedAt == null) bk.firstUsedAt = p.t;
     if (bk.kind === 'paid') a.eLane.unshift({ n, at: p.t }); else { a.eLane.push({ n, at: p.t }); const fm = Math.max(0, Math.min(bk.start - bk.created, bk.standbyAtBook || 0)) * n; a.freeMin += fm; }
-    if (!c.synthetic) log(p, '«' + a.name + '»: погашено ' + n + ' из ' + bk.size + ' по карте ' + cardNo + (rest > 0 && people != null ? ', остаток закрыт' : ''), 'ok');
-    return { ok: true, booking: bk, people: n, charged: rideCost, closedRest: rest > 0 && people != null ? rest : 0 };
+    if (!c.synthetic) log(p, '«' + a.name + '»: погашено ' + bk.redeemed + ' из ' + bk.size + ' по карте ' + cardNo + (rest > 0 ? ', остальные ' + rest + ' — до ' + fmt(bk.end + p.settings.graceMin, p.openHour) : ''), 'ok');
+    return { ok: true, booking: bk, people: n, charged: rideCost, restOpen: rest, restUntil: bk.end + p.settings.graceMin };
   }
 
   function standbyWait(p, a) {
@@ -1146,6 +1192,11 @@ const SITE_LIMITS = {
         const old = bk.start; bk.start = b * BUCKET; bk.end = bk.start + W(p); bk.status = 'ACTIVE';
         msg(p, bk.cardNo, '«' + a.name + '» на короткой остановке. Ваше время сдвинуто: ' + fmt(old, p.openHour) + ' → ' + fmt(bk.start, p.openHour) + '–' + fmt(bk.end, p.openHour) + '.');
         lime(p, 'в Лайм', 'Запись сдвинута', { card: bk.cardNo, window: fmt(bk.start, p.openHour) });
+      } else if (bk.redeemed > 0) {
+        // r14: как при стопе парка — часть группы уже прошла, запись пройдена, отменяется только остаток (места уже освобождены выше)
+        bk.status = 'USED'; bk.usedAt = bk.firstUsedAt != null ? bk.firstUsedAt : p.t;
+        if (bk.paid) refund(p, bk, why);
+        msg(p, bk.cardNo, '«' + a.name + '» остановлен. По записи прошли ' + bk.redeemed + ' из ' + bk.size + ', остаток отменён.' + (bk.kind === 'paid' ? ' За их платный проход деньги вернули на карту.' : '') + ' Можно записываться дальше.');
       } else {
         bk.status = 'CANCELLED_BY_PARK';
         if (bk.paid) refund(p, bk, why);
@@ -1157,9 +1208,11 @@ const SITE_LIMITS = {
   function stopPark(p, reason) {
     p.stopped = true; p.stopReason = reason || 'остановка парка';
     Object.values(p.bookings).filter(b => b.status === 'ACTIVE' || b.status === 'CALLED').forEach(bk => {
-      release(p, bk); bk.status = 'CANCELLED_BY_PARK';
+      // r14: если часть группы уже прошла, запись считается пройденной, отменяется только остаток
+      const part = bk.redeemed > 0;
+      release(p, bk); bk.status = part ? 'USED' : 'CANCELLED_BY_PARK'; if (part) bk.usedAt = bk.firstUsedAt != null ? bk.firstUsedAt : p.t;
       if (bk.paid) refund(p, bk, 'стоп парка');
-      msg(p, bk.cardNo, 'Парк приостановил работу аттракционов (' + p.stopReason + '). Все записи отменены' + (bk.kind === 'paid' ? ', деньги за платный проход вернули на карту.' : '.'));
+      msg(p, bk.cardNo, 'Парк приостановил работу аттракционов (' + p.stopReason + '). ' + (part ? 'По записи на «' + attr(p, bk.attrId).name + '» прошли ' + bk.redeemed + ' из ' + bk.size + ', остаток отменён' : 'Все записи отменены') + (bk.kind === 'paid' ? ', деньги за платный проход вернули на карту.' : '.'));
     });
     lime(p, 'в Лайм', 'Стоп парка', { reason: p.stopReason });
     log(p, 'СТОП ПАРКА: ' + p.stopReason + '. Все записи отменены, платные возвращены.', 'bad');
@@ -1218,13 +1271,17 @@ const SITE_LIMITS = {
     });
     // вызов «пора идти» и неявки
     Object.values(p.bookings).forEach(bk => {
-      if (bk.status === 'ACTIVE' && p.t >= bk.start - 5 && !p.cards[bk.cardNo].synthetic) {
+      if (bk.status === 'ACTIVE' && p.t >= bk.start - CALL && !p.cards[bk.cardNo].synthetic) {
         bk.status = 'CALLED';
         const c = p.cards[bk.cardNo];
         msg(p, bk.cardNo, 'Пора идти на «' + attr(p, bk.attrId).name + '»: приходите ' + fmt(bk.start, p.openHour) + '–' + fmt(bk.end, p.openHour) + '.');
         lime(p, 'в Лайм', c.phone ? 'Уведомление гостю' : 'Уведомление на экран у кассы', { card: bk.cardNo });
       }
-      if ((bk.status === 'ACTIVE' || bk.status === 'CALLED') && p.t > bk.end + st.graceMin) {
+      if ((bk.status === 'ACTIVE' || bk.status === 'CALLED') && p.t > bk.end + st.graceMin && bk.redeemed > 0) {
+        // r14: часть группы прошла, остальные не подошли до конца опоздания — запись закрыта без наказания,
+        // места остатка освобождаются, за платный проход остаток возвращается
+        closeRest(p, bk.id, 'часть группы не пришла до конца опоздания');
+      } else if ((bk.status === 'ACTIVE' || bk.status === 'CALLED') && p.t > bk.end + st.graceMin) {
         bk.status = 'NO_SHOW'; release(p, bk);
         if (bk.paid && st.paidNoShowRefund) refund(p, bk, 'неявка — по правилу парка платный проход возвращается');
         p.cards[bk.cardNo].cooldownUntil = p.t + st.noShowCooldown;
@@ -1270,7 +1327,7 @@ const SITE_LIMITS = {
   if (lim.adult != null) return h >= lim.adult ? { k: 'adult', text: 'Только со взрослым' } : { k: 'no', text: 'Нельзя по росту' };
     return { k: 'ask', text: 'Со взрослым — парк не указал, уточнить у сотрудника' };
   }
-  const api = { heightVerdict, SITE_LIMITS, compare, setOffline, BUCKET, WINDOW_DEFAULT: WINDOW, WALK, CATALOG, createPark, addCard, book, cancel, scan, tick, slotOptions, quoteVirtual, standbyWait, setStatus, quotePaid, earlierOption, moveEarlier, pCapWin, stopPark, resumePark, summary, fmt, attr, activeFor, mu, eCapBucket, freeIn, bucketOf };
+  const api = { heightVerdict, SITE_LIMITS, compare, setOffline, BUCKET, WINDOW_DEFAULT: WINDOW, WALK, CALL, CATALOG, createPark, addCard, book, cancel, closeRest, scan, checkPass, tick, slotOptions, quoteVirtual, standbyWait, setStatus, quotePaid, earlierOption, moveEarlier, pCapWin, stopPark, resumePark, summary, fmt, attr, activeFor, mu, eCapBucket, freeIn, bucketOf };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.QEngine = api;
 })(typeof window !== 'undefined' ? window : globalThis);
 
@@ -1314,7 +1371,21 @@ function genCode(){ let h = (0x9E3779B9 ^ Math.imul(++codeSeq, 0x85EBCA6B)) >>> 
   for (let i = 0; i < 32; i++){ h = (h ^ (h << 13)) >>> 0; h = (h ^ (h >>> 17)) >>> 0; h = (h ^ (h << 5)) >>> 0; s += (h % 16).toString(16).toUpperCase(); }
   return P.cards[s] ? genCode() : s; }
 function limeNote(dir, type, data){ P.events.unshift({ t: P.t, dir, type, data }); if (P.events.length > 200) P.events.pop(); }
-function howText(b){ return isQR(b.cardNo) ? 'У входа подойдите к стойке электронной очереди и покажите QR с экрана «Карта в телефоне» — сотрудник отсканирует.' : 'У входа подойдите к стойке электронной очереди и приложите карту или браслет.'; }
+const lastNo = no => String(no).replace(/\s+/g, '').slice(-4);
+// r14: до «Пора идти» — что будет у стойки; после вызова инструкцию даёт блок прохода (QR или номер карты)
+function howText(b){ return isQR(b.cardNo) ? 'Когда позовём, здесь появится QR для стойки электронной очереди.' : 'Когда позовём, приложите у стойки электронной очереди карту или браслет ··' + lastNo(b.cardNo) + '.'; }
+// r14: проход прямо в карточке «Пора идти»: QR самой карты (его читает камера считывателя) или номер карты, которую приложить
+function passBlock(b){
+  const part = b.redeemed > 0 ? `<span class="pass-part">Прошли ${b.redeemed} из ${b.size}. Остальные — до ${T(b.end + P.settings.graceMin)} по этой же карте. Не придут — нажмите «Остальные не придут» ниже, и можно записываться дальше.</span>` : '';
+  if (isQR(b.cardNo)) return `<div class="pass" data-ak="pass-${b.id}"><button class="pass-qr" data-g="card" aria-label="QR карты ··${lastNo(b.cardNo)} — открыть крупно">${qrSvg(b.cardNo, 'QR-код карты для стойки')}</button><div class="pass-t"><b>Покажите QR у стойки</b><span>Сотрудник отсканирует. Нажмите на код, чтобы увеличить.</span>${part}</div></div>`;
+  return `<div class="pass by-card" data-ak="pass-${b.id}"><span class="pass-ic">${IC(I.pay, 22)}</span><div class="pass-t"><b>Приложите карту ··${lastNo(b.cardNo)}</b><span>Или браслет с этим номером — к считывателю у стойки электронной очереди.</span>${part}</div></div>`;
+}
+// r14: деньги списываются при проходе; при записи гость видит сумму и предупреждение, если на карте меньше
+function payLine(b){
+  const a = E.attr(P, b.attrId), c = P.cards[b.cardNo], n = b.size - b.redeemed; if (!c || n <= 0) return '';
+  const sum = a.price * n, lack = c.balance < sum;
+  return `<div class="bk-pay${lack ? ' lack' : ''}">У входа спишется ${rub(sum)} за ${n} чел.${lack ? ` На карте ${rub(c.balance)} — пополните до прихода: на сайте парка или на кассе.` : ''}</div>`;
+}
 // история времени записи: сдвиг при остановке и перенос раньше видны на полосе
 const HIST = {};
 function trackStarts(){
@@ -1472,7 +1543,8 @@ function unpress(){ if (pressed){ pressed.classList.remove('is-pressed'); presse
 document.addEventListener('pointerdown', e => { if (e.button > 0) return; unpress(); const el = e.target.closest && e.target.closest(PRESS_SEL); if (el && !el.disabled){ pressed = el; el.classList.add('is-pressed'); } }, true);
 ['pointerup', 'pointercancel', 'dragstart'].forEach(t => document.addEventListener(t, unpress, true));
 document.addEventListener('pointerleave', e => { if (e.target === pressed) unpress(); }, true);
-window.__busy = () => FF.active || routeBusy() || HOLD.pending || appearBusy();
+let tourAsk = null;
+window.__busy = () => FF.active || routeBusy() || HOLD.pending || appearBusy() || !!tourAsk;
 function loop(now){
   const dt = Math.min(1, (now - last) / 1000); last = now;
   let n = 0;
@@ -1607,7 +1679,11 @@ function renderGuest(force){
       ${closed ? closedMsg + (live && live.attrId === a.id && !P.stopped ? bookedBlock(live) : '') : live && live.attrId === a.id ? bookedBlock(live) : `<div class="duo"><div><b>≈${mins(sw)} мин</b><span>очередь у входа сейчас — оценка модели</span></div>
         <div><b>${q && a.eEnabled ? T(q.start) : '—'}</b><span>ваше время, если встать с телефона</span></div></div>
       <div class="row" style="justify-content:space-between"><span>Сколько вас?</span><div class="stepper"><button data-g="minus" aria-label="Меньше">−</button><output>${G.size}</output><button data-g="plus" aria-label="Больше">+</button></div></div>
-      <div class="small muted" style="margin-top:-6px">Одна запись на всех по вашей карте. У входа спишется ${G.size} × ${rub(a.price)}.</div>
+      ${G.mode === 'paid' && paidOn
+        ? `<div class="small muted" style="margin-top:-6px">Одна запись на всех по вашей карте. Сейчас спишется проход без очереди: ${G.size} × ${rub(P.settings.paidPrice)} = ${rub(G.size * P.settings.paidPrice)}. Катание — у входа: ${G.size} × ${rub(a.price)} = ${rub(G.size * a.price)}.</div>
+      ${card && card.balance < G.size * (P.settings.paidPrice + a.price) ? `<div class="confirm" data-ak="lack-p-${a.id}-${G.size}">На карте ${rub(card.balance)}, а на проход и катание нужно ${rub(G.size * (P.settings.paidPrice + a.price))}.${card.balance >= G.size * P.settings.paidPrice ? ' Проход оплатить можно, но до прихода пополните карту на сайте парка или на кассе.' : ' Сначала пополните карту на сайте парка или на кассе.'}</div>` : ''}`
+        : `<div class="small muted" style="margin-top:-6px">Одна запись на всех по вашей карте. За катание сейчас ничего не списывается: у входа спишется ${G.size} × ${rub(a.price)} = ${rub(G.size * a.price)}.</div>
+      ${card && card.balance < G.size * a.price ? `<div class="confirm" data-ak="lack-${a.id}-${G.size}">На карте ${rub(card.balance)} — это меньше, чем спишется у входа. Записаться можно, но до прихода пополните карту на сайте парка или на кассе.</div>` : ''}`}
       ${!a.eEnabled && !paidOn ? `<div class="msg">Здесь только обычная очередь — подходите и вставайте.</div>` : `
       <div class="choice">
         ${a.eEnabled ? `<button class="opt" data-g="mode" data-m="virtual" aria-pressed="${G.mode==='virtual'}"><span class="ic">${IC(I.phone)}</span><span class="h">Встать в очередь с телефона</span><span class="d">${q ? `Приходите ${T(q.start)}–${T(q.end)}. До этого гуляйте — позовём за 5 минут.` : 'Мест в очереди с телефона сегодня нет.'}</span></button>` : ''}
@@ -1615,7 +1691,7 @@ function renderGuest(force){
         ${paidOn ? (pq ? `<button class="opt" data-g="mode" data-m="paid" aria-pressed="${G.mode==='paid'}"><span class="ic">${IC(I.pay)}</span><span class="h">Без очереди — ${rub(P.settings.paidPrice)} с человека</span><span class="d">Проходите ${T(pq.start)}–${T(pq.end)}. Спишется с карты сразу. Если аттракцион или парк остановят, деньги вернутся.${P.settings.paidNoShowRefund ? ' Не придёте — тоже вернутся.' : ' Если не придёте, деньги не возвращаются.'}</span></button>` : `<div class="opt" aria-disabled="true"><span class="ic">${IC(I.pay)}</span><span class="h">Без очереди — ${G.size > E.pCapWin(P, a) ? 'не для такой группы' : 'сейчас мест нет'}</span><span class="d">${G.size > E.pCapWin(P, a) ? `На ближайшие ${P.settings.window} минут продаётся не больше ${E.pCapWin(P, a)} мест.` : `Места на ближайшие ${P.settings.window} минут разобраны. Загляните позже.`}</span></div>`) : ''}
       </div>
       ${G.mode==='slot' && a.slotsEnabled ? `<div class="slots">${slots.map(s => `<button class="slot" data-g="slot" data-s="${s.start}" ${s.fits?'':'disabled'} aria-pressed="${G.slot===s.start}">${T(s.start)}<small>${s.free} мест</small></button>`).join('') || '<span class="muted small">Свободного времени до закрытия нет.</span>'}</div>` : ''}
-      ${live && live.attrId !== a.id && liveCount() >= P.settings.maxActive && G.mode !== 'paid' ? `<div class="err">У карты уже есть запись на «${esc(E.attr(P, live.attrId).name)}». Сначала пройдите или отмените её.</div>` : ''}
+      ${live && live.attrId !== a.id && liveCount() >= P.settings.maxActive && G.mode !== 'paid' ? `<div class="err">${live.redeemed ? `По записи на «${esc(E.attr(P, live.attrId).name)}» прошли ${live.redeemed} из ${live.size}. Если остальные не придут, нажмите в записи «Остальные не придут» — и записывайтесь сюда.` : `У карты уже есть запись на «${esc(E.attr(P, live.attrId).name)}». Сначала пройдите или отмените её.`}</div>` : ''}
       ${kidBlocked(a) ? `<div class="confirm">По росту сюда нельзя: ${blockedKids(a).join(' и ')} см. Записаться всё равно можно, допуск решает сотрудник у входа.</div>` : ''}
       <div class="sticky-cta"><button class="btn ${kidBlocked(a)?'':'primary'} big" data-g="book" ${closed?'disabled':''}>${ctaLabel(a)}</button></div>`}`}
       ${G.err ? `<div class="err">${esc(G.err)}</div>` : ''}
@@ -1630,11 +1706,10 @@ function renderGuest(force){
       <div class="ticket ${cls}"><div class="k">${lbl}</div>
         <div class="nm">${esc(a.name)}</div><div class="win">${T(b.start)}–${T(b.end)}</div>
         <div class="cut"></div><div class="row"><span>${b.size} чел.</span><span>${st==='ACTIVE' ? (left>0?`через ${Math.ceil(left)} мин`:'уже можно') : st==='CALLED' ? 'идите ко входу' : ''}</span></div></div>
-      ${st==='ACTIVE'||st==='CALLED' ? `<div class="booked${st==='CALLED' ? ' called' : ''}">${routeHtml(b)}</div>
-        <div class="msg">«${esc(a.name)}». ${howText(b)}<span class="lime-tag">Лайм</span> Если задерживаетесь, пустят до ${T(b.end + P.settings.graceMin)}.</div>
-        ${st==='CALLED' && isQR(b.cardNo) ? `<button class="btn" data-g="card">${IC(I.qr, 18)}Показать QR для стойки</button>` : ''}
+      ${st==='ACTIVE'||st==='CALLED' ? `<div class="booked${st==='CALLED' ? ' called' : ''}">${st==='CALLED' ? passBlock(b) : ''}${routeHtml(b)}${payLine(b)}</div>
+        <div class="msg">«${esc(a.name)}». ${st==='CALLED' ? 'Проход — у стойки электронной очереди.' : howText(b)}<span class="lime-tag">Лайм</span> Если задерживаетесь, пустят до ${T(b.end + P.settings.graceMin)}.</div>
         ${limBlock(a)}
-        ${G.confirmCancel ? `<div class="err">Отменить запись? Место уйдёт другим гостям.</div><div class="row"><button class="btn danger" data-g="cancel">Да, отменить</button><button class="btn" data-g="keep">Оставить</button></div>` : `<button class="btn" data-g="askcancel">Отменить запись</button>`}` : ''}
+        ${G.confirmCancel ? (b.redeemed ? `<div class="err">Закрыть запись? Прошли ${b.redeemed} из ${b.size}, места остальных уйдут другим гостям.</div><div class="row"><button class="btn danger" data-g="cancel">Да, закрыть</button><button class="btn" data-g="keep">Оставить</button></div>` : `<div class="err">Отменить запись? Место уйдёт другим гостям.</div><div class="row"><button class="btn danger" data-g="cancel">Да, отменить</button><button class="btn" data-g="keep">Оставить</button></div>`) : `<button class="btn" data-g="askcancel">${b.redeemed ? 'Остальные не придут' : 'Отменить запись'}</button>`}` : ''}
       ${b.paid ? `<div class="small muted">Без очереди: ${rub(b.paid)} списано с карты.</div>` : ''}
       ${myMsgs().slice(0,3).map(m => `<div class="msg"><div class="t">${T(m.t)}</div>${esc(m.text)}</div>`).join('')}
       <button class="btn ghost" data-g="list">К аттракционам</button></div>`;
@@ -1671,7 +1746,7 @@ function renderGuest(force){
         else if (closed) act = `<div class="act-note"><span class="pill bad">Остановлен</span></div>`;
         else if (mine) act = bookedBlock(live);
         else if (!a.eEnabled) act = (P.settings.paidEnabled && a.paidEnabled) ? `<button class="btn big" data-g="open" data-id="${a.id}">Без очереди — ${rub(P.settings.paidPrice)} с человека</button><div class="hint">или обычная очередь · ≈${mins(sw)} мин, оценка модели</div>` : `<div class="act-note">Только обычная очередь · ≈${mins(sw)} мин, оценка модели</div>`;
-        else if (full) act = `<div class="act-note">У вас уже есть запись. Новая — после неё.</div>`;
+        else if (full) act = `<div class="act-note">${live && live.redeemed ? `Прошли ${live.redeemed} из ${live.size}. Остальные не придут? Закройте запись — и вставайте сюда.` : 'У вас уже есть запись. Новая — после неё.'}</div>`;
         else if (!q) act = `<div class="act-note">Мест в очереди с телефона на сегодня нет</div>`;
         else if (G.confirmId === a.id) act = `<div class="confirm"><span>По росту сюда нельзя: ${blockedKids(a).join(' и ')} см. Всё равно встать в очередь?</span><div class="row"><button class="btn primary" data-g="quick-book" data-id="${a.id}" data-ok="1">Да, встать</button><button class="btn" data-g="unconfirm">Нет</button></div></div>`;
         else act = `<button class="btn ${blocked?'':'primary'} big" data-g="quick-book" data-id="${a.id}">Встать в очередь · ${G.size} чел.</button><div class="hint">Приходите ${T(q.start)}–${T(q.end)}</div>`;
@@ -1762,10 +1837,27 @@ $('#st-attr').value = 'a2'; $('#ca-attr').value = 'a1';
 function staffAttr(){ return E.attr(P, $('#st-attr').value); }
 function verdict(r){
   const v = $('#st-verdict');
-  if (r.ok){ v.className = 'verdict ok flash'; v.innerHTML = `<span class="big">Проходите: ${r.people} чел.</span><span>Списано ${rub(r.charged)} ${esc(fromCard(r.booking.cardNo))} <span class="lime-tag">в Лайм</span></span>${r.closedRest ? `<span>Пришли не все: ${r.closedRest} ${plural(r.closedRest,'место','места','мест')} вернулось в продажу, остаток записи закрыт.</span>` : ''}${P.offline ? '<span>Нет связи: списание отправится в Лайм, когда связь вернётся. В демо используется общий баланс в памяти страницы; отдельный баланс каждого считывателя и конфликты офлайн-списаний не моделируются.</span>' : ''}`; }
+  if (r.ok){ v.className = 'verdict ok flash'; v.innerHTML = `<span class="big">Проходите: ${r.people} чел.</span><span>Списано ${rub(r.charged)} ${esc(fromCard(r.booking.cardNo))} <span class="lime-tag">в Лайм</span></span>${r.restOpen ? `<span>Пришли не все: ещё ${r.restOpen} чел. ${plural(r.restOpen,'может','могут','могут')} пройти по этой записи до ${T(r.restUntil)}. Не подойдут — места вернутся.</span><div class="ppl"><button class="btn" data-close="${r.booking.id}">Остальные не придут — закрыть запись</button></div>` : ''}${P.offline ? '<span>Нет связи: списание отправится в Лайм, когда связь вернётся. В демо используется общий баланс в памяти страницы; отдельный баланс каждого считывателя и конфликты офлайн-списаний не моделируются.</span>' : ''}`; }
   else { v.className = 'verdict bad flash'; v.innerHTML = `<span class="big">Не пропускать</span><span>${esc(r.error)}</span>`; }
 }
-$('#st-scan').addEventListener('click', () => { const no = normCard($('#st-card').value); const ppl = $('#st-people').value ? +$('#st-people').value : null; verdict(E.scan(P, no, $('#st-attr').value, ppl)); renderAll(); });
+// r14: сначала проверка записи без списания; если в записи несколько человек — кнопки «сколько проходит»
+let stPending = null;
+function staffPass(no, attrId, n){ if (tourAsk){ clearTimeout(tourAsk); tourAsk = null; } stPending = null; verdict(E.scan(P, no, attrId, n)); renderAll(); }
+// r14: в сценарии шаг 3 показывает выбор «Сколько проходит?» и через 1,4 с сам нажимает «3» (ведущий может нажать раньше)
+function tourPick(no, at, n){ const chk = E.checkPass(P, no, at); if (!chk.ok || chk.rest <= 1){ verdict(E.scan(P, no, at, n)); return; }
+  askPeople(chk, no, at); const btn = $('#st-verdict [data-ppl="' + n + '"]'); if (btn) btn.classList.add('tour-pick');
+  tourAsk = setTimeout(() => { tourAsk = null; if (stPending) staffPass(stPending.no, stPending.attrId, n); }, 1400); }
+function tourAskFinish(){ if (tourAsk && stPending){ const s = stPending, n = +(($('#st-verdict .tour-pick') || {}).dataset || {}).ppl || null; staffPass(s.no, s.attrId, n); } }
+function askPeople(chk, no, attrId){ stPending = { no, attrId }; const v = $('#st-verdict'); v.className = 'verdict ask';
+  v.innerHTML = `<span class="big">Сколько проходит?</span><span>Запись на ${chk.booking.size} ${plural(chk.booking.size,'человека','человека','человек')}${chk.booking.redeemed ? `, уже прошли ${chk.booking.redeemed}` : ''}. Спишется только за тех, кто проходит сейчас.</span><div class="ppl">${Array.from({ length: chk.rest }, (_, i) => `<button class="btn${i === chk.rest - 1 ? ' primary' : ''}" data-ppl="${i + 1}">${i + 1}</button>`).join('')}</div>`; }
+$('#st-scan').addEventListener('click', () => { const no = normCard($('#st-card').value), at = $('#st-attr').value, chk = E.checkPass(P, no, at);
+  if (!chk.ok || chk.rest <= 1) staffPass(no, at, null); else askPeople(chk, no, at); });
+$('#st-verdict').addEventListener('click', e => { const b = e.target.closest('[data-ppl]'); if (b && stPending) staffPass(stPending.no, stPending.attrId, +b.dataset.ppl);
+  const c = e.target.closest('[data-close]'); if (c){ const r = E.closeRest(P, c.dataset.close, 'сотрудник: остальные не придут'); const v = $('#st-verdict');
+    if (r.ok){ v.className = 'verdict ok flash'; v.innerHTML = `<span class="big">Запись закрыта</span><span>Прошли ${r.booking.redeemed} из ${r.booking.size}. Места остальных (${r.rest}) вернулись в очередь${r.booking.kind === 'paid' ? ', за их платный проход деньги вернулись на карту' : ''}. Гость может записываться дальше.</span>`; }
+    else if (r.closed){ v.className = 'verdict flash'; v.innerHTML = `<span class="big">Уже закрыто</span><span>${esc(r.error)}</span>`; }
+    else { v.className = 'verdict bad flash'; v.innerHTML = `<span class="big">Не закрыто</span><span>${esc(r.error)}</span>`; }
+    renderAll(); } });
 $('#st-cards').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ $('#st-card').value = b.dataset.no; } });
 $('#st-attr').addEventListener('change', renderAll);
 $('#st-stop15').addEventListener('click', () => { E.setStatus(P, $('#st-attr').value, 'stopped', 15); renderAll(); });
@@ -1803,8 +1895,9 @@ function renderCashier(){
   $('#ca-ticket').innerHTML = `<div class="box mono" style="max-width:300px;border-style:dashed;display:flex;flex-direction:column;gap:6px">
     <div style="text-align:center;font-weight:600">ПАРК «ВОКРУГ СВЕТА»<br>ТАЛОН ЭЛЕКТРОННОЙ ОЧЕРЕДИ</div><div>-------------------------------</div>
     <div>Аттракцион: ${esc(a.name)}</div><div>Окно: <b style="font-size:20px">${T(b.start)}–${T(b.end)}</b></div><div>Людей: ${b.size}</div><div>Карта: ${esc(groupCode(b.cardNo))}</div>
-    <div>Статус: ${stName[b.status][0]}</div><div>-------------------------------</div>
+    <div>Статус: ${stName[b.status][0]}</div><div>У входа спишется: ${rub(a.price * (b.size - b.redeemed))}</div><div>-------------------------------</div>
     <div class="small">У входа электронной очереди приложите эту карту или покажите её QR. Вызов — на экранах у касс. Опоздать можно на ${P.settings.graceMin} мин.</div></div>
+    ${P.cards[b.cardNo] && P.cards[b.cardNo].balance < a.price * (b.size - b.redeemed) ? `<div class="confirm">На карте ${rub(P.cards[b.cardNo].balance)} — меньше, чем спишется у входа. Предложите пополнить карту сейчас.</div>` : ''}
     <p class="small muted ca-note">На талоне нет полосы и отсчёта: гость без телефона узнаёт, что пора идти, по экранам у касс.</p>`;
 }
 
@@ -1909,13 +2002,14 @@ function bookedBlock(b){
   const called = b.status === 'CALLED';
   return `<div class="booked${called ? ' called' : ''}" data-ak="bk-${b.id}">
     <div class="bk-top"><span class="bk-ok">${IC(called ? I.bell : I.check, 16)}${called ? 'Пора идти!' : kindHead(b)}</span><span class="bk-left">${b.size} чел.</span></div>
+    ${called ? passBlock(b) : ''}
     ${routeHtml(b)}
-    <div class="bk-how">${howText(b)} Опаздываете — пустят до ${T(b.end + P.settings.graceMin)}.</div>
-    ${called && isQR(b.cardNo) ? `<button class="btn" data-g="card">${IC(I.qr, 18)}Показать QR для стойки</button>` : ''}
+    <div class="bk-how">${called ? '' : howText(b) + ' '}Если опаздываете — пустят до ${T(b.end + P.settings.graceMin)}.</div>
+    ${payLine(b)}
     ${b.paid ? `<div class="bk-how">Без очереди: ${rub(b.paid)} списано с карты.</div>` : ''}
     ${G.confirmCancel === b.id
-      ? `<div class="bk-row" data-ak="cc-${b.id}"><span>Отменить запись?</span><button class="btn danger small" data-g="cancel" data-id="${b.id}">Да, отменить</button><button class="btn small" data-g="keep">Нет</button></div>`
-      : `<div class="bk-row"><button class="link" data-g="askcancel" data-id="${b.id}">Отменить</button></div>`}
+      ? `<div class="bk-row" data-ak="cc-${b.id}"><span>${b.redeemed ? 'Закрыть запись? Места остальных вернутся.' : 'Отменить запись?'}</span><button class="btn danger small" data-g="cancel" data-id="${b.id}">${b.redeemed ? 'Да, закрыть' : 'Да, отменить'}</button><button class="btn small" data-g="keep">Нет</button></div>`
+      : `<div class="bk-row"><button class="link" data-g="askcancel" data-id="${b.id}">${b.redeemed ? 'Остальные не придут' : 'Отменить'}</button></div>`}
   </div>`;
 }
 
@@ -1930,7 +2024,7 @@ function renderAll(force){
 const STEPS = [
   { h:'Гость встаёт в очередь с телефона', p:'Семья вчетвером с одной картой Лайма указывает рост детей — 115 и 135 см — и сразу видит на карточках, куда кого пускают: на «Дикую Мышь» младшему со взрослым, старшему можно самому. Встаёт в очередь одним нажатием на карточке. Регистрации нет: карта и есть аккаунт. Деньги пока не списаны.', act(){ G.card='7700 1234'; G.kids=[115,135]; G.attrId='a2'; G.size=4; G.mode='virtual'; G.view='list'; const r=E.book(P,'7700 1234','a2',4,'virtual',null,'tour1'); if(r.ok){G.ticketId=r.booking.id; G.view='list';} $('#stage').dataset.role='guest'; } },
   { h:'Гуляем, пока не позовут', p:'Время ускоряется до вызова. За 5 минут до окна гостю приходит «Пора идти».', act(){ const b=P.bookings[G.ticketId]; if(b) while(b.status === 'ACTIVE' && P.t < P.dayLen) E.tick(P); } },
-  { h:'Сотрудник гасит: пришли трое из четырёх', p:'Карта приложена к считывателю у электронной линии. Списано 3 катания по цене аттракциона, четвёртое место вернулось в продажу.', act(){ const b=P.bookings[G.ticketId]; if(b) while(P.t < b.start && P.t < P.dayLen) E.tick(P); showTab('staff'); $('#stage').dataset.role = innerWidth>980?'guest':'staff'; $('#st-attr').value='a2'; $('#st-card').value='7700 1234'; $('#st-people').value=3; verdict(E.scan(P,'7700 1234','a2',3)); } },
+  { h:'Сотрудник гасит: пришли трое из четырёх', p:'Карта приложена к считывателю у электронной линии. Экран сотрудника спрашивает, сколько проходит, и сотрудник одним касанием выбирает «3» (в сценарии кнопка нажмётся сама через секунду). Списано 3 катания по цене аттракциона. Четвёртый может подойти по той же карте до конца опоздания; не подойдёт — место вернётся, а закрыть запись раньше можно кнопкой «Остальные не придут».', act(){ const b=P.bookings[G.ticketId]; if(b) while(P.t < b.start && P.t < P.dayLen) E.tick(P); showTab('staff'); $('#stage').dataset.role = innerWidth>980?'guest':'staff'; $('#st-attr').value='a2'; $('#st-card').value='7700 1234'; tourPick('7700 1234','a2',3); } },
   { h:'Касса записывает гостя без телефона', p:'Кассир вводит номер карты и печатает талон с окном. Вызов такой гость увидит на экранах у касс.', act(){ showTab('cashier'); $('#ca-card').value='7700 0042'; $('#ca-attr').value='a1'; $('#ca-kind').value='virtual'; $('#ca-size').value=2; $('#ca-book').click(); } },
   { h:'Колесо встало на 20 минут', p:'Директор останавливает аттракцион. Записи сдвигаются вперёд по свободным местам, каждому гостю уходит сообщение. Время не прыгает назад.', act(){ showTab('director'); E.setStatus(P,'a1','stopped',20); } },
   { h:'Включаем платный проход', p:'Директор включает «без очереди» за 600 ₽. У платного прохода своя небольшая доля мест и окно в ближайшие минуты, поэтому при покупке окно — в ближайшие минуты. Гость видит новую опцию сразу.', act(){ P.settings.paidEnabled=true; $('#s-paid').checked=true; G.view='attr'; G.attrId='a3'; G.mode='paid'; } },
@@ -1938,7 +2032,7 @@ const STEPS = [
   { h:'Гроза: стоп парка', p:'Одна кнопка отменяет все записи, возвращает деньги за платный проход и пишет всем гостям. Потом работа возобновляется.', act(){ showTab('director'); E.stopPark(P,'гроза'); } },
   // r12: полоса пути и QR-карта — новые шаги после восьми шагов r11
   { h:'Гроза прошла: гость с QR-картой в телефоне', p:'Парк снова работает, прошло 25 минут — очередь набралась. Другой гость получил QR-карту на сайте ещё дома, по номеру телефона, и там же положил 2 000 ₽: в кассу он не заходил. На телефоне — QR и код карты из 32 знаков. Пластиковая карта за 70 ₽ остаётся таким же выбором.', act(){ if (P.stopped) E.resumePark(P); for (let i = 0; i < 25 && P.t < P.dayLen; i++) E.tick(P); G.card = QR_SITE; G.view = 'card'; G.kids = []; G.size = 2; G.seenMsg = G.pushedMsg = myMsgs().length; $('#stage').dataset.role = 'guest'; showTab('staff'); } },
-  { h:'Встаёт в очередь кнопкой и видит полосу пути', p:() => `С экрана карты гость переходит к аттракционам и встаёт в очередь на «${tqAttr().name}» вдвоём — свой экран он не сканирует. Вместо «перед вами N человек» — отсчёт до «Пора идти» и полоса: записались → пора идти → окно 15 минут → 10 минут на опоздание. Полоса ведёт к «Пора идти», а не к началу окна: если прийти раньше, у стойки скажут «Рано».`, act(){ const a = tqAttr(); TQ.attr = a.id; const r = E.book(P, QR_SITE, a.id, 2, 'virtual', null, 'tour-qr'); const lv = Object.values(P.bookings).find(b => b.cardNo === QR_SITE && (b.status === 'ACTIVE' || b.status === 'CALLED')); TQ.id = r.ok ? r.booking.id : (lv ? lv.id : null); if (lv) TQ.attr = lv.attrId; G.card = QR_SITE; G.view = 'list'; G.zone = E.attr(P, TQ.attr).zone; $('#stage').dataset.role = 'guest'; tqScroll(); } },
+  { h:'Встаёт в очередь кнопкой и видит полосу пути', p:() => `С экрана карты гость переходит к аттракционам и встаёт в очередь на «${tqAttr().name}» вдвоём — свой экран он не сканирует. Вместо «перед вами N человек» — отсчёт до «Пора идти» и полоса: записались → пора идти → окно 15 минут → 10 минут на опоздание. Полоса ведёт к «Пора идти», а не к началу окна: с этого момента у стойки пускают, раньше скажут «Рано».`, act(){ const a = tqAttr(); TQ.attr = a.id; const r = E.book(P, QR_SITE, a.id, 2, 'virtual', null, 'tour-qr'); const lv = Object.values(P.bookings).find(b => b.cardNo === QR_SITE && (b.status === 'ACTIVE' || b.status === 'CALLED')); TQ.id = r.ok ? r.booking.id : (lv ? lv.id : null); if (lv) TQ.attr = lv.attrId; G.card = QR_SITE; G.view = 'list'; G.zone = E.attr(P, TQ.attr).zone; $('#stage').dataset.role = 'guest'; tqScroll(); } },
   { h:'Гуляем: полоса заполняется', p:'Время идёт — полоса растёт, отсчёт до «Пора идти» уменьшается. Пока ничего не случилось, время прихода не меняется.', act(){ const b = P.bookings[TQ.id]; G.view = 'list'; tqScroll(); if (!b) return; let n = 0;
       // r13: те же тики, что в r12, но перемоткой за 1–2 с
       ffStart({ cond: () => b.status === 'ACTIVE' && P.t < P.dayLen && (n < 4 || b.start - P.t > 12), tick: () => { E.tick(P); n++; }, estimate: Math.max(4, Math.ceil(b.start - 12 - P.t)) }); } },
@@ -1948,8 +2042,8 @@ const STEPS = [
         const o = Object.values(P.bookings).filter(x => x.attrId === a.id && x.id !== b.id && (x.status === 'ACTIVE' || x.status === 'CALLED') && x.kind !== 'paid' && x.start >= from && x.start <= b.start - 10).sort((x, y) => x.start - y.start)[0];
         if (!o) break; E.cancel(P, o.id); TQ.cancels++; e = E.earlierOption(P, b.id); }
       TQ.early = e; TQ.before = b.start; TQ.done13 = true; G.view = 'list'; tqScroll(); } },
-  { h:'Гость переносит запись и получает «Пора идти»', p:'Одно нажатие — и полоса снова короче. Модель идёт до вызова: за 5 минут до окна приходит «Пора идти!». Аттракцион к этому времени уже работает.', act(){ const b = P.bookings[TQ.id]; if (!b) return; if (b.status === 'ACTIVE' && E.earlierOption(P, b.id) != null) E.moveEarlier(P, b.id); while (b.status === 'ACTIVE' && P.t < P.dayLen) E.tick(P); G.view = 'list'; tqScroll(); } },
-  { h:'У стойки сотрудник сканирует QR с телефона', p:'Гость показывает QR с экрана — пластиковая карта не нужна. Сотрудник видит тот же ответ, что и при карте: «Проходите: 2 чел.», списано за двоих. Считыватели Лайма читают QR камерой (сведения команды проекта на 12.11.2026, в выгрузках Лайма этого нет); в прототипе код вводит сотрудник.', act(){ const b = P.bookings[TQ.id]; if (b) while (P.t < b.start && P.t < P.dayLen) E.tick(P); showTab('staff'); $('#stage').dataset.role = innerWidth>980?'guest':'staff'; if (b) $('#st-attr').value = b.attrId; $('#st-card').value = groupCode(QR_SITE); $('#st-people').value = ''; verdict(E.scan(P, QR_SITE, b ? b.attrId : $('#st-attr').value)); } },
+  { h:'Гость переносит запись и получает «Пора идти»', p:'Одно нажатие — и полоса снова короче. Модель идёт до вызова: за 5 минут до окна приходит «Пора идти!», и в карточке сразу появляется QR для стойки. Аттракцион к этому времени уже работает.', act(){ const b = P.bookings[TQ.id]; if (!b) return; if (b.status === 'ACTIVE' && E.earlierOption(P, b.id) != null) E.moveEarlier(P, b.id); while (b.status === 'ACTIVE' && P.t < P.dayLen) E.tick(P); G.view = 'list'; tqScroll(); } },
+  { h:'У стойки сотрудник сканирует QR с телефона', p:'QR уже стоит в карточке «Пора идти» — гость просто показывает телефон, пластиковая карта не нужна. Сотрудник видит тот же ответ, что и при карте: «Проходите: 2 чел.», списано за двоих. Считыватели Лайма читают QR камерой (сведения команды проекта на 12.11.2026, в выгрузках Лайма этого нет); в прототипе код вводит сотрудник.', act(){ const b = P.bookings[TQ.id]; if (b) while (P.t < b.start && P.t < P.dayLen) E.tick(P); showTab('staff'); $('#stage').dataset.role = innerWidth>980?'guest':'staff'; if (b) $('#st-attr').value = b.attrId; $('#st-card').value = groupCode(QR_SITE); verdict(E.scan(P, QR_SITE, b ? b.attrId : $('#st-attr').value)); } },
 ];
 const TQ = { attr: null, id: null, cancels: 0, early: null, before: null, done13: false };
 function tqAttr(){
@@ -1964,9 +2058,9 @@ function renderTour(){ if (tourI < 0) return; const s = STEPS[tourI], val = x =>
   if (tourShown !== tourI){ tourShown = tourI; if (!reduceMotion.matches) ['#tour-h', '#tour-p'].forEach(q => { const el = $(q); el.classList.remove('tour-in'); void el.offsetWidth; el.classList.add('tour-in'); }); } }
 let tourShown = -1;
 $('#tourBtn').addEventListener('click', () => { ffFinish(false); acc = 0; tourI = 0; Object.assign(TQ, { attr: null, id: null, cancels: 0, early: null, before: null, done13: false }); $('#tour').hidden = false; setSpeed(0); renderTour(); });
-$('#tour-close').addEventListener('click', () => { ffFinish(); tourI = -1; $('#tour').hidden = true; });
-$('#tour-do').addEventListener('click', () => { ffFinish(false); STEPS[tourI].act(); renderAll(); });
-$('#tour-next').addEventListener('click', () => { ffFinish(); if (tourI === STEPS.length-1){ if (P.stopped) E.resumePark(P); tourI = -1; $('#tour').hidden = true; renderAll(); return; } tourI++; renderTour(); });
+$('#tour-close').addEventListener('click', () => { ffFinish(); tourAskFinish(); tourI = -1; $('#tour').hidden = true; });
+$('#tour-do').addEventListener('click', () => { ffFinish(false); tourAskFinish(); STEPS[tourI].act(); renderAll(); });
+$('#tour-next').addEventListener('click', () => { ffFinish(); tourAskFinish(); if (tourI === STEPS.length-1){ if (P.stopped) E.resumePark(P); tourI = -1; $('#tour').hidden = true; renderAll(); return; } tourI++; renderTour(); });
 
 const REVIEW_ROWS = [{"id": "ya-126", "source": "yandex", "date": "2026-06-15", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "хамоватый персонал, не соответствие цены и качества услуги"}, {"id": "ya-41", "source": "yandex", "date": "2026-08-17", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "за безопасностью следят хорошо, перепроверяют"}, {"id": "ya-96", "source": "yandex", "date": "2026-07-12", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "очереди на атракционы были минут по 20, больше устали чем отдохнули"}, {"id": "ya-53", "source": "yandex", "date": "2026-08-07", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "возврат так и не сделали и только под вечер, начислили билеты на карту"}, {"id": "272356080", "source": "2gis", "date": "2026-08-25", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "ОТСУТСТВИЕ питьевой воды в доступе для детей!"}, {"id": "266895565", "source": "2gis", "date": "2026-08-10", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "Хорошая парковка."}, {"id": "272493320", "source": "2gis", "date": "2026-08-26", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "Вечером невероятная красота, все очень красиво светится!"}, {"id": "260854052", "source": "2gis", "date": "2026-07-23", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "комната матери и дитя оставляет желать лучшего"}, {"id": "ya-138", "source": "yandex", "date": "2026-06-03", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "Надо в выходные и вечером открывать больше касс"}, {"id": "ya-130", "source": "yandex", "date": "2026-06-13", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "Не первый раз аттракцион Диско не работает."}, {"id": "ya-37", "source": "yandex", "date": "2026-08-19", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "Ценник нужно сбавить"}, {"id": "262728796", "source": "2gis", "date": "2026-07-30", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "одели бумажный браслет человеку значит только он и катается"}, {"id": "ya-83", "source": "yandex", "date": "2026-07-23", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "В жару на покупке одной только воды можно обанкротиться."}, {"id": "259149786", "source": "2gis", "date": "2026-07-17", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "не пустили на ураган и на бумеранг из за роста"}, {"id": "ya-59", "source": "yandex", "date": "2026-08-02", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "Ребенок 88 см, не пустили ни на один аттракцион."}, {"id": "ya-53", "source": "yandex", "date": "2026-08-07", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "да еще концерт Тимы Белорусских был, народа тьма, следовательно везде очереди"}, {"id": "259039895", "source": "2gis", "date": "2026-07-17", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "бесплатные чистые уборные!!!"}, {"id": "272723362", "source": "2gis", "date": "2026-08-26", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "Цены дичь!"}, {"id": "273692058", "source": "2gis", "date": "2026-08-29", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "Мой сын обожает этот парк!"}, {"id": "ya-82", "source": "yandex", "date": "2026-07-26", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "пополнил онлайн - и сразу катаешься, никаких очередей в кассы"}, {"id": "ya-59", "source": "yandex", "date": "2026-08-02", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "меня не пустили сопроводить, мне билет нужен!"}, {"id": "272788691", "source": "2gis", "date": "2026-08-27", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "персонал тоже хороший все сразу объясняют и проверяют"}, {"id": "ya-96", "source": "yandex", "date": "2026-07-12", "link": "https://yandex.ru/maps/org/vokrug_sveta/26719680671/reviews/?ranking=by_time", "text": "очереди на атракционы были минут по 20"}, {"id": "265537672", "source": "2gis", "date": "2026-08-06", "link": "https://2gis.ru/omsk/firm/70000001060110419/tab/reviews", "text": "очереди большие)) в итоге на верёвочный парк так и не попали"}];
 
@@ -1994,7 +2088,7 @@ const JQ = {
       lime: 'Если освободилось раньше, гостю предлагают прийти раньше.',
       jump: ['guest:list', 'Карточка с записью'] },
     { t: 'Получает «Пора идти!»',
-      guest: 'За 5 минут до своего окна получает уведомление и идёт к аттракциону. Окно прихода — 15 минут, плюс 10 минут на опоздание.',
+      guest: 'За 5 минут до своего окна получает уведомление и идёт к аттракциону. С этого момента у стойки пускают; окно прихода — 15 минут, плюс 10 минут на опоздание. В карточке записи сразу виден QR для стойки или номер карты, которую приложить.',
       shows: '—', money: 'Ничего не списывается.',
       staff: 'Никто не участвует.',
       lime: 'Гостю без телефона вызов показывается на экранах у касс.',
@@ -2002,35 +2096,35 @@ const JQ = {
       jump: ['guest:msgs', 'Сообщения гостя'] },
     { t: 'Прикладывает карту или показывает QR на входе',
       guest: 'Подходит к стойке электронной очереди у входа, мимо обычной очереди. Прикладывает карту или браслет Лайма — или показывает QR-карту с экрана телефона либо бумажный QR, и сотрудник его сканирует.',
-      shows: 'Карту или браслет — к считывателю; QR-карту — показывает с экрана, сотрудник считывает его камерой считывателя. Считыватели Лайма читают QR камерой (сведения команды проекта на 12.11.2026, в выгрузках Лайма этого нет).', money: 'Здесь списывается катание за каждого пришедшего. В прототипе — с баланса карты: цена аттракциона × число пришедших (цены — параметр модели). Не пришедшие места не оплачиваются и сразу возвращаются в продажу.',
+      shows: 'Карту или браслет — к считывателю; QR-карту — показывает с экрана, сотрудник считывает его камерой считывателя. Считыватели Лайма читают QR камерой (сведения команды проекта на 12.11.2026, в выгрузках Лайма этого нет).', money: 'Здесь списывается катание за каждого пришедшего. В прототипе — с баланса карты: цена аттракциона × число пришедших (цены — параметр модели). Не пришедшие не оплачиваются: они могут пройти по той же карте до конца опоздания, потом их места возвращаются. За катание при записи ничего не списывалось — это правило продукта: катание оплачивается только при проходе. Платный проход «без очереди» оплачен при покупке и возвращается при остановке.',
       open: 'Большая часть выручки кассы — пакеты билетов и безлимит: в мае–августе 2026 около 69%, пополнения баланса — около 22%. Как считыватель спишет билет из пакета или пропустит по безлимиту в записи, прототип не показывает — вопрос к Лайму.',
-      staff: 'Сотрудник видит ответ считывателя: «Проходите: 3 чел., списано …» или причину отказа. Если пришли не все — вводит, сколько человек проходит.',
+      staff: 'Сотрудник видит ответ считывателя: «Проходите: 3 чел., списано …» или причину отказа. Если в записи несколько человек — одним касанием выбирает, сколько проходит сейчас.',
       lime: 'В модели списывается баланс. Реальный способ списания и проверку права на катание еще надо согласовать с Лаймом.',
       jump: ['staff', 'Экран сотрудника'] },
     { t: 'Катается и выходит',
       guest: 'Садится в ближайший цикл: группы электронной очереди сажают вперемешку с обычной очередью по доле мест, которую задал директор.',
-      shows: '—', money: 'Ничего больше не списывается. Можно сразу записаться на следующий аттракцион.',
+      shows: '—', money: 'Ничего больше не списывается. Можно сразу записаться на следующий аттракцион. Если прошла не вся группа — после кнопки «Остальные не придут» (у гостя в записи или у сотрудника) либо после конца опоздания.',
       staff: 'Сажает по общему порядку.',
-      lime: 'Запись закрыта, карта свободна для новой записи.',
+      lime: 'Запись закрыта, когда прошли все или закрыт остаток группы; карта свободна для новой записи.',
       jump: ['guest:list', 'Новая запись'] },
   ],
   // status: ok — решено в прототипе; part — решено частично; open — открытый вопрос парку или Лайму
   edges: [
     { t: 'Опоздал', status: 'ok', guest: 'Пускают ещё 10 минут после окна. На полосе это последний отрезок — «Опоздание до …».', staff: 'Пропускает по карте или QR как обычно.', jump: ['staff', 'Экран сотрудника'] },
     { t: 'Не пришёл совсем', status: 'ok', guest: 'Запись снимается, приходит сообщение. Новая запись по этой карте — через 30 минут. За обычную запись денег не было, платный проход не возвращается.', staff: 'Ничего не делает: место ушло в продажу само.', note: 'Возврат за платный проход при неявке директор может включить в настройках.', jump: ['director', 'Настройки директора'] },
-    { t: 'Пришёл раньше окна', status: 'ok', guest: 'Считыватель отвечает «Рано» и показывает его окно. Если освободилось раньше, гостю это предлагали на телефоне.', staff: 'Не пропускает, называет время.', jump: ['staff', 'Экран сотрудника'] },
+    { t: 'Пришёл раньше окна', status: 'ok', guest: 'До «Пора идти» считыватель отвечает «Рано» и называет время вызова; с «Пора идти» (за 5 минут до окна) пускают. Если освободилось раньше, гостю это предлагали на телефоне.', staff: 'До вызова не пропускает, называет время.', jump: ['staff', 'Экран сотрудника'] },
     { t: 'Хочет прийти раньше', status: 'ok', guest: 'Если место освободилось, на полосе записи появляется пунктирная отметка «можно раньше» и кнопка «Прийти раньше» — перенос одним нажатием, полоса сразу становится короче. Пока аттракцион стоит, раньше конца остановки плюс 5 минут на дорогу не предлагается: у стойки такого гостя не пустили бы.', staff: 'Не участвует.', jump: ['guest:list', 'Карточка с записью'] },
-    { t: 'Пришла не вся группа', status: 'ok', guest: 'Списывается только за пришедших, остальные места возвращаются в продажу. За платный проход часть денег возвращается.', staff: 'Вводит, сколько человек проходит.', jump: ['staff', 'Экран сотрудника'] },
+    { t: 'Пришла не вся группа', status: 'ok', guest: 'Списывается только за тех, кто проходит. Остальные проходят по той же карте до конца опоздания; потом их места возвращаются, а за платный проход возвращается их доля. Если остальные не придут, гость нажимает в записи «Остальные не придут» — места возвращаются сразу, и карта свободна для новой записи.', staff: 'Одним касанием выбирает, сколько человек проходит. Если ясно, что остальные не придут, закрывает запись кнопкой «Остальные не придут».', jump: ['staff', 'Экран сотрудника'] },
     { t: 'Передумал и отменил', status: 'ok', guest: 'Отменяет запись на карточке в два нажатия. Место сразу возвращается в продажу, можно записаться заново. Деньги за платный проход возвращаются на карту.', staff: 'Не участвует.', jump: ['guest:list', 'Карточка с записью'] },
     { t: 'Нужна вторая запись', status: 'ok', guest: 'Пока есть активная запись, вторую не дают: «Сначала пройдите или отмените». Платный проход «без очереди» можно купить отдельно.', staff: 'Не участвует.', note: 'Лимит записей на карту — настройка парка.', jump: ['guest:list', 'Список аттракционов'] },
     { t: 'Аттракцион остановили', status: 'ok', guest: 'Если остановку поставили на время, обычные записи сдвигаются на это время, гостю уходит сообщение; кому не хватило места до закрытия — запись отменяется. Платный проход при остановке не сдвигается: запись отменяется, деньги возвращаются. Если остановили «до запуска», без срока, отменяются все записи на аттракцион. На полосе гостя видно «было → стало» и причину: отметки переезжают, остановка заштрихована, как пробка в навигаторе.', staff: 'Не пропускает: «Аттракцион остановлен — посадки нет».', jump: ['director', 'Экран директора'] },
     { t: 'Стоп парка (гроза)', status: 'ok', guest: 'Все записи отменяются, всем уходит сообщение, деньги за платный проход возвращаются на карту.', staff: 'Не пропускает никого.', jump: ['director', 'Экран директора'] },
     { t: 'Нет связи с Лаймом', status: 'part', guest: 'В модели уже записанных пускают по сохраненному списку. Работа нескольких считывателей с балансом и разбор конфликтующих списаний не реализованы. Новая запись и покупка платного прохода временно недоступны, обычная очередь работает.', staff: 'Видит пометку «нет связи», пропускает по сохранённому списку.', q: 'Как считыватель без связи списывает катание — с сохранённого баланса? Как не допустить двойной траты, если гость в это время тратит деньги с той же карты на кассе?', to: 'Лайм', jump: ['staff', 'Экран сотрудника'] },
     { t: 'Без смартфона', status: 'ok', guest: 'Кассир записывает по номеру карты и печатает талон с окном. На талоне нет полосы и отсчёта: вызов — на экранах у касс.', staff: 'Кассир.', jump: ['cashier', 'Экран кассы'] },
-    { t: 'На карте не хватает денег', status: 'part', guest: 'На входе отказ: «Пополните карту на кассе». Пока гость идёт к кассе, окно и 10 минут опоздания могут закончиться.', staff: 'Не пропускает.', q: 'Держать ли место, пока гость пополняет карту, и сколько? Предупреждать ли о балансе при записи?', to: 'Парк', jump: ['staff', 'Экран сотрудника'] },
-    { t: 'Ребёнок не прошёл по росту или весу', status: 'part', guest: 'Телефон только подсказывает по данным сайта. Решает сотрудник у входа: остальные проходят, за ребёнка не списывается.', staff: 'Вводит число проходящих без ребёнка.', q: 'Если ребёнок не проходит, а один он остаться не может — пропадает ли запись у всей группы? Можно ли перенести её на другой аттракцион?', to: 'Парк', jump: ['staff', 'Экран сотрудника'] },
+    { t: 'На карте не хватает денег', status: 'part', guest: 'Ещё при записи видно, сколько спишется у входа, и предупреждение, если на карте меньше. Если не пополнил — на входе отказ «Пополните карту на кассе», а окно и 10 минут опоздания могут закончиться.', staff: 'Не пропускает.', q: 'Держать ли место, пока гость пополняет карту, и сколько?', to: 'Парк', jump: ['staff', 'Экран сотрудника'] },
+    { t: 'Ребёнок не прошёл по росту или весу', status: 'part', guest: 'Телефон только подсказывает по данным сайта. Решает сотрудник у входа: остальные проходят, за ребёнка не списывается.', staff: 'Одним касанием выбирает число проходящих без ребёнка и, если ребёнок не вернётся, закрывает остаток кнопкой «Остальные не придут» — семья сразу может записаться дальше.', q: 'Если ребёнок не проходит, а один он остаться не может — пропадает ли запись у всей группы? Можно ли перенести её на другой аттракцион?', to: 'Парк', jump: ['staff', 'Экран сотрудника'] },
     { t: 'Аттракцион «только со взрослым»', status: 'open', guest: 'Ребёнок до определённого роста катается только со взрослым. В прототипе взрослый — просто член группы и платит как все.', staff: 'Проверяет, что взрослый есть.', note: 'В отзыве из Яндекс Карт от 02.08.2026 маму не пустили сопроводить ребёнка без билета — гость этого не ждал.', q: 'Платит ли сопровождающий взрослый полную цену? Как это заведено в Лайме — отдельной услугой или тем же катанием?', to: 'Парк и Лайм', jump: ['guest:list', 'Карточки с ограничениями'] },
-    { t: 'Гость с пакетом билетов или безлимитом', status: 'open', guest: 'Это существенный денежный поток, но доля гостей по нему не определена: в мае–августе 2026 пакеты дали около 48% выручки кассы, безлимиты — около 21%. В прототипе катание всегда списывается с баланса карты, пакеты и безлимит не смоделированы. Гости замечают, что в безлимит входит не всё: «В безлимитный билет много чего не входит» (2ГИС, 18.07.2026).', staff: '—', q: 'Как считыватель Лайма проводит запись по пакету билетов и по безлимиту? Нужен ли гостю с безлимитом отдельный лимит записей, чтобы он не занимал места весь день? Как это работает с зимними абонементами?', to: 'Лайм', jump: null },
+    { t: 'Гость с пакетом билетов или безлимитом', status: 'open', guest: 'Это существенный денежный поток, но доля гостей по нему не определена: в мае–августе 2026 пакеты дали около 48% выручки кассы, безлимиты — около 21%. В прототипе катание всегда списывается с баланса карты, пакеты и безлимит не смоделированы. Гости замечают, что в безлимит входит не всё: «В безлимитный билет много чего не входит» (2ГИС, 18.07.2026).', staff: '—', q: 'Как считыватель Лайма проводит запись по пакету билетов и по безлимиту? Нужен ли гостю с безлимитом отдельный лимит записей, чтобы он не занимал места весь день? Как это работает с зимними абонементами? И для любой оплаты: может ли стойка после касания дождаться, пока сотрудник выберет, сколько человек проходит, и списать столько катаний одним событием, — или число вводят до касания?', to: 'Лайм', jump: null },
     { t: 'Семья на нескольких картах', status: 'open', guest: 'Запись привязана к одной карте, группа до 8 человек. Две карты одной семьи — две отдельные записи, которые не связаны.', staff: 'Пропускает по каждой карте отдельно.', q: 'Нужно ли записывать семью с разными картами одной группой? Как Лайм связывает карты одной семьи?', to: 'Лайм', jump: null },
     { t: 'Сел телефон', status: 'part', guest: 'Гость с пластиковой картой или браслетом проходит по ним, но не видит, когда идти: вызов есть только на экранах у касс. Если карта гостя — QR в телефоне, см. случай «QR-карта, а телефон сел».', staff: 'Пропускает по карте или браслету.', q: 'Нужен ли способ узнать своё время без телефона — экран у аттракциона, талон на кассе по запросу?', to: 'Парк', jump: ['cashier', 'Экран кассы'] },
     { t: 'Потерял карту', status: 'open', guest: 'Запись на номер пластиковой карты или браслета. Что будет после перевыпуска, в прототипе не решено. Потерянный телефон с QR-картой — отдельный случай ниже.', staff: '—', q: 'Переносится ли запись и баланс на новую карту при перевыпуске?', to: 'Лайм', jump: null },
@@ -2039,7 +2133,7 @@ const JQ = {
     { t: 'QR переслали скриншотом', status: 'part', guest: 'QR-карта — это код на экране. Скриншот можно переслать, и по нему пройдёт другой человек, а деньги спишутся с той же карты. Для баланса и пакетов это риск владельца карты, для безлимита — потеря парка: безлимит продаётся на человека. Сейчас безлимит почти всегда на браслете: за 31.08–06.09 из 12 229 проходов по безлимиту 11 848 — по браслетам, 381 — по 22 пластиковым картам, по QR — 0.', staff: 'Видит обычный ответ: по коду не понять, кто его показал.', note: 'Когда QR станет равным выбором на кассе, безлимит может попасть на QR и без решения парка.', q: 'Лайму: можно ли запретить безлимит на QR-карте или сделать QR меняющимся? Парку: нужно ли кассирам правило не класть безлимит на QR-карту?', to: 'Парк и Лайм', jump: ['guest:card', 'Карта в телефоне'] },
     { t: 'QR-карта, а телефон сел', status: 'open', guest: 'QR не показать, записаться и увидеть полосу тоже нельзя. Запись и деньги остаются на карте, но без кода сотрудник гостя не пропустит, а 32 знака наизусть никто не помнит.', staff: 'Пропустить не может: нужен код карты.', q: 'Может ли касса найти QR-карту по номеру телефона и напечатать бумажный QR?', to: 'Лайм', jump: ['cashier', 'Экран кассы'] },
     { t: 'Нет интернета', status: 'part', guest: 'Если страница карты уже открыта, QR на экране остаётся: в прототипе он рисуется на самом телефоне. Записаться, увидеть, как сдвинулась полоса, и получить «Пора идти» без связи нельзя.', staff: 'Сканирует QR как обычно.', q: 'Работает ли QR-карта без интернета — сохранённой картинкой или в кошельке телефона?', to: 'Лайм', jump: ['guest:card', 'Карта в телефоне'] },
-    { t: 'Семья с одним телефоном', status: 'ok', guest: 'Одна QR-карта — одна запись на группу от 1 до 8 человек. Вся семья проходит по одному QR, списывается за каждого пришедшего.', staff: 'Вводит, сколько человек проходит.', jump: ['staff', 'Экран сотрудника'] },
+    { t: 'Семья с одним телефоном', status: 'ok', guest: 'Одна QR-карта — одна запись на группу от 1 до 8 человек. Вся семья проходит по одному QR, списывается за каждого пришедшего.', staff: 'Одним касанием выбирает, сколько человек проходит.', jump: ['staff', 'Экран сотрудника'] },
     { t: 'Потерял телефон', status: 'open', guest: 'Код QR-карты остался в потерянном телефоне, и им может воспользоваться нашедший. Карта привязана к номеру телефона — вероятно, её можно заблокировать и выдать заново, но это не проверено.', staff: '—', q: 'Можно ли заблокировать QR-карту и восстановить баланс и запись по номеру телефона?', to: 'Лайм', jump: null },
     { t: 'Есть карта и QR сразу', status: 'part', guest: 'Это две разные карты Лайма со своими балансами: деньги между ними сами не переходят. Лимит записей считается на каждую карту, поэтому у одного гостя может быть две записи.', staff: 'Пропускает по той карте, на которую запись.', q: 'Можно ли объединить пластиковую карту и QR-карту одного гостя или перенести баланс? Считать ли лимит записей на гостя, а не на карту?', to: 'Лайм', jump: ['guest:qr', 'Экран входа гостя'] },
   ],
@@ -2309,7 +2403,7 @@ const JI = {
     { s: 'Обычный проход на аттракцион', card: 'Прикладывает карту к считывателю.', cn: 1, ck: 0, qr: 'Показывает QR с экрана.', qn: 1, qk: 0, cmp: 'так же', why: 'скорость прохода по QR не измерена' },
     { s: 'Запись в очередь', card: 'Сканирует QR на карте или стенде, нажимает «Встать в очередь».', cn: 2, ck: 0, qr: 'Открывает «Карту в телефоне», нажимает «Встать в очередь». Свой экран не сканирует.', qn: 2, qk: 0, cmp: 'так же', why: '' },
     { s: '«Пора идти»', card: 'Получает вызов на открытой странице.', cn: 0, ck: 0, qr: 'То же.', qn: 0, qk: 0, cmp: 'так же', why: '' },
-    { s: 'Погашение у стойки электронной очереди', card: 'Прикладывает карту.', cn: 1, ck: 0, qr: 'Показывает QR — кнопка «Показать QR для стойки».', qn: 1, qk: 0, cmp: 'так же', why: 'без заряда телефона не пройти' },
+    { s: 'Погашение у стойки электронной очереди', card: 'Прикладывает карту.', cn: 1, ck: 0, qr: 'Показывает QR — он сразу в карточке «Пора идти».', qn: 1, qk: 0, cmp: 'так же', why: 'без заряда телефона не пройти' },
   ],
   familyNote: 'Сравнение — для семьи, которая пришла без карты. У семьи со своей картой с прошлого раза и пополнением на сайте подходов к кассе тоже 0: выигрыш QR — у тех, кто пришёл без карты. Со стенда в парке QR-карта получается за 2 действия (скан и номер телефона) вместо 1 на сайте — путь на одно действие длиннее, но тоже без кассы. Если класть деньги на кассе, добавляется 1 подход к кассе. Очередь в кассу и время прохода не замерены: сравниваются только действия и подходы.',
   unlimited: [
